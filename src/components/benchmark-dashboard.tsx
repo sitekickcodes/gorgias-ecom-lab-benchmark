@@ -8,14 +8,14 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from "@workspace/ui/components/dropdown-menu"
-import { Slider } from "@workspace/ui/components/slider"
+} from "@/components/dropdown-menu"
+import { Slider } from "@/components/slider"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@workspace/ui/components/chart"
+} from "@/components/chart"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { StatCard } from "./stat-card"
 import { AiStatCard } from "./ai-stat-card"
