@@ -35,11 +35,11 @@ function Slider({
       <SliderPrimitive.Control className="relative flex h-6 w-full touch-none items-center select-none data-[disabled]:opacity-50">
         <SliderPrimitive.Track
           data-slot="slider-track"
-          className="relative h-1.5 w-full grow rounded-full bg-[#dedbd5] select-none"
+          className="relative h-1.5 w-full grow rounded-[9999px] bg-[#dedbd5] select-none"
         >
           <SliderPrimitive.Indicator
             data-slot="slider-range"
-            className="h-full bg-primary select-none"
+            className="h-full rounded-full bg-primary select-none"
           />
         </SliderPrimitive.Track>
         {Array.from({ length: _values.length }, (_, index) => (
