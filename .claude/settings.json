@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(*)",
+      "WebFetch(*)",
       "mcp__*"
     ]
   }
