@@ -1,11 +1,14 @@
+"use client"
+
+import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu"
 import { Slider } from "@workspace/ui/components/slider"
 import {
   ChartContainer,
@@ -39,7 +42,30 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const industryOptions = {
+  "all-industries": "All industries",
+  fashion: "Fashion",
+  beauty: "Beauty",
+  electronics: "Electronics",
+} as const
+
+const metricOptions = {
+  "approximate-gmv": "Approximate GMV",
+  orders: "Monthly Orders",
+  tickets: "Monthly Tickets",
+} as const
+
+const chartDropdownOptions = {
+  dropdown: "Dropdown",
+  chat: "Chat FRT",
+  email: "Email FRT",
+} as const
+
 export function BenchmarkDashboard() {
+  const [industry, setIndustry] = useState("all-industries")
+  const [metric, setMetric] = useState("approximate-gmv")
+  const [chartMetric, setChartMetric] = useState("dropdown")
+
   return (
     <div className="border-t border-dashed border-border-soft flex flex-col items-center px-20">
       <div className="border-l border-r border-dashed border-border-soft flex flex-col gap-12 items-start max-w-[1440px] w-full px-10 py-20">
@@ -57,33 +83,46 @@ export function BenchmarkDashboard() {
               </p>
             </div>
           </div>
-          <button className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary">
-            All industries
-            <ChevronDown className="size-5" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary">
+              {industryOptions[industry as keyof typeof industryOptions]}
+              <ChevronDown className="size-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuRadioGroup value={industry} onValueChange={setIndustry}>
+                <DropdownMenuRadioItem value="all-industries">All industries</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="fashion">Fashion</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="beauty">Beauty</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="electronics">Electronics</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Content */}
         <div className="flex flex-col gap-8 w-full">
           {/* GMV Slider Card */}
           <div className="bg-card flex items-center justify-between overflow-hidden p-6 rounded-2xl w-full">
-            <Select defaultValue="gmv">
-              <SelectTrigger className="h-11 px-6 border-border-soft rounded-full text-base text-text-primary gap-3">
-                <SelectValue placeholder="Approximate GMV" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gmv">Approximate GMV</SelectItem>
-                <SelectItem value="orders">Monthly Orders</SelectItem>
-                <SelectItem value="tickets">Monthly Tickets</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="flex-1 flex flex-col gap-2 max-w-[768px]">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary">
+                {metricOptions[metric as keyof typeof metricOptions]}
+                <ChevronDown className="size-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuRadioGroup value={metric} onValueChange={setMetric}>
+                  <DropdownMenuRadioItem value="approximate-gmv">Approximate GMV</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="orders">Monthly Orders</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="tickets">Monthly Tickets</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="flex-1 flex flex-col gap-2 min-h-px min-w-px max-w-[768px]">
               <Slider defaultValue={[50]} min={0} max={100} />
-              <div className="flex items-center justify-between font-mono text-sm text-text-muted tracking-widest uppercase">
+              <div className="flex items-center justify-between font-mono text-sm text-[#73716d] tracking-[0.1em] uppercase w-full">
                 <span>$100K</span>
-                <span className="text-center">$1M</span>
-                <span className="text-center">$100M</span>
-                <span className="text-right">$250M+</span>
+                <span>$1M</span>
+                <span>$100M</span>
+                <span>$250M+</span>
               </div>
             </div>
           </div>
@@ -223,16 +262,19 @@ export function BenchmarkDashboard() {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 </p>
               </div>
-              <Select defaultValue="dropdown">
-                <SelectTrigger className="h-9 px-4 border-border-muted rounded-lg text-sm font-medium text-text-primary shadow-xs">
-                  <SelectValue placeholder="Dropdown" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="dropdown">Dropdown</SelectItem>
-                  <SelectItem value="chat">Chat FRT</SelectItem>
-                  <SelectItem value="email">Email FRT</SelectItem>
-                </SelectContent>
-              </Select>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-3 h-9 px-4 border border-border-muted rounded-lg text-sm font-medium text-text-primary shadow-xs">
+                  {chartDropdownOptions[chartMetric as keyof typeof chartDropdownOptions]}
+                  <ChevronDown className="size-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuRadioGroup value={chartMetric} onValueChange={setChartMetric}>
+                    <DropdownMenuRadioItem value="dropdown">Dropdown</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="chat">Chat FRT</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="email">Email FRT</DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <ChartContainer config={chartConfig} className="h-[397px] w-full">
               <AreaChart data={chartData}>
