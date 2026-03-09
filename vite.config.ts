@@ -9,4 +9,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      input: path.resolve(__dirname, "src/embed.tsx"),
+      output: {
+        entryFileNames: "embed.js",
+        inlineDynamicImports: true,
+        assetFileNames: (asset) => {
+          if (asset.names?.some((n) => n.endsWith(".css"))) return "embed.css"
+          return "assets/[name]-[hash][extname]"
+        },
+      },
+    },
+  },
 })

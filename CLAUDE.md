@@ -2,23 +2,50 @@
 
 ## Project Structure
 
-Flat Vite + React app (no monorepo):
+Flat Vite + React app built as an embeddable widget for Webflow:
 
-- `src/components/` — All components (app + shadcn/ui)
+- `src/components/sections/` — Embeddable sections (benchmark, header, slider, stats, chart)
+- `src/components/` — Shared UI components (shadcn/ui + app components)
 - `src/lib/` — Utilities (cn helper)
 - `src/styles/` — Global CSS with Tailwind v4 theme and design tokens
-- `src/App.tsx` — Root component
-- `src/main.tsx` — Entry point
+- `src/embed.tsx` — Embed entry point (builds to `dist/embed.js` + `dist/embed.css`)
+- `src/main.tsx` — Dev entry point (used by `pnpm dev` via `index.html`)
 
 ## Key Commands
 
 ```bash
-pnpm dev          # Start Vite dev server
-pnpm build        # Production build (outputs to dist/)
+pnpm dev          # Start Vite dev server (uses index.html + main.tsx)
+pnpm build        # Production build (outputs dist/embed.js + dist/embed.css)
 pnpm lint         # Run ESLint
 pnpm format       # Run Prettier
 pnpm typecheck    # TypeScript type checking
 ```
+
+## Embed System
+
+Build outputs two stable-named files: `dist/embed.js` and `dist/embed.css`.
+
+### Declarative (Webflow)
+
+```html
+<div data-gorgias="benchmark"></div>
+<script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer></script>
+```
+
+The script auto-loads `embed.css` from the same origin. Multiple sections can be embedded on one page.
+
+### Imperative API
+
+```js
+GorgiasEmbed.render("benchmark", document.getElementById("target"), { /* props */ })
+GorgiasEmbed.sections // ["benchmark"]
+```
+
+### Adding new sections
+
+1. Create component in `src/components/sections/`
+2. Add to the `sections` map in `src/embed.tsx`
+3. Embed with `<div data-gorgias="section-name"></div>`
 
 ## Adding shadcn Components
 
@@ -26,16 +53,12 @@ pnpm typecheck    # TypeScript type checking
 pnpm dlx shadcn@latest add <component> --yes
 ```
 
-Components are placed in `src/components/` and imported as:
-
-```tsx
-import { Button } from "@/components/button"
-```
+Components go to `src/components/` and are imported as `@/components/<name>`.
 
 ## Tech Stack
 
 - **Package manager**: pnpm (v9)
-- **Build system**: Vite
+- **Build system**: Vite (single-file embed build, no code splitting)
 - **Framework**: React 19 (Vite, no SSR)
 - **UI primitives**: Base UI (`@base-ui/react`) via shadcn `base-nova` style
 - **Charts**: Recharts via shadcn chart component
