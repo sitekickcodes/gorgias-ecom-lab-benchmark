@@ -11,7 +11,9 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      input: path.resolve(__dirname, "src/embed.tsx"),
+      input: {
+        index: path.resolve(__dirname, "index.html"),
+      },
       output: {
         entryFileNames: "embed.js",
         inlineDynamicImports: true,
