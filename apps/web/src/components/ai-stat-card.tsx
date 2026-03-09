@@ -7,7 +7,7 @@ interface AiStatCardProps {
 
 export function AiStatCard({ title, value, percentage, detail }: AiStatCardProps) {
   return (
-    <div className="aspect-video bg-card flex flex-col items-start justify-between overflow-hidden p-6 rounded-2xl">
+    <div className="min-h-36 bg-card flex flex-col items-start justify-between gap-3 p-4 sm:p-6 rounded-2xl">
       <div className="flex gap-2 items-start w-full">
         <p className="flex-1 text-base leading-relaxed text-text-primary">
           {title}

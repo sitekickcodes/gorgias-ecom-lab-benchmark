@@ -17,9 +17,9 @@ export function StatCard({
   highlight,
 }: StatCardProps) {
   return (
-    <div className="aspect-video bg-card flex flex-col items-start justify-between overflow-hidden p-6 rounded-2xl">
+    <div className="min-h-36 bg-card flex flex-col items-start justify-between gap-2 p-4 sm:p-6 rounded-2xl">
       <p
-        className={`text-base leading-relaxed text-text-primary ${
+        className={`text-sm sm:text-base leading-relaxed text-text-primary ${
           titleCase === "upper"
             ? "font-medium tracking-wide uppercase"
             : ""
@@ -27,7 +27,7 @@ export function StatCard({
       >
         {title}
       </p>
-      <p className="font-heading text-5xl leading-[1.2] text-text-primary">
+      <p className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary">
         {value}
       </p>
       {highlight ? (

@@ -7,6 +7,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Custom breakpoints to match Webflow embed */
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 568px;
+  --breakpoint-md: 768px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

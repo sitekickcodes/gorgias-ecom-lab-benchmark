@@ -67,17 +67,17 @@ export function BenchmarkDashboard() {
   const [chartMetric, setChartMetric] = useState("dropdown")
 
   return (
-    <div className="border-t border-dashed border-border-soft flex flex-col items-center px-20">
-      <div className="border-l border-r border-dashed border-border-soft flex flex-col gap-12 items-start max-w-[1440px] w-full px-10 py-20">
+    <div className="border-t border-dashed border-border-soft flex flex-col items-center px-4 sm:px-10 md:px-20">
+      <div className="border-l border-r border-dashed border-border-soft flex flex-col gap-8 sm:gap-10 md:gap-12 items-start max-w-[1440px] w-full px-4 sm:px-6 md:px-10 py-10 sm:py-14 md:py-20">
         {/* Header */}
-        <div className="flex items-end justify-between w-full">
-          <div className="flex flex-col gap-6 max-w-[512px]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between w-full">
+          <div className="flex flex-col gap-4 sm:gap-6 sm:max-w-[512px]">
             <SectionTag number="01" label="Live index" />
             <div className="flex flex-col gap-3">
-              <h1 className="font-heading text-5xl leading-[1.2] text-text-primary">
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary">
                 CX Benchmark explorer
               </h1>
-              <p className="text-base leading-relaxed text-[#1a1e23]">
+              <p className="text-sm sm:text-base leading-relaxed text-[#1a1e23]">
                 Interpolated cx metrics by industry and gmv. Data from last 90
                 days across gorgias customers.
               </p>
@@ -102,9 +102,9 @@ export function BenchmarkDashboard() {
         {/* Content */}
         <div className="flex flex-col gap-8 w-full">
           {/* GMV Slider Card */}
-          <div className="bg-card flex items-center justify-between overflow-hidden p-6 rounded-2xl w-full">
+          <div className="bg-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden p-4 sm:p-6 rounded-2xl w-full">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary">
+              <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary whitespace-nowrap">
                 {metricOptions[metric as keyof typeof metricOptions]}
                 <ChevronDown className="size-5" />
               </DropdownMenuTrigger>
@@ -118,7 +118,7 @@ export function BenchmarkDashboard() {
             </DropdownMenu>
             <div className="flex-1 flex flex-col gap-2 min-h-px min-w-px max-w-[768px]">
               <Slider defaultValue={[50]} min={0} max={100} />
-              <div className="flex items-center justify-between font-mono text-sm text-[#73716d] tracking-[0.1em] uppercase w-full">
+              <div className="flex items-center justify-between font-mono text-xs sm:text-sm text-[#73716d] tracking-[0.1em] uppercase w-full">
                 <span>$100K</span>
                 <span>$1M</span>
                 <span>$100M</span>
@@ -129,10 +129,10 @@ export function BenchmarkDashboard() {
 
           {/* Quality & Satisfaction */}
           <div className="flex flex-col gap-3 w-full">
-            <h2 className="text-xl leading-relaxed text-text-primary">
+            <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
               Quality &amp; Satisfaction
             </h2>
-            <div className="grid grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
               <StatCard
                 title="One-touch rate"
                 value="27.3%"
@@ -155,10 +155,10 @@ export function BenchmarkDashboard() {
 
           {/* Response & Resolution */}
           <div className="flex flex-col gap-3 w-full">
-            <h2 className="text-xl leading-relaxed text-text-primary">
+            <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
               Response &amp; Resolution
             </h2>
-            <div className="grid grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
               <StatCard
                 title="Chat FRT"
                 value="45.0m"
@@ -185,10 +185,10 @@ export function BenchmarkDashboard() {
 
           {/* AI & Automation */}
           <div className="flex flex-col gap-3 w-full">
-            <h2 className="text-xl leading-relaxed text-text-primary">
+            <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
               AI &amp; Automation
             </h2>
-            <div className="grid grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
               <AiStatCard
                 title="AI Agent Rate"
                 value="0.0%"
@@ -218,11 +218,11 @@ export function BenchmarkDashboard() {
 
           {/* Volume & Efficiency */}
           <div className="flex flex-col gap-3 w-full">
-            <h2 className="text-xl leading-relaxed text-text-primary">
+            <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
               Volume &amp; Efficiency
             </h2>
-            <div className="grid grid-cols-2 gap-4 w-full">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
                 <StatCard
                   title="Tickets / 100 orders"
                   titleCase="upper"
@@ -252,13 +252,13 @@ export function BenchmarkDashboard() {
           </div>
 
           {/* First Response Time Chart */}
-          <div className="bg-card flex flex-col gap-10 overflow-hidden p-8 rounded-3xl w-full">
-            <div className="flex gap-2 items-start w-full">
+          <div className="bg-card flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-hidden p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl w-full">
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-2 sm:items-start w-full">
               <div className="flex-1 flex flex-col gap-2">
-                <h3 className="text-xl leading-relaxed text-text-primary">
+                <h3 className="text-lg sm:text-xl leading-relaxed text-text-primary">
                   First response time – by GMV
                 </h3>
-                <p className="text-base text-text-soft">
+                <p className="text-sm sm:text-base text-text-soft">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 </p>
               </div>
@@ -276,7 +276,7 @@ export function BenchmarkDashboard() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <ChartContainer config={chartConfig} className="h-[397px] w-full">
+            <ChartContainer config={chartConfig} className="h-[250px] sm:h-[320px] md:h-[397px] w-full">
               <AreaChart data={chartData}>
                 <CartesianGrid
                   strokeDasharray="0"
