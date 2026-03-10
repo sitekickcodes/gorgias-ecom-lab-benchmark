@@ -34,7 +34,7 @@ export function BenchmarkHeader() {
         </div>
       </div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary">
+        <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-muted hover:border-border-soft rounded-full text-base text-text-primary transition-colors">
           {industryOptions[industry as keyof typeof industryOptions]}
           <ChevronDown className="size-5" />
         </DropdownMenuTrigger>

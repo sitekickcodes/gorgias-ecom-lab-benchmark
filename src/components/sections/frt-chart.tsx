@@ -47,7 +47,7 @@ export function FrtChart() {
   return (
     <div className="bg-card flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-hidden p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl w-full">
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-2 sm:items-start w-full">
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex-1 flex flex-col gap-0">
           <h3 className="text-lg sm:text-xl leading-relaxed text-text-primary">
             First response time – by GMV
           </h3>
@@ -56,7 +56,7 @@ export function FrtChart() {
           </p>
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-3 h-9 px-4 border border-border-muted rounded-lg text-sm font-medium text-text-primary shadow-xs">
+          <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-muted hover:border-border-soft rounded-full text-base text-text-primary whitespace-nowrap transition-colors">
             {
               chartDropdownOptions[
                 chartMetric as keyof typeof chartDropdownOptions

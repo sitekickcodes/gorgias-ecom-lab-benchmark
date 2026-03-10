@@ -21,7 +21,7 @@ export function GmvSlider() {
   return (
     <div className="bg-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden p-4 sm:p-6 rounded-2xl w-full">
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-soft rounded-full text-base text-text-primary whitespace-nowrap">
+        <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-muted hover:border-border-soft rounded-full text-base text-text-primary whitespace-nowrap transition-colors">
           {metricOptions[metric as keyof typeof metricOptions]}
           <ChevronDown className="size-5" />
         </DropdownMenuTrigger>
