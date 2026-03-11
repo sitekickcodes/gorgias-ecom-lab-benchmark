@@ -1,10 +1,27 @@
 import { StatCard } from "@/components/stat-card"
-import { AiStatCard } from "@/components/ai-stat-card"
+import { AiStatsChart } from "@/components/ai-stats-chart"
+import { ResponseStatsChart } from "@/components/response-stats-chart"
 import { IntentTag } from "@/components/intent-tag"
 
 export function StatGrids() {
   return (
     <div className="flex flex-col gap-8 w-full">
+      {/* Response & Resolution + AI & Automation */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 w-full">
+        <div className="flex flex-col gap-3">
+          <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
+            Response &amp; Resolution
+          </h2>
+          <ResponseStatsChart />
+        </div>
+        <div className="flex flex-col gap-3">
+          <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
+            AI &amp; Automation
+          </h2>
+          <AiStatsChart />
+        </div>
+      </div>
+
       {/* Quality & Satisfaction */}
       <div className="flex flex-col gap-3 w-full">
         <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
@@ -31,69 +48,6 @@ export function StatGrids() {
             title="Messages / ticket"
             value="3.3"
             detail="Median per ticket"
-          />
-        </div>
-      </div>
-
-      {/* Response & Resolution */}
-      <div className="flex flex-col gap-3 w-full">
-        <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
-          Response &amp; Resolution
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
-          <StatCard
-            title="Chat FRT"
-            value="45.0m"
-            detail="Median chat channel"
-          />
-          <StatCard
-            title="Email FRT"
-            value="9.0h"
-            detail="Median email channel"
-          />
-          <StatCard
-            title="Email FRT"
-            value="9.0h"
-            detail="Median email channel"
-          />
-          <StatCard
-            title="Resolution time"
-            value="20.2h"
-            detail="Median"
-            highlight={{ value: "3.6h", label: "best" }}
-          />
-        </div>
-      </div>
-
-      {/* AI & Automation */}
-      <div className="flex flex-col gap-3 w-full">
-        <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
-          AI &amp; Automation
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
-          <AiStatCard
-            title="AI Agent Rate"
-            value="0.0%"
-            percentage={0}
-            detail="Median ai-handled %"
-          />
-          <AiStatCard
-            title="AI Success Rate"
-            value="30.8%"
-            percentage={30.8}
-            detail="% with ai agent enabled"
-          />
-          <AiStatCard
-            title="AI Adoption"
-            value="21.3%"
-            percentage={21.3}
-            detail="% with ai agent enabled"
-          />
-          <AiStatCard
-            title="SA Conversion"
-            value="11.73%"
-            percentage={11.73}
-            detail="Shopping assistant cvr"
           />
         </div>
       </div>

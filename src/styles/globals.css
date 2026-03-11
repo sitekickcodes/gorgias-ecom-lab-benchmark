@@ -60,6 +60,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --font-sans: "Geist", ui-sans-serif, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-stix: "STIX Two Text", serif;
   --font-heading: var(--font-stix);
 }
 
@@ -88,6 +91,8 @@
   /* Brand colors */
   --brand-blue-100: #eaf1ff;
   --brand-blue-300: #4e88fb;
+  --accent-primary: #cb55ef;
+  --accent-primary-faded: #faeaff;
   --success: #2d783e;
 
   /* Semantic surface/text tokens */
@@ -123,5 +128,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
+}
+
+/* Override Recharts Surface inline height so chart uses fit-content */
+[data-chart] svg.recharts-surface {
+  height: fit-content !important;
 }

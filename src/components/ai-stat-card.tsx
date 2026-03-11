@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis } from "recharts"
+import { Bar, BarChart, XAxis, YAxis, Cell } from "recharts"
 import {
   ChartContainer,
   ChartTooltip,
@@ -14,9 +14,9 @@ interface AiStatCardProps {
 }
 
 const chartConfig = {
-  percentage: {
+  value: {
     label: "Value",
-    color: "var(--brand-blue-300)",
+    color: "var(--accent-primary)",
   },
 } satisfies ChartConfig
 
@@ -26,7 +26,7 @@ export function AiStatCard({
   percentage,
   detail,
 }: AiStatCardProps) {
-  const data = [{ name: title, percentage }]
+  const data = [{ name: title, value: percentage }]
 
   return (
     <div className="min-h-36 bg-card flex flex-col items-start justify-between gap-3 p-4 sm:p-6 rounded-2xl">
@@ -39,10 +39,7 @@ export function AiStatCard({
         </p>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <ChartContainer
-          config={chartConfig}
-          className="h-6 w-full aspect-auto"
-        >
+        <ChartContainer config={chartConfig} className="h-6 w-full aspect-auto">
           <BarChart
             data={data}
             layout="vertical"
@@ -50,6 +47,7 @@ export function AiStatCard({
             barCategoryGap={0}
           >
             <XAxis type="number" domain={[0, 100]} hide />
+            <YAxis type="category" dataKey="name" hide />
             <ChartTooltip
               cursor={false}
               content={
@@ -59,7 +57,7 @@ export function AiStatCard({
                     <span className="flex items-center gap-2">
                       <span
                         className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
-                        style={{ backgroundColor: "var(--brand-blue-300)" }}
+                        style={{ backgroundColor: "var(--accent-primary)" }}
                       />
                       <span className="text-muted-foreground">{title}</span>
                       <span className="font-mono font-medium text-foreground tabular-nums ml-auto">
@@ -71,12 +69,14 @@ export function AiStatCard({
               }
             />
             <Bar
-              dataKey="percentage"
-              fill="var(--brand-blue-300)"
-              background={{ fill: "var(--brand-blue-100)", radius: 4 }}
+              dataKey="value"
+              fill="var(--accent-primary)"
+              background={{ fill: "var(--accent-primary-faded)", radius: 4 }}
               radius={4}
               maxBarSize={24}
-            />
+            >
+              <Cell fill="var(--accent-primary)" />
+            </Bar>
           </BarChart>
         </ChartContainer>
         <p className="font-mono text-xs text-text-soft tracking-widest uppercase">

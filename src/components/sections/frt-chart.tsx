@@ -56,7 +56,7 @@ export function FrtChart() {
           </p>
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-3 h-11 px-6 py-3 border border-border-muted hover:border-border-soft rounded-full text-base text-text-primary whitespace-nowrap transition-colors">
+          <DropdownMenuTrigger className="flex items-center gap-3 h-8 px-3 py-2 border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
             {
               chartDropdownOptions[
                 chartMetric as keyof typeof chartDropdownOptions

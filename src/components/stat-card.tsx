@@ -31,7 +31,7 @@ export function StatCard({
         {value}
       </p>
       {highlight ? (
-        <div className="flex gap-2 font-mono text-sm text-text-soft tracking-widest uppercase whitespace-nowrap">
+        <div className="flex gap-2 font-mono text-xs text-text-soft tracking-widest uppercase whitespace-nowrap">
           <span>Median</span>
           <span>
             <span className="text-success">{highlight.value}</span>
@@ -39,7 +39,7 @@ export function StatCard({
           </span>
         </div>
       ) : (
-        <p className="font-mono text-sm text-text-soft tracking-widest uppercase">
+        <p className="font-mono text-xs text-text-soft tracking-widest uppercase">
           {detail}
         </p>
       )}
