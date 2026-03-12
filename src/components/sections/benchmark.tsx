@@ -1,5 +1,6 @@
 import { BenchmarkHeader } from "./benchmark-header"
 import { GmvSlider } from "./gmv-slider"
+import { AiAgentSection } from "./ai-agent-section"
 import { StatGrids } from "./stat-grids"
 import { FrtChart } from "./frt-chart"
 
@@ -9,6 +10,7 @@ export function Benchmark() {
       <BenchmarkHeader />
       <div className="flex flex-col gap-8 w-full">
         <GmvSlider />
+        <AiAgentSection />
         <StatGrids />
         <FrtChart />
       </div>
