@@ -37,7 +37,7 @@ export function GmvSlider() {
       {/* Controls: metric buttons + industry dropdown */}
       <div className="flex items-end gap-4 shrink-0">
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs text-text-soft uppercase tracking-widest font-mono">Dataset</span>
+          <span className="text-xs text-text-primary uppercase tracking-widest">Dataset</span>
           <div className="flex items-center gap-2">
             {metricOptions.map((opt) => (
               <button
@@ -57,7 +57,7 @@ export function GmvSlider() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs text-text-soft uppercase tracking-widest font-mono">Industry</span>
+          <span className="text-xs text-text-primary uppercase tracking-widest">Industry</span>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-3 h-8 px-3 py-2 border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
               {industryOptions[industry as keyof typeof industryOptions]}

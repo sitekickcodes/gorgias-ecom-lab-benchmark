@@ -14,10 +14,10 @@ function CustomBar({ x, y, width, height, payload }: any) {
   return (
     <g>
       <text x={bx} y={by - 10} textAnchor="start">
-        <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-soft)">
+        <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-primary)">
           {payload?.metric}
         </tspan>
-        <tspan fontFamily="var(--font-mono)" fontSize={13} fill="var(--text-primary)" dx={12}>
+        <tspan fontFamily="var(--font-mono)" fontSize={13} fill="var(--text-soft)" dx={12}>
           {payload?.label}
         </tspan>
       </text>
@@ -86,7 +86,7 @@ export function AiStatsChart() {
           <Bar
             dataKey="value"
             barSize={16}
-            background={{ fill: "var(--accent-primary-faded)", radius: 4 }}
+            background={{ fill: "#F6F4F2", radius: 4 }}
             radius={4}
             shape={(props: any) => <CustomBar {...props} />}
           />

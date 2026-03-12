@@ -96,14 +96,14 @@ export function FrtChart() {
             dataKey="gmv"
             tickLine={false}
             axisLine={false}
-            className="font-mono text-sm text-text-muted tracking-widest uppercase"
-            tick={{ fill: "#73716d", fontSize: 14 }}
+            className="font-mono text-sm text-text-primary tracking-widest uppercase"
+            tick={{ fill: "var(--text-primary)", fontSize: 14 }}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
-            className="font-mono text-sm text-text-muted tracking-widest uppercase"
-            tick={{ fill: "#73716d", fontSize: 14 }}
+            className="font-mono text-sm text-text-primary tracking-widest uppercase"
+            tick={{ fill: "var(--text-primary)", fontSize: 14 }}
           />
           <ChartTooltip content={<ChartTooltipContent />} />
           <defs>
