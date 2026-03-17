@@ -19,14 +19,17 @@ const chartData = [
   { gmv: "$1M", frt: 14, frt2: 19 },
 ]
 
+const FRT_COLOR = "#CDC2FF"
+const FRT2_COLOR = "#F5D4FF"
+
 const chartConfig = {
   frt: {
     label: "First Response Time",
-    color: "var(--brand-blue-300)",
+    color: FRT_COLOR,
   },
   frt2: {
     label: "Industry Median",
-    color: "#B2E6BE",
+    color: FRT2_COLOR,
   },
 } satisfies ChartConfig
 
@@ -34,10 +37,10 @@ export function FrtChart() {
   return (
     <div className="bg-card flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-hidden p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl w-full">
       <div className="flex flex-col gap-0">
-        <h3 className="text-lg sm:text-xl leading-relaxed text-text-primary">
+        <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
           First response time – by GMV
-        </h3>
-        <p className="text-sm sm:text-base text-text-soft">
+        </h2>
+        <p className="text-sm sm:text-base leading-relaxed text-text-soft">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit
         </p>
       </div>
@@ -67,25 +70,25 @@ export function FrtChart() {
           <ChartTooltip content={<ChartTooltipContent />} />
           <defs>
             <linearGradient id="fillFrt" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--brand-blue-300)" stopOpacity={0.2} />
-              <stop offset="100%" stopColor="var(--brand-blue-300)" stopOpacity={0.02} />
+              <stop offset="0%" stopColor={FRT_COLOR} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={FRT_COLOR} stopOpacity={0.02} />
             </linearGradient>
             <linearGradient id="fillFrt2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#B2E6BE" stopOpacity={0.2} />
-              <stop offset="100%" stopColor="#B2E6BE" stopOpacity={0.02} />
+              <stop offset="0%" stopColor={FRT2_COLOR} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={FRT2_COLOR} stopOpacity={0.02} />
             </linearGradient>
           </defs>
           <Area
             type="monotone"
             dataKey="frt2"
-            stroke="#B2E6BE"
+            stroke={FRT2_COLOR}
             strokeWidth={2}
             fill="url(#fillFrt2)"
           />
           <Area
             type="monotone"
             dataKey="frt"
-            stroke="var(--brand-blue-300)"
+            stroke={FRT_COLOR}
             strokeWidth={2}
             fill="url(#fillFrt)"
           />

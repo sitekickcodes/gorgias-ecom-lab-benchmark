@@ -73,7 +73,7 @@ export function StatGrids() {
             />
           </div>
           <div className="bg-card flex flex-col items-start justify-between overflow-hidden p-6 rounded-2xl">
-            <p className="font-medium text-base tracking-wide uppercase text-text-primary">
+            <p className="text-sm sm:text-base leading-relaxed text-text-primary">
               Top Intents
             </p>
             <div className="flex flex-wrap gap-2 w-full">
