@@ -67,19 +67,19 @@ function GaugeChart({
         {valueLabel}
       </p>
       {tooltip ? (
-        <div className="group relative flex flex-col items-center cursor-default">
-          <p className="font-sans text-xs text-text-soft tracking-wide text-center">
+        <div className="group relative flex flex-col items-center cursor-help">
+          <p className="font-sans text-xs text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2">
             {label}
           </p>
           <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-44 -translate-x-1/2 rounded-xl border border-border-muted bg-card px-3 py-2.5 text-left shadow-sm opacity-0 transition-opacity group-hover:opacity-100">
-            <p className="font-mono text-[10px] text-text-soft tracking-widest uppercase mb-1">
+            <p className="font-sans text-xs text-text-primary font-medium mb-1">
               {label}
             </p>
-            <p className="text-xs text-text-primary leading-snug">{tooltip}</p>
+            <p className="text-xs text-text-soft leading-snug">{tooltip}</p>
           </div>
         </div>
       ) : (
-        <p className="font-sans text-xs text-text-soft tracking-wide text-center">
+        <p className="font-sans text-xs text-text-primary tracking-wide text-center">
           {label}
         </p>
       )}
@@ -191,19 +191,19 @@ export function AiAgentSection() {
           </ChartContainer>
           <div className="grid grid-cols-3 text-center gap-1 mt-3">
             {perfData.map((item) => (
-              <div key={item.key} className="group relative flex flex-col gap-0.5 cursor-default">
+              <div key={item.key} className="group relative flex flex-col gap-0.5 cursor-help">
                 <p className="font-sans text-2xl text-text-primary leading-tight">
                   {item.label}
                 </p>
-                <p className="font-sans text-xs text-text-soft tracking-wide leading-snug">
+                <p className="font-sans text-xs text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
                   {item.metric}
                 </p>
                 {/* Hover card */}
                 <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-44 -translate-x-1/2 rounded-xl border border-border-muted bg-card px-3 py-2.5 text-left shadow-sm opacity-0 transition-opacity group-hover:opacity-100">
-                  <p className="font-mono text-[10px] text-text-soft tracking-widest uppercase mb-1">
+                  <p className="font-sans text-xs text-text-primary font-medium mb-1">
                     {item.metric}
                   </p>
-                  <p className="text-xs text-text-primary leading-snug">{item.tooltip}</p>
+                  <p className="text-xs text-text-soft leading-snug">{item.tooltip}</p>
                 </div>
               </div>
             ))}

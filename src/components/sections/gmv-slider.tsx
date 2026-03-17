@@ -34,30 +34,10 @@ export function GmvSlider() {
 
   return (
     <div className="bg-card flex flex-col sm:flex-row sm:items-center gap-4 overflow-hidden p-4 sm:p-6 rounded-2xl w-full">
-      {/* Controls: metric buttons + industry dropdown */}
+      {/* Controls: industry dropdown + metric buttons */}
       <div className="flex items-end gap-4 shrink-0">
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs text-text-primary uppercase tracking-widest">Dataset</span>
-          <div className="flex items-center gap-2">
-            {metricOptions.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setMetric(opt.value)}
-                className={[
-                  "h-8 px-3 rounded-lg text-sm whitespace-nowrap transition-colors hover:bg-[#F6F4F2]",
-                  metric === opt.value
-                    ? "bg-[#F6F4F2] text-text-primary"
-                    : "text-text-soft hover:text-text-primary",
-                ].join(" ")}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <span className="text-xs text-text-primary uppercase tracking-widest">Industry</span>
+          <span className="text-base text-text-primary">Industry</span>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-3 h-8 px-3 py-2 border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
               {industryOptions[industry as keyof typeof industryOptions]}
@@ -77,6 +57,26 @@ export function GmvSlider() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <div className="flex flex-col gap-1.5">
+          <span className="text-base text-text-primary">Dataset</span>
+          <div className="flex items-center gap-2">
+            {metricOptions.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => setMetric(opt.value)}
+                className={[
+                  "h-8 px-3 rounded-lg text-sm whitespace-nowrap transition-colors hover:bg-[#F6F4F2]",
+                  metric === opt.value
+                    ? "bg-[#F6F4F2] text-text-primary"
+                    : "text-text-soft hover:text-text-primary",
+                ].join(" ")}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Slider */}
@@ -88,6 +88,7 @@ export function GmvSlider() {
           ))}
         </div>
       </div>
+
     </div>
   )
 }

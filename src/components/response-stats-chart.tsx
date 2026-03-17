@@ -27,8 +27,9 @@ function CustomBar({
     <g
       onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
       onMouseLeave={() => onHover?.(null)}
+      style={{ cursor: "help" }}
     >
-      <text x={bx} y={by - 10} textAnchor="start">
+      <text x={bx} y={by - 10} textAnchor="start" style={{ textDecoration: "underline dotted var(--text-soft)" }}>
         <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-primary)">
           {payload?.metric}
         </tspan>
@@ -143,10 +144,10 @@ export function ResponseStatsChart() {
           className="pointer-events-none fixed z-50 w-48 -translate-x-1/2 -translate-y-full rounded-xl border border-border-muted bg-card px-3 py-2.5 shadow-sm"
           style={{ left: hovered.x, top: hovered.y - 8 }}
         >
-          <p className="font-mono text-[10px] text-text-soft tracking-widest uppercase mb-1">
+          <p className="font-sans text-xs text-text-primary font-medium mb-1">
             {hovered.item.metric}
           </p>
-          <p className="text-xs text-text-primary leading-snug">{hovered.item.tooltip}</p>
+          <p className="text-xs text-text-soft leading-snug">{hovered.item.tooltip}</p>
         </div>
       )}
     </div>
