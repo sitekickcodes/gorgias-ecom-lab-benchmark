@@ -1,13 +1,12 @@
+import { useState } from "react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
   type ChartConfig,
 } from "@/components/chart"
-import {
-  Tooltip,
-  TooltipTrigger,
-  MetricTooltipContent,
-} from "@/components/tooltip"
+import { MetricCard } from "@/components/tooltip"
+
+type HoverState = { item: any; x: number; y: number } | null
 
 function CustomBar({
   x,
@@ -16,6 +15,7 @@ function CustomBar({
   height,
   payload,
   background,
+  onHover,
 }: any) {
   const bx = x ?? 0
   const by = y ?? 0
@@ -24,8 +24,11 @@ function CustomBar({
   const totalWidth = background?.width ?? bw
 
   return (
-    <g>
-      {/* SVG text for visual rendering */}
+    <g
+      style={{ cursor: "help" }}
+      onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
+      onMouseLeave={() => onHover?.(null)}
+    >
       <text
         x={bx}
         y={by - 10}
@@ -48,19 +51,6 @@ function CustomBar({
       {bw > 0 && (
         <rect x={bx} y={by} width={bw} height={bh} rx={4} ry={4} fill="#CDC2FF" />
       )}
-      {/* Transparent HTML overlay so Base UI Tooltip can portal correctly */}
-      <foreignObject x={bx} y={by - 26} width={160} height={20}>
-        <Tooltip>
-          <TooltipTrigger
-            render={<span />}
-            style={{ display: "block", width: "100%", height: "100%", cursor: "help" }}
-          />
-          <MetricTooltipContent
-            label={payload?.metric ?? ""}
-            description={payload?.tooltip ?? ""}
-          />
-        </Tooltip>
-      </foreignObject>
     </g>
   )
 }
@@ -101,6 +91,8 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ResponseStatsChart() {
+  const [hovered, setHovered] = useState<HoverState>(null)
+
   return (
     <div className="bg-card flex h-fit flex-col px-4 pt-3 pb-3 sm:px-6 sm:pt-4 sm:pb-4 rounded-2xl w-full">
       <ChartContainer config={chartConfig} className="w-full aspect-auto h-[260px] [&_svg.recharts-surface]:!h-fit">
@@ -116,10 +108,22 @@ export function ResponseStatsChart() {
             barSize={16}
             background={{ fill: "#F6F4F2", radius: 4 }}
             radius={4}
-            shape={(props: any) => <CustomBar {...props} />}
+            shape={(props: any) => <CustomBar {...props} onHover={setHovered} />}
           />
         </BarChart>
       </ChartContainer>
+
+      {hovered && (
+        <div
+          className="pointer-events-none fixed z-50 flex w-44 flex-col items-start -translate-x-1/2 -translate-y-full rounded-xl border border-border-muted bg-card px-3 py-2.5 shadow-sm"
+          style={{
+            left: Math.max(96, Math.min(hovered.x, (typeof window !== "undefined" ? window.innerWidth : 9999) - 96)),
+            top: hovered.y - 8,
+          }}
+        >
+          <MetricCard label={hovered.item.metric} description={hovered.item.tooltip} />
+        </div>
+      )}
     </div>
   )
 }
