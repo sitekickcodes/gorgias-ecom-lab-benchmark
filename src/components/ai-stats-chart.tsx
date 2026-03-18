@@ -2,8 +2,6 @@ import { useState } from "react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
 
@@ -27,9 +25,8 @@ function CustomBar({
     <g
       onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
       onMouseLeave={() => onHover?.(null)}
-      style={{ cursor: "help" }}
     >
-      <text x={bx} y={by - 10} textAnchor="start" style={{ textDecoration: "underline dotted var(--text-soft)" }}>
+      <text x={bx} y={by - 10} textAnchor="start">
         <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-primary)">
           {payload?.metric}
         </tspan>
@@ -105,28 +102,6 @@ export function AiStatsChart() {
         >
           <XAxis type="number" domain={[0, 100]} hide />
           <YAxis type="category" dataKey="metric" width={0} hide />
-          <ChartTooltip
-            cursor={false}
-            content={
-              <ChartTooltipContent
-                hideLabel
-                formatter={(_val, _key, item) => (
-                  <span className="flex items-center gap-2">
-                    <span
-                      className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
-                      style={{ backgroundColor: "#F5D4FF" }}
-                    />
-                    <span className="text-muted-foreground">
-                      {item.payload.metric}
-                    </span>
-                    <span className="font-mono font-medium text-foreground tabular-nums ml-auto">
-                      {item.payload.label}
-                    </span>
-                  </span>
-                )}
-              />
-            }
-          />
           <Bar
             dataKey="value"
             barSize={16}

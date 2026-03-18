@@ -1,5 +1,10 @@
 import { BenchmarkDashboard } from "./components/benchmark-dashboard"
+import { TooltipProvider } from "@/components/tooltip"
 
 export function App() {
-  return <BenchmarkDashboard />
+  return (
+    <TooltipProvider delay={200}>
+      <BenchmarkDashboard />
+    </TooltipProvider>
+  )
 }

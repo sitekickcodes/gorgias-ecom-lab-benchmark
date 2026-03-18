@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { Benchmark } from "./components/sections/benchmark"
+import { TooltipProvider } from "@/components/tooltip"
 import "@/styles/globals.css"
 import "./index.css"
 
@@ -50,7 +51,9 @@ function mountAll() {
     el.dataset.gorgiasReady = "true"
     ReactDOM.createRoot(el).render(
       <React.StrictMode>
-        <Section />
+        <TooltipProvider delay={200}>
+          <Section />
+        </TooltipProvider>
       </React.StrictMode>
     )
   })
@@ -73,7 +76,9 @@ function render(section: string, el: HTMLElement, props?: Record<string, any>) {
   el.dataset.gorgiasReady = "true"
   ReactDOM.createRoot(el).render(
     <React.StrictMode>
-      <Section {...props} />
+      <TooltipProvider delay={200}>
+        <Section {...props} />
+      </TooltipProvider>
     </React.StrictMode>
   )
 }

@@ -5,6 +5,11 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
+import {
+  Tooltip,
+  TooltipTrigger,
+  MetricTooltipContent,
+} from "@/components/tooltip"
 
 const SALMON = "#FFB5B5"
 const SAGE_GREEN = "#B2E6BE"
@@ -67,17 +72,15 @@ function GaugeChart({
         {valueLabel}
       </p>
       {tooltip ? (
-        <div className="group relative flex flex-col items-center cursor-help">
-          <p className="font-sans text-xs text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2">
+        <Tooltip>
+          <TooltipTrigger
+            render={<span />}
+            className="font-sans text-xs text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+          >
             {label}
-          </p>
-          <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-44 -translate-x-1/2 rounded-xl border border-border-muted bg-card px-3 py-2.5 text-left shadow-sm opacity-0 transition-opacity group-hover:opacity-100">
-            <p className="font-sans text-xs text-text-primary font-medium mb-1">
-              {label}
-            </p>
-            <p className="text-xs text-text-soft leading-snug">{tooltip}</p>
-          </div>
-        </div>
+          </TooltipTrigger>
+          <MetricTooltipContent label={label} description={tooltip} />
+        </Tooltip>
       ) : (
         <p className="font-sans text-xs text-text-primary tracking-wide text-center">
           {label}
@@ -191,21 +194,20 @@ export function AiAgentSection() {
           </ChartContainer>
           <div className="grid grid-cols-3 text-center gap-1 mt-3">
             {perfData.map((item) => (
-              <div key={item.key} className="group relative flex flex-col gap-0.5 cursor-help">
-                <p className="font-sans text-2xl text-text-primary leading-tight">
-                  {item.label}
-                </p>
-                <p className="font-sans text-xs text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
-                  {item.metric}
-                </p>
-                {/* Hover card */}
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-44 -translate-x-1/2 rounded-xl border border-border-muted bg-card px-3 py-2.5 text-left shadow-sm opacity-0 transition-opacity group-hover:opacity-100">
-                  <p className="font-sans text-xs text-text-primary font-medium mb-1">
+              <Tooltip key={item.key}>
+                <TooltipTrigger
+                  render={<div />}
+                  className="flex flex-col gap-0.5 cursor-help"
+                >
+                  <p className="font-sans text-2xl text-text-primary leading-tight">
+                    {item.label}
+                  </p>
+                  <p className="font-sans text-xs text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
                     {item.metric}
                   </p>
-                  <p className="text-xs text-text-soft leading-snug">{item.tooltip}</p>
-                </div>
-              </div>
+                </TooltipTrigger>
+                <MetricTooltipContent label={item.metric} description={item.tooltip} />
+              </Tooltip>
             ))}
           </div>
         </div>
