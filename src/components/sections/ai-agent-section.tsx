@@ -77,7 +77,7 @@ function GaugeChart({
           >
             {label}
           </TooltipTrigger>
-          <MetricTooltipContent label={label} description={tooltip} />
+          <MetricTooltipContent label={label} description={tooltip} side="bottom" />
         </Tooltip>
       ) : (
         <p className="font-sans text-xs text-text-primary tracking-wide text-center">
