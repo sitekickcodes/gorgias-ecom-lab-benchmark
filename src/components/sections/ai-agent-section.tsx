@@ -73,14 +73,14 @@ function GaugeChart({
         <Tooltip>
           <TooltipTrigger
             render={<span />}
-            className="font-sans text-xs text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            className="font-sans text-base text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
           >
             {label}
           </TooltipTrigger>
           <MetricTooltipContent label={label} description={tooltip} sideOffset={40} />
         </Tooltip>
       ) : (
-        <p className="font-sans text-xs text-text-primary tracking-wide text-center">
+        <p className="font-sans text-base text-text-primary tracking-wide text-center">
           {label}
         </p>
       )}
@@ -126,7 +126,18 @@ export function AiAgentSection() {
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1fr] gap-3 sm:gap-4">
         {/* Card 1: AI Agent Adoption Rate */}
         <div className="bg-card rounded-2xl p-4 sm:p-6 flex flex-col gap-3">
-          <p className="text-sm sm:text-base leading-relaxed text-text-primary">AI Agent Adoption Rate</p>
+          <Tooltip>
+            <TooltipTrigger
+              render={<p />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              AI Agent Adoption Rate
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="AI Agent Adoption Rate"
+              description="% of stores in the benchmark that have the AI Agent enabled on their Gorgias account"
+            />
+          </Tooltip>
           <div className="flex flex-col gap-6 flex-1 items-center justify-center py-2">
             <GaugeChart
               value={25.1}
@@ -147,7 +158,18 @@ export function AiAgentSection() {
 
         {/* Card 2: AI Performance */}
         <div className="bg-card rounded-2xl p-4 sm:p-6 flex flex-col gap-3">
-          <p className="text-sm sm:text-base leading-relaxed text-text-primary">How AI performs once enabled</p>
+          <Tooltip>
+            <TooltipTrigger
+              render={<p />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              How AI performs once enabled
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="How AI performs once enabled"
+              description="Key performance metrics for stores that have AI Agent or Shopping Assistant active"
+            />
+          </Tooltip>
           <ChartContainer
             config={perfConfig}
             className="flex-1 min-h-0 w-full"
@@ -178,7 +200,7 @@ export function AiAgentSection() {
                   <p className="font-sans text-2xl text-text-primary leading-tight">
                     {item.label}
                   </p>
-                  <p className="font-sans text-xs text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
+                  <p className="font-sans text-base text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
                     {item.metric}
                   </p>
                 </TooltipTrigger>
@@ -190,9 +212,18 @@ export function AiAgentSection() {
 
         {/* Card 3: Revenue Impact */}
         <div className="bg-card rounded-2xl p-4 sm:p-6 flex flex-col gap-3">
-          <p className="text-sm sm:text-base leading-relaxed text-text-primary">
-            Revenue impact from conversational AI
-          </p>
+          <Tooltip>
+            <TooltipTrigger
+              render={<p />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              Revenue impact from conversational AI
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="Revenue impact from conversational AI"
+              description="Average revenue attributed to Shopping Assistant interactions per store"
+            />
+          </Tooltip>
           <div className="flex-1 flex flex-col justify-between gap-4">
             <div className="flex flex-col gap-1.5">
               <p className="font-heading text-5xl sm:text-6xl text-text-primary leading-none">

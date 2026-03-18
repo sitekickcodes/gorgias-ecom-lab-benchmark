@@ -30,14 +30,14 @@ export function StatCard({
         <Tooltip>
           <TooltipTrigger
             render={<p />}
-            className="text-sm sm:text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help text-left"
+            className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help text-left"
           >
             {title}
           </TooltipTrigger>
           <MetricTooltipContent label={title} description={tooltip} />
         </Tooltip>
       ) : (
-        <p className="text-sm sm:text-base leading-relaxed text-text-primary">
+        <p className="text-base leading-relaxed text-text-primary">
           {title}
         </p>
       )}

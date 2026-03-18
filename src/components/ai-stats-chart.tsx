@@ -34,12 +34,11 @@ function CustomBar({
         y={by - 10}
         textAnchor="start"
         style={{
-          textDecoration: "underline",
-          textDecorationStyle: "dotted",
-          textDecorationColor: "var(--text-soft)",
+          textDecoration: "underline dotted rgba(105, 103, 99, 0.5)",
+          textUnderlineOffset: "2px",
         }}
       >
-        <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-primary)">
+        <tspan fontFamily="var(--font-sans)" fontSize={16} fill="var(--text-primary)">
           {payload?.metric}
         </tspan>
       </text>
@@ -98,7 +97,7 @@ export function AiStatsChart() {
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 20, right: 0, bottom: 0, left: 0 }}
+          margin={{ top: 26, right: 0, bottom: 0, left: 0 }}
         >
           <XAxis type="number" domain={[0, 100]} hide />
           <YAxis type="category" dataKey="metric" width={0} hide />
