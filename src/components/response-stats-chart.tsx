@@ -29,19 +29,21 @@ function CustomBar({
       onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
       onMouseLeave={() => onHover?.(null)}
     >
-      <text
-        x={bx}
-        y={by - 10}
-        textAnchor="start"
-        style={{
+      {/* foreignObject lets HTML handle dotted underline (SVG text doesn't support text-decoration-style) */}
+      <foreignObject x={bx} y={by - 28} width={180} height={22}>
+        <span style={{
+          display: "inline-block",
+          fontFamily: "var(--font-sans)",
+          fontSize: "16px",
+          color: "var(--text-primary)",
           textDecoration: "underline dotted rgba(105, 103, 99, 0.5)",
           textUnderlineOffset: "2px",
-        }}
-      >
-        <tspan fontFamily="var(--font-sans)" fontSize={16} fill="var(--text-primary)">
+          whiteSpace: "nowrap",
+          lineHeight: "22px",
+        }}>
           {payload?.metric}
-        </tspan>
-      </text>
+        </span>
+      </foreignObject>
       <text x={bx + totalWidth} y={by - 10} textAnchor="end">
         <tspan fontFamily="var(--font-mono)" fontSize={13} fill="var(--text-soft)">
           {payload?.label}
