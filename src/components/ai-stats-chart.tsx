@@ -23,10 +23,20 @@ function CustomBar({
   const totalWidth = background?.width ?? bw
   return (
     <g
+      style={{ cursor: "help" }}
       onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
       onMouseLeave={() => onHover?.(null)}
     >
-      <text x={bx} y={by - 10} textAnchor="start">
+      <text
+        x={bx}
+        y={by - 10}
+        textAnchor="start"
+        style={{
+          textDecoration: "underline",
+          textDecorationStyle: "dotted",
+          textDecorationColor: "var(--text-soft)",
+        }}
+      >
         <tspan fontFamily="var(--font-sans)" fontSize={13} fill="var(--text-primary)">
           {payload?.metric}
         </tspan>
@@ -116,7 +126,10 @@ export function AiStatsChart() {
       {hovered && (
         <div
           className="pointer-events-none fixed z-50 w-48 -translate-x-1/2 -translate-y-full rounded-xl border border-border-muted bg-card px-3 py-2.5 shadow-sm"
-          style={{ left: hovered.x, top: hovered.y - 8 }}
+          style={{
+            left: Math.max(96, Math.min(hovered.x, (typeof window !== "undefined" ? window.innerWidth : 9999) - 96)),
+            top: hovered.y - 8,
+          }}
         >
           <p className="font-sans text-xs text-text-primary font-medium mb-1">
             {hovered.item.metric}
