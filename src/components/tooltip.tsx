@@ -82,15 +82,25 @@ function MetricTooltipContent({
   description,
   side = "top",
   sideOffset = 8,
+  align = "center",
+  collisionPadding = 12,
 }: {
   label: string
   description: string
   side?: "top" | "bottom" | "left" | "right"
   sideOffset?: number
+  align?: "center" | "start" | "end"
+  collisionPadding?: number | { top?: number; right?: number; bottom?: number; left?: number }
 }) {
   return (
     <TooltipPrimitive.Portal>
-      <TooltipPrimitive.Positioner side={side} sideOffset={sideOffset} className="isolate z-50">
+      <TooltipPrimitive.Positioner
+        side={side}
+        sideOffset={sideOffset}
+        align={align}
+        collisionPadding={collisionPadding}
+        className="isolate z-50"
+      >
         <TooltipPrimitive.Popup
           data-slot="tooltip-content"
           className="z-50 flex w-44 flex-col items-start origin-(--transform-origin) rounded-xl border border-border-muted bg-card px-3 py-2.5 shadow-sm data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"

@@ -96,7 +96,7 @@ export function StatCard({
       {tooltip ? (
         <Tooltip>
           <TooltipTrigger
-            render={<p />}
+            render={<span />}
             className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help text-left"
           >
             {title}

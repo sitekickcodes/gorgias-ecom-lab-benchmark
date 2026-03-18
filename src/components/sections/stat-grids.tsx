@@ -1,6 +1,4 @@
 import { StatCard } from "@/components/stat-card"
-import { AiStatsChart } from "@/components/ai-stats-chart"
-import { ResponseStatsChart } from "@/components/response-stats-chart"
 import { IntentTag } from "@/components/intent-tag"
 import {
   Tooltip,
@@ -11,22 +9,6 @@ import {
 export function StatGrids() {
   return (
     <div className="flex flex-col gap-8 w-full">
-      {/* Response & Resolution + AI & Automation */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 w-full">
-        <div className="flex flex-col gap-3">
-          <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
-            Response &amp; Resolution
-          </h2>
-          <ResponseStatsChart />
-        </div>
-        <div className="flex flex-col gap-3">
-          <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
-            AI &amp; Automation
-          </h2>
-          <AiStatsChart />
-        </div>
-      </div>
-
       {/* Quality & Satisfaction */}
       <div className="flex flex-col gap-3 w-full">
         <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
@@ -86,8 +68,8 @@ export function StatGrids() {
           <div className="bg-card flex flex-col items-start justify-between overflow-hidden p-6 rounded-2xl">
             <Tooltip>
               <TooltipTrigger
-                render={<p />}
-                className="text-sm sm:text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help mb-3"
+                render={<span />}
+                className="text-sm sm:text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help mb-3 block"
               >
                 Top Intents
               </TooltipTrigger>

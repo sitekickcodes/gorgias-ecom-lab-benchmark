@@ -8,8 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/dropdown-menu"
 import { Slider } from "@/components/slider"
+import { useBenchmarkMetric, type BenchmarkMetric } from "./benchmark-context"
 
-type Metric = "approximate-gmv" | "orders"
+type Metric = BenchmarkMetric
 
 const metricOptions: { value: Metric; label: string }[] = [
   { value: "approximate-gmv", label: "Approx. GMV" },
@@ -38,7 +39,7 @@ function getSliderLabel(value: number, labels: string[]): string {
 
 export function GmvSlider() {
   const [industry, setIndustry] = useState("all-industries")
-  const [metric, setMetric] = useState<Metric>("approximate-gmv")
+  const { metric, setMetric } = useBenchmarkMetric()
   const [sliderValue, setSliderValue] = useState([50])
 
   return (
