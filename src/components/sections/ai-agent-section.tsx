@@ -1,8 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
 import {
@@ -122,7 +120,7 @@ const perfConfig = {
 export function AiAgentSection() {
   return (
     <div className="flex flex-col gap-3 sm:gap-4 w-full">
-      <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
+      <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
         AI Agent &amp; Shopping Assistant
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1fr] gap-3 sm:gap-4">
@@ -161,28 +159,6 @@ export function AiAgentSection() {
             >
               <XAxis type="category" dataKey="key" hide />
               <YAxis type="number" domain={[0, 100]} hide />
-              <ChartTooltip
-                cursor={false}
-                content={
-                  <ChartTooltipContent
-                    hideLabel
-                    formatter={(_val, _key, item) => (
-                      <span className="flex items-center gap-2">
-                        <span
-                          className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
-                          style={{ backgroundColor: AMBER }}
-                        />
-                        <span className="text-muted-foreground">
-                          {item.payload.metric}
-                        </span>
-                        <span className="font-mono font-medium text-foreground tabular-nums ml-auto">
-                          {item.payload.label}
-                        </span>
-                      </span>
-                    )}
-                  />
-                }
-              />
               <Bar
                 dataKey="value"
                 barSize={24}
