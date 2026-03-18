@@ -225,11 +225,11 @@ export function AiAgentSection() {
             />
           </Tooltip>
           <div className="flex-1 flex flex-col justify-between gap-4">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 bg-[#F6F4F2] rounded-xl px-4 py-3">
               <p className="font-heading text-5xl sm:text-6xl text-text-primary leading-none">
                 $17K
               </p>
-              <p className="font-sans text-xs text-text-soft tracking-wide leading-snug">
+              <p className="font-sans text-sm text-text-soft tracking-wide leading-snug">
                 Average revenue influenced by Shopping Assistant
               </p>
             </div>

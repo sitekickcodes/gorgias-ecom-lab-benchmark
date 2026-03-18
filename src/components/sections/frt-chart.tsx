@@ -37,7 +37,7 @@ export function FrtChart() {
   return (
     <div className="bg-card flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-hidden p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl w-full">
       <div className="flex flex-col gap-0">
-        <h2 className="text-lg sm:text-xl leading-relaxed text-text-primary">
+        <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
           First response time – by GMV
         </h2>
         <p className="text-sm sm:text-base leading-relaxed text-text-soft">
@@ -46,7 +46,7 @@ export function FrtChart() {
       </div>
       <ChartContainer
         config={chartConfig}
-        className="h-[250px] sm:h-[320px] md:h-[397px] w-full"
+        className="h-[250px] sm:h-[320px] md:h-[397px] w-full [&_.recharts-cartesian-axis-tick_text]:fill-[#696763]"
       >
         <AreaChart data={chartData} margin={{ left: 0, bottom: 16, top: 4, right: 8 }}>
           <CartesianGrid
@@ -58,13 +58,13 @@ export function FrtChart() {
             dataKey="gmv"
             tickLine={false}
             axisLine={false}
-            tick={{ fill: "var(--text-primary)", fontSize: 12 }}
+            tick={{ fill: "#696763", fontSize: 12, fontFamily: "var(--font-mono)" }}
             tickMargin={12}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
-            tick={{ fill: "var(--text-primary)", fontSize: 12 }}
+            tick={{ fill: "#696763", fontSize: 12, fontFamily: "var(--font-mono)" }}
             width={40}
           />
           <ChartTooltip content={<ChartTooltipContent />} />

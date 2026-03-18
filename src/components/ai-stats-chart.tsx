@@ -1,12 +1,22 @@
-import { useState } from "react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
   type ChartConfig,
 } from "@/components/chart"
-import { MetricCard } from "@/components/tooltip"
+import {
+  Tooltip,
+  TooltipTrigger,
+  MetricTooltipContent,
+} from "@/components/tooltip"
 
-type HoverState = { item: any; x: number; y: number } | null
+const CHART_HEIGHT = 290
+const MARGIN_TOP = 26
+const BAR_SIZE = 16
+
+function getBarTop(index: number, total: number) {
+  const slotHeight = (CHART_HEIGHT - MARGIN_TOP) / total
+  return MARGIN_TOP + index * slotHeight + (slotHeight - BAR_SIZE) / 2
+}
 
 function CustomBar({
   x,
@@ -15,7 +25,6 @@ function CustomBar({
   height,
   payload,
   background,
-  onHover,
 }: any) {
   const bx = x ?? 0
   const by = y ?? 0
@@ -24,28 +33,9 @@ function CustomBar({
   const totalWidth = background?.width ?? bw
 
   return (
-    <g
-      style={{ cursor: "help" }}
-      onMouseEnter={(e) => onHover?.({ item: payload, x: e.clientX, y: e.clientY })}
-      onMouseLeave={() => onHover?.(null)}
-    >
-      {/* foreignObject lets HTML handle dotted underline (SVG text doesn't support text-decoration-style) */}
-      <foreignObject x={bx} y={by - 28} width={180} height={22}>
-        <span style={{
-          display: "inline-block",
-          fontFamily: "var(--font-sans)",
-          fontSize: "16px",
-          color: "var(--text-primary)",
-          textDecoration: "underline dotted rgba(105, 103, 99, 0.5)",
-          textUnderlineOffset: "2px",
-          whiteSpace: "nowrap",
-          lineHeight: "22px",
-        }}>
-          {payload?.metric}
-        </span>
-      </foreignObject>
+    <g>
       <text x={bx + totalWidth} y={by - 10} textAnchor="end">
-        <tspan fontFamily="var(--font-mono)" fontSize={13} fill="var(--text-soft)">
+        <tspan fontFamily="var(--font-sans)" fontSize={16} fill="var(--text-primary)">
           {payload?.label}
         </tspan>
       </text>
@@ -91,39 +81,47 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function AiStatsChart() {
-  const [hovered, setHovered] = useState<HoverState>(null)
-
   return (
     <div className="bg-card flex h-fit flex-col px-4 pt-3 pb-3 sm:px-6 sm:pt-4 sm:pb-4 rounded-2xl w-full">
-      <ChartContainer config={chartConfig} className="w-full aspect-auto h-[260px] [&_svg.recharts-surface]:!h-fit">
-        <BarChart
-          data={data}
-          layout="vertical"
-          margin={{ top: 26, right: 0, bottom: 0, left: 0 }}
-        >
-          <XAxis type="number" domain={[0, 100]} hide />
-          <YAxis type="category" dataKey="metric" width={0} hide />
-          <Bar
-            dataKey="value"
-            barSize={16}
-            background={{ fill: "#F6F4F2", radius: 4 }}
-            radius={4}
-            shape={(props: any) => <CustomBar {...props} onHover={setHovered} />}
-          />
-        </BarChart>
-      </ChartContainer>
+      <div className="relative">
+        <ChartContainer config={chartConfig} className="w-full aspect-auto h-[290px] [&_svg.recharts-surface]:!h-fit">
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: MARGIN_TOP, right: 0, bottom: 0, left: 0 }}
+          >
+            <XAxis type="number" domain={[0, 100]} hide />
+            <YAxis type="category" dataKey="metric" width={0} hide />
+            <Bar
+              dataKey="value"
+              barSize={BAR_SIZE}
+              background={{ fill: "#F6F4F2", radius: 4 }}
+              radius={4}
+              shape={(props: any) => <CustomBar {...props} />}
+            />
+          </BarChart>
+        </ChartContainer>
 
-      {hovered && (
-        <div
-          className="pointer-events-none fixed z-50 flex w-44 flex-col items-start -translate-x-1/2 -translate-y-full rounded-xl border border-border-muted bg-card px-3 py-2.5 shadow-sm"
-          style={{
-            left: Math.max(96, Math.min(hovered.x, (typeof window !== "undefined" ? window.innerWidth : 9999) - 96)),
-            top: hovered.y - 8,
-          }}
-        >
-          <MetricCard label={hovered.item.metric} description={hovered.item.tooltip} />
+        <div className="absolute inset-0 pointer-events-none">
+          {data.map((item, i) => (
+            <div
+              key={item.metric}
+              className="absolute pointer-events-auto"
+              style={{ top: getBarTop(i, data.length) - 28, left: 0 }}
+            >
+              <Tooltip>
+                <TooltipTrigger
+                  render={<span />}
+                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help whitespace-nowrap leading-[22px]"
+                >
+                  {item.metric}
+                </TooltipTrigger>
+                <MetricTooltipContent label={item.metric} description={item.tooltip} />
+              </Tooltip>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   )
 }
