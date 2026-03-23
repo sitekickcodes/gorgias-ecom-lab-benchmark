@@ -144,13 +144,26 @@ export function AiAgentSection() {
               barValue={saConversion}
             />
             <div className="border-t border-[#efe9e2]" />
-            <MetricRow
-              value={loading ? "—" : formatCurrency(saRevenue)}
-              label="Revenue influenced"
-              tooltip="Average revenue attributed to Shopping Assistant interactions per active SA store."
-              color="#FFCC9D"
-              barValue={Math.min((saRevenue / 100_000) * 100, 100)}
-            />
+            <div className="flex flex-col gap-2">
+              <Tooltip>
+                <TooltipTrigger
+                  render={<span />}
+                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help self-start"
+                >
+                  Revenue influenced
+                </TooltipTrigger>
+                <MetricTooltipContent
+                  label="Revenue influenced"
+                  description="Average revenue attributed to Shopping Assistant interactions per active SA store."
+                />
+              </Tooltip>
+              <p
+                className="font-heading text-3xl sm:text-4xl leading-none tabular-nums rounded-lg px-3 py-2 self-start"
+                style={{ backgroundColor: "#F6F4F2", color: "#292827" }}
+              >
+                {loading ? "—" : formatCurrency(saRevenue)}
+              </p>
+            </div>
           </div>
         </div>
       </div>
