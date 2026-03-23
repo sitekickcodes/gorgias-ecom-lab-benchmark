@@ -1,6 +1,7 @@
 import { BenchmarkHeader } from "./benchmark-header"
 import { GmvSlider } from "./gmv-slider"
 import { AiAgentSection } from "./ai-agent-section"
+import { ResponseResolution } from "./response-resolution"
 import { StatGrids } from "./stat-grids"
 import { FrtChart } from "./frt-chart"
 import { BenchmarkProvider } from "./benchmark-context"
@@ -13,6 +14,7 @@ export function Benchmark() {
         <div className="flex flex-col gap-8 w-full">
           <GmvSlider />
           <AiAgentSection />
+          <ResponseResolution />
           <StatGrids />
           <FrtChart />
         </div>

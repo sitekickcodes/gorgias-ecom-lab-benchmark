@@ -50,7 +50,7 @@ function Slider({
             className="group relative block size-5 shrink-0 rounded-full border-[1.5px] border-[#73716d] bg-white shadow-md transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-3 hover:ring-ring/50 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-hidden active:ring-3 active:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
           >
             {formatValue && (
-              <span className="pointer-events-none absolute bottom-full left-1/2 mb-2.5 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[#292827] px-2 py-1 font-mono text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 group-data-[active]:opacity-100">
+              <span className="pointer-events-none absolute bottom-full left-1/2 mb-2.5 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[#292827] px-2 py-1 font-mono text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 group-data-[dragging]:opacity-100">
                 {formatValue(_values[index])}
               </span>
             )}

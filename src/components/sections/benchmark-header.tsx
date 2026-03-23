@@ -9,8 +9,8 @@ export function BenchmarkHeader() {
           CX Benchmark explorer
         </h1>
         <p className="text-sm sm:text-base leading-relaxed text-[#1a1e23]">
-          Interpolated cx metrics by industry and gmv. Data from last 90 days
-          across gorgias customers.
+          Interpolated CX metrics by industry and GMV. Data from the last 90 days
+          across Gorgias customers.
         </p>
       </div>
     </div>
