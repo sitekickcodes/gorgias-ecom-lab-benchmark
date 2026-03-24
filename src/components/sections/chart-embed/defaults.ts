@@ -1,15 +1,17 @@
 import type { AxisFormat } from "./types"
 
-/** Default palette from the Figma design system accent colors */
+/** Default pastel palette — 10 colors that feel warm and cohesive */
 export const DEFAULT_COLORS = [
-  "#CDC2FF", // purple
+  "#CDC2FF", // lavender
   "#FFB5B5", // salmon
-  "#FFCC9D", // amber
-  "#B2E6BE", // sage green
-  "#F5D4FF", // pink
-  "#4E88FB", // brand blue
-  "#7C6FEB", // violet
-  "#E8733A", // burnt orange
+  "#FFCC9D", // peach
+  "#B2E6BE", // mint
+  "#F5D4FF", // lilac
+  "#A8D8EA", // sky
+  "#FFD6A5", // apricot
+  "#B5D8CC", // seafoam
+  "#E2B6CF", // rose
+  "#C9DAF8", // periwinkle
 ]
 
 export const BAR_TWO_TONE = ["#DEDBD5", "#292827"]

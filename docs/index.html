@@ -10,18 +10,43 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=STIX+Two+Text:wght@400&display=swap"
       rel="stylesheet"
     />
-  </head>
-  <body style="background: #f6f4f2">
-    <div style="max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; font-family: 'Geist', sans-serif; color: #292827; line-height: 1.6">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: 'Geist', sans-serif; background: #f6f4f2; color: #292827; line-height: 1.6; }
+      .container { max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; }
+      h1 { font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin-bottom: 8px; }
+      h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2; }
+      h3 { font-size: 16px; font-weight: 500; margin: 32px 0 16px; }
+      p { margin-bottom: 16px; color: #514f4b; }
+      code { font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px; }
+      pre { font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; line-height: 1.5; }
+      pre code { background: none; padding: 0; color: inherit; }
+      table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px; }
+      th { text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5; }
+      td { padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b; }
 
+      /* Tabbed example component */
+      .example { border: 1px solid #dedbd5; border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
+      .example-tabs { display: flex; border-bottom: 1px solid #efe9e2; background: #fff; }
+      .example-tab { padding: 10px 20px; font-size: 13px; font-family: 'Geist Mono', monospace; text-transform: uppercase; letter-spacing: 1px; border: none; background: none; cursor: pointer; color: #73716d; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+      .example-tab.active { color: #292827; border-bottom-color: #292827; }
+      .example-preview { padding: 24px; background: #f6f4f2; }
+      .example-code { display: none; }
+      .example-code.active { display: block; }
+      .example-code pre { border-radius: 0; margin: 0; }
+      .example-preview.active { display: block; }
+      .example-preview:not(.active) { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
       <span style="display: inline-block; font-family: 'Geist Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; background: #efe9e2; padding: 4px 16px; border-radius: 9999px; margin-bottom: 16px">(01) Documentation</span>
-      <h1 style="font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin: 0 0 8px">Chart Embed API</h1>
+      <h1>Chart Embed API</h1>
       <p style="font-size: 16px; color: #696763; margin: 0 0 48px">Embed styled charts into any page with a single div and a JSON config. Fonts, colors, tooltips, and responsive behavior are handled automatically.</p>
 
-      <!-- Quick Start -->
-      <h2 style="font-size: 24px; font-weight: 400; margin: 0 0 16px">Quick Start</h2>
-      <p style="color: #514f4b; margin: 0 0 16px">Add the embed script to your page, then place chart divs wherever you want charts to appear:</p>
-      <pre style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; margin: 0 0 24px; line-height: 1.5"><code>&lt;!-- 1. Add the embed script (once per page) --&gt;
+      <h2 style="border-top: none; padding-top: 0; margin-top: 0">Quick Start</h2>
+      <p>Add the embed script to your page, then place chart divs wherever you want charts:</p>
+      <pre><code>&lt;!-- 1. Add the embed script (once per page) --&gt;
 &lt;script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer&gt;&lt;/script&gt;
 
 &lt;!-- 2. Add a chart --&gt;
@@ -38,48 +63,218 @@
   }'&gt;
 &lt;/div&gt;</code></pre>
 
-      <!-- Chart Types -->
-      <h2 style="font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2">Chart Types</h2>
-      <table style="width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px">
-        <thead><tr>
-          <th style="text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5">data-chart-type</th>
-          <th style="text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5">Description</th>
-          <th style="text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5">Best for</th>
-        </tr></thead>
+      <h2>Chart Types</h2>
+      <table>
+        <thead><tr><th><code>data-chart-type</code></th><th>Description</th><th>Best for</th></tr></thead>
         <tbody>
-          <tr><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2"><code style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px">bar</code></td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Vertical bar chart</td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Comparing categories, rankings</td></tr>
-          <tr><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2"><code style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px">line</code></td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Line chart with dot markers</td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Trends over time</td></tr>
-          <tr><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2"><code style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px">area</code></td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Line with gradient fill</td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Volume trends</td></tr>
-          <tr><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2"><code style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px">multi-line</code></td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Multiple named lines</td><td style="padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b">Comparing series</td></tr>
+          <tr><td><code>bar</code></td><td>Vertical bar chart</td><td>Comparing categories, rankings</td></tr>
+          <tr><td><code>line</code></td><td>Line chart with dot markers</td><td>Trends over time</td></tr>
+          <tr><td><code>area</code></td><td>Line with gradient fill</td><td>Volume trends</td></tr>
+          <tr><td><code>multi-line</code></td><td>Multiple named lines</td><td>Comparing series</td></tr>
         </tbody>
       </table>
 
-      <!-- Live Examples -->
-      <h2 style="font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2">Live Examples</h2>
+      <h2>Config Reference</h2>
+      <h3>Shared options (all chart types)</h3>
+      <table>
+        <thead><tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>title</code></td><td>string</td><td>—</td><td>Chart title</td></tr>
+          <tr><td><code>subtitle</code></td><td>string</td><td>—</td><td>Smaller text below title</td></tr>
+          <tr><td><code>height</code></td><td>number</td><td>300</td><td>Chart height in pixels</td></tr>
+          <tr><td><code>colors</code></td><td>string[]</td><td>Pastel palette</td><td>Override colors (hex values)</td></tr>
+          <tr><td><code>grid</code></td><td>boolean</td><td>true</td><td>Show horizontal grid lines</td></tr>
+          <tr><td><code>legend</code></td><td>boolean</td><td>true for multi-line</td><td>Show legend</td></tr>
+          <tr><td><code>xAxis</code></td><td>AxisConfig</td><td>—</td><td>X-axis configuration</td></tr>
+          <tr><td><code>yAxis</code></td><td>AxisConfig</td><td>—</td><td>Y-axis configuration</td></tr>
+        </tbody>
+      </table>
 
-      <h3 style="font-size: 16px; font-weight: 500; margin: 32px 0 12px">Bar chart</h3>
-      <div data-gorgias="chart" data-chart-type="bar"
-        data-chart-config='{"title":"AI Agent Adoption Rate by GMV","subtitle":"% of stores with AI agents enabled","data":[{"label":"$500K","value":15.3},{"label":"$1M","value":18.7},{"label":"$5M","value":22.1},{"label":"$10M","value":28.4},{"label":"$25M","value":35.2},{"label":"$50M","value":41.6},{"label":"$100M","value":45.8},{"label":"$500M","value":49.9}],"yAxis":{"format":"percent"}}'>
+      <h3>AxisConfig</h3>
+      <table>
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>format</code></td><td><code>"number"</code> | <code>"percent"</code> | <code>"currency"</code> | <code>"minutes"</code> | <code>"hours"</code></td><td>Auto-formats tick labels</td></tr>
+          <tr><td><code>formatTemplate</code></td><td>string</td><td>Custom template, e.g. <code>"{value} pts"</code></td></tr>
+          <tr><td><code>hide</code></td><td>boolean</td><td>Hide the axis</td></tr>
+          <tr><td><code>domain</code></td><td>[min, max]</td><td>Set axis range</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Single-series options (bar, line, area)</h3>
+      <table>
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>data</code></td><td><code>{ label, value, color? }[]</code></td><td><strong>Required.</strong> Array of data points</td></tr>
+          <tr><td><code>splitIndex</code></td><td>number</td><td>Bar only: two-tone split point</td></tr>
+          <tr><td><code>curve</code></td><td><code>"monotone"</code> | <code>"linear"</code> | <code>"step"</code></td><td>Curve interpolation</td></tr>
+          <tr><td><code>dots</code></td><td>boolean</td><td>Show point markers</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Multi-line options</h3>
+      <table>
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>series</code></td><td><code>{ key, label, color?, data }[]</code></td><td><strong>Required.</strong> Named data series</td></tr>
+          <tr><td><code>curve</code></td><td><code>"monotone"</code> | <code>"linear"</code></td><td>Curve type for all lines</td></tr>
+          <tr><td><code>dots</code></td><td>boolean</td><td>Show point markers (default: true)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Live Examples</h2>
+
+      <!-- Bar Chart Example -->
+      <h3>Bar chart</h3>
+      <div class="example" data-example>
+        <div class="example-tabs">
+          <button class="example-tab active" data-tab="preview">Preview</button>
+          <button class="example-tab" data-tab="code">Code</button>
+        </div>
+        <div class="example-preview active" data-panel="preview">
+          <div data-gorgias="chart" data-chart-type="bar"
+            data-chart-config='{"title":"AI Agent Adoption Rate by GMV","subtitle":"% of stores with AI agents enabled","data":[{"label":"$500K","value":15.3},{"label":"$1M","value":18.7},{"label":"$5M","value":22.1},{"label":"$10M","value":28.4},{"label":"$25M","value":35.2},{"label":"$50M","value":41.6},{"label":"$100M","value":45.8},{"label":"$500M","value":49.9}],"yAxis":{"format":"percent"}}'>
+          </div>
+        </div>
+        <div class="example-code" data-panel="code">
+          <pre><code>&lt;div data-gorgias="chart" data-chart-type="bar"
+  data-chart-config='{
+    "title": "AI Agent Adoption Rate by GMV",
+    "subtitle": "% of stores with AI agents enabled",
+    "data": [
+      { "label": "$500K", "value": 15.3 },
+      { "label": "$1M", "value": 18.7 },
+      { "label": "$5M", "value": 22.1 },
+      { "label": "$10M", "value": 28.4 },
+      { "label": "$25M", "value": 35.2 },
+      { "label": "$50M", "value": 41.6 },
+      { "label": "$100M", "value": 45.8 },
+      { "label": "$500M", "value": 49.9 }
+    ],
+    "yAxis": { "format": "percent" }
+  }'&gt;
+&lt;/div&gt;</code></pre>
+        </div>
       </div>
 
-      <h3 style="font-size: 16px; font-weight: 500; margin: 32px 0 12px">Area chart</h3>
-      <div data-gorgias="chart" data-chart-type="area"
-        data-chart-config='{"title":"First Response Time vs. Automation Rate","subtitle":"Median minutes to first response","data":[{"label":"0%","value":736},{"label":"5%","value":580},{"label":"10%","value":420},{"label":"15%","value":280},{"label":"20%","value":165},{"label":"25%","value":95},{"label":"30%","value":52},{"label":"35%","value":28},{"label":"40%","value":12}],"yAxis":{"format":"minutes"}}'>
+      <!-- Area Chart Example -->
+      <h3>Area chart</h3>
+      <div class="example" data-example>
+        <div class="example-tabs">
+          <button class="example-tab active" data-tab="preview">Preview</button>
+          <button class="example-tab" data-tab="code">Code</button>
+        </div>
+        <div class="example-preview active" data-panel="preview">
+          <div data-gorgias="chart" data-chart-type="area"
+            data-chart-config='{"title":"First Response Time vs. Automation Rate","subtitle":"Median minutes to first response","data":[{"label":"0%","value":736},{"label":"5%","value":580},{"label":"10%","value":420},{"label":"15%","value":280},{"label":"20%","value":165},{"label":"25%","value":95},{"label":"30%","value":52},{"label":"35%","value":28},{"label":"40%","value":12}],"yAxis":{"format":"minutes"}}'>
+          </div>
+        </div>
+        <div class="example-code" data-panel="code">
+          <pre><code>&lt;div data-gorgias="chart" data-chart-type="area"
+  data-chart-config='{
+    "title": "First Response Time vs. Automation Rate",
+    "subtitle": "Median minutes to first response",
+    "data": [
+      { "label": "0%", "value": 736 },
+      { "label": "5%", "value": 580 },
+      { "label": "10%", "value": 420 },
+      { "label": "15%", "value": 280 },
+      { "label": "20%", "value": 165 },
+      { "label": "25%", "value": 95 },
+      { "label": "30%", "value": 52 },
+      { "label": "35%", "value": 28 },
+      { "label": "40%", "value": 12 }
+    ],
+    "yAxis": { "format": "minutes" }
+  }'&gt;
+&lt;/div&gt;</code></pre>
+        </div>
       </div>
 
-      <h3 style="font-size: 16px; font-weight: 500; margin: 32px 0 12px">Multi-line comparison</h3>
-      <div data-gorgias="chart" data-chart-type="multi-line"
-        data-chart-config='{"title":"Human Team Size vs. AI Equivalents","series":[{"key":"human","label":"Human team","color":"#A1A1AA","data":[{"label":"10-20%","value":5.2},{"label":"20-30%","value":4.8},{"label":"30-40%","value":4.1},{"label":"40-50%","value":3.2},{"label":"50%+","value":2.4}]},{"key":"ai","label":"AI equivalents","color":"#FF5B35","data":[{"label":"10-20%","value":1.1},{"label":"20-30%","value":2.3},{"label":"30-40%","value":3.8},{"label":"40-50%","value":5.1},{"label":"50%+","value":7.2}]}]}'>
+      <!-- Multi-line Chart Example -->
+      <h3>Multi-line comparison</h3>
+      <div class="example" data-example>
+        <div class="example-tabs">
+          <button class="example-tab active" data-tab="preview">Preview</button>
+          <button class="example-tab" data-tab="code">Code</button>
+        </div>
+        <div class="example-preview active" data-panel="preview">
+          <div data-gorgias="chart" data-chart-type="multi-line"
+            data-chart-config='{"title":"Human Team Size vs. AI Equivalents","series":[{"key":"human","label":"Human team","color":"#B5D8CC","data":[{"label":"10-20%","value":5.2},{"label":"20-30%","value":4.8},{"label":"30-40%","value":4.1},{"label":"40-50%","value":3.2},{"label":"50%+","value":2.4}]},{"key":"ai","label":"AI equivalents","color":"#CDC2FF","data":[{"label":"10-20%","value":1.1},{"label":"20-30%","value":2.3},{"label":"30-40%","value":3.8},{"label":"40-50%","value":5.1},{"label":"50%+","value":7.2}]}]}'>
+          </div>
+        </div>
+        <div class="example-code" data-panel="code">
+          <pre><code>&lt;div data-gorgias="chart" data-chart-type="multi-line"
+  data-chart-config='{
+    "title": "Human Team Size vs. AI Equivalents",
+    "series": [
+      {
+        "key": "human",
+        "label": "Human team",
+        "color": "#B5D8CC",
+        "data": [
+          { "label": "10-20%", "value": 5.2 },
+          { "label": "20-30%", "value": 4.8 },
+          { "label": "30-40%", "value": 4.1 },
+          { "label": "40-50%", "value": 3.2 },
+          { "label": "50%+", "value": 2.4 }
+        ]
+      },
+      {
+        "key": "ai",
+        "label": "AI equivalents",
+        "color": "#CDC2FF",
+        "data": [
+          { "label": "10-20%", "value": 1.1 },
+          { "label": "20-30%", "value": 2.3 },
+          { "label": "30-40%", "value": 3.8 },
+          { "label": "40-50%", "value": 5.1 },
+          { "label": "50%+", "value": 7.2 }
+        ]
+      }
+    ]
+  }'&gt;
+&lt;/div&gt;</code></pre>
+        </div>
       </div>
 
-      <h3 style="font-size: 16px; font-weight: 500; margin: 32px 0 12px">Line chart</h3>
-      <div data-gorgias="chart" data-chart-type="line"
-        data-chart-config='{"title":"AI Agent Adoption Over Time","subtitle":"Monthly adoption rate trend","data":[{"label":"Apr 25","value":12.3},{"label":"May 25","value":13.1},{"label":"Jun 25","value":13.8},{"label":"Jul 25","value":14.5},{"label":"Aug 25","value":15.2},{"label":"Sep 25","value":16.1},{"label":"Oct 25","value":16.8},{"label":"Nov 25","value":17.4},{"label":"Dec 25","value":17.9},{"label":"Jan 26","value":17.6}],"yAxis":{"format":"percent"}}'>
+      <!-- Line Chart Example -->
+      <h3>Line chart</h3>
+      <div class="example" data-example>
+        <div class="example-tabs">
+          <button class="example-tab active" data-tab="preview">Preview</button>
+          <button class="example-tab" data-tab="code">Code</button>
+        </div>
+        <div class="example-preview active" data-panel="preview">
+          <div data-gorgias="chart" data-chart-type="line"
+            data-chart-config='{"title":"AI Agent Adoption Over Time","subtitle":"Monthly adoption rate trend","data":[{"label":"Apr 25","value":12.3},{"label":"May 25","value":13.1},{"label":"Jun 25","value":13.8},{"label":"Jul 25","value":14.5},{"label":"Aug 25","value":15.2},{"label":"Sep 25","value":16.1},{"label":"Oct 25","value":16.8},{"label":"Nov 25","value":17.4},{"label":"Dec 25","value":17.9},{"label":"Jan 26","value":17.6}],"yAxis":{"format":"percent"}}'>
+          </div>
+        </div>
+        <div class="example-code" data-panel="code">
+          <pre><code>&lt;div data-gorgias="chart" data-chart-type="line"
+  data-chart-config='{
+    "title": "AI Agent Adoption Over Time",
+    "subtitle": "Monthly adoption rate trend",
+    "data": [
+      { "label": "Apr 25", "value": 12.3 },
+      { "label": "May 25", "value": 13.1 },
+      { "label": "Jun 25", "value": 13.8 },
+      { "label": "Jul 25", "value": 14.5 },
+      { "label": "Aug 25", "value": 15.2 },
+      { "label": "Sep 25", "value": 16.1 },
+      { "label": "Oct 25", "value": 16.8 },
+      { "label": "Nov 25", "value": 17.4 },
+      { "label": "Dec 25", "value": 17.9 },
+      { "label": "Jan 26", "value": 17.6 }
+    ],
+    "yAxis": { "format": "percent" }
+  }'&gt;
+&lt;/div&gt;</code></pre>
+        </div>
       </div>
 
-      <!-- Imperative API -->
-      <h2 style="font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2">Imperative API</h2>
-      <pre style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; margin: 0 0 24px; line-height: 1.5"><code>GorgiasEmbed.render("chart", document.getElementById("my-chart"), {
+      <h2>Imperative API</h2>
+      <pre><code>GorgiasEmbed.render("chart", document.getElementById("my-chart"), {
   type: "bar",
   config: {
     title: "My Chart",
@@ -91,12 +286,34 @@
   }
 })</code></pre>
 
-      <!-- Embedding the benchmark -->
-      <h2 style="font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2">Embedding the Benchmark Dashboard</h2>
-      <pre style="font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; margin: 0 0 24px; line-height: 1.5"><code>&lt;div data-gorgias="benchmark"&gt;&lt;/div&gt;
+      <h2>Embedding the Dashboard</h2>
+      <pre><code>&lt;div data-gorgias="benchmark"&gt;&lt;/div&gt;
 &lt;script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer&gt;&lt;/script&gt;</code></pre>
 
+      <h2>Design System</h2>
+      <div style="background: #efe9e2; border-radius: 12px; padding: 20px; font-size: 14px; color: #514f4b">
+        <p style="margin-bottom: 8px"><strong style="color: #292827">Fonts:</strong> Geist for labels, Geist Mono for axes, STIX Two Text for titles</p>
+        <p style="margin-bottom: 8px"><strong style="color: #292827">Colors:</strong> 10-color pastel palette (lavender, salmon, peach, mint, lilac, sky, apricot, seafoam, rose, periwinkle)</p>
+        <p style="margin-bottom: 8px"><strong style="color: #292827">Card:</strong> White background, rounded corners, responsive padding</p>
+        <p style="margin-bottom: 8px"><strong style="color: #292827">Tooltips:</strong> Styled automatically on hover</p>
+        <p style="margin-bottom: 0"><strong style="color: #292827">Responsive:</strong> Charts resize at 320px, 568px, and 768px breakpoints</p>
+      </div>
     </div>
+
+    <!-- Tab switching logic -->
+    <script>
+      document.querySelectorAll('[data-example]').forEach(example => {
+        example.querySelectorAll('.example-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            example.querySelectorAll('.example-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === target));
+            example.querySelectorAll('[data-panel]').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+          });
+        });
+      });
+    </script>
+
+    <!-- Load embed script -->
     <script type="module" src="/src/embed.tsx"></script>
   </body>
 </html>
