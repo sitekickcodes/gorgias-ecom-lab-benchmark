@@ -11,19 +11,22 @@
       rel="stylesheet"
     />
     <style>
-      /* All docs styles scoped under .docs to prevent bleeding into embeds */
+      /*
+        IMPORTANT: No element selectors (h1, h2, h3, p, code, etc.) —
+        they bleed into embedded components. Use classes only.
+      */
       body { font-family: 'Geist', sans-serif; background: #f6f4f2; color: #292827; line-height: 1.6; margin: 0; }
       .docs { max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; }
-      .docs h1 { font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin: 0 0 8px; }
-      .docs h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2; }
-      .docs h3 { font-size: 16px; font-weight: 500; margin: 32px 0 16px; }
-      .docs p { margin: 0 0 16px; color: #514f4b; }
-      .docs code { font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px; }
-      .docs pre { font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; line-height: 1.5; margin: 0 0 24px; }
-      .docs pre code { background: none; padding: 0; color: inherit; }
-      .docs table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px; }
-      .docs th { text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5; }
-      .docs td { padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b; }
+      .docs-h1 { font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin: 0 0 8px; }
+      .docs-h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2; }
+      .docs-h3 { font-size: 16px; font-weight: 500; margin: 32px 0 16px; }
+      .docs-p { margin: 0 0 16px; color: #514f4b; }
+      .docs-code { font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px; }
+      .docs-pre { font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; line-height: 1.5; margin: 0 0 24px; }
+      .docs-pre code { background: none; padding: 0; color: inherit; }
+      .docs-table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px; }
+      .docs-table th { text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5; }
+      .docs-table td { padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b; }
 
       /* Tabbed example component */
       .docs .example { border: 1px solid #dedbd5; border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
@@ -41,12 +44,12 @@
   <body>
     <div class="docs">
       <span style="display: inline-block; font-family: 'Geist Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; background: #efe9e2; padding: 4px 16px; border-radius: 9999px; margin-bottom: 16px">(01) Documentation</span>
-      <h1>Chart Embed API</h1>
-      <p style="font-size: 16px; color: #696763; margin: 0 0 48px">Embed styled charts into any page with a single div and a JSON config. Fonts, colors, tooltips, and responsive behavior are handled automatically.</p>
+      <h1 class="docs-h1">Chart Embed API</h1>
+      <p class="docs-p" style="font-size: 16px; color: #696763; margin: 0 0 48px">Embed styled charts into any page with a single div and a JSON config. Fonts, colors, tooltips, and responsive behavior are handled automatically.</p>
 
-      <h2 style="border-top: none; padding-top: 0; margin-top: 0">Quick Start</h2>
-      <p>Add the embed script to your page, then place chart divs wherever you want charts:</p>
-      <pre><code>&lt;!-- 1. Add the embed script (once per page) --&gt;
+      <h2 class="docs-h2" style="border-top: none; padding-top: 0; margin-top: 0">Quick Start</h2>
+      <p class="docs-p">Add the embed script to your page, then place chart divs wherever you want charts:</p>
+      <pre class="docs-pre"><code>&lt;!-- 1. Add the embed script (once per page) --&gt;
 &lt;script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer&gt;&lt;/script&gt;
 
 &lt;!-- 2. Add a chart --&gt;
@@ -63,8 +66,8 @@
   }'&gt;
 &lt;/div&gt;</code></pre>
 
-      <h2>Chart Types</h2>
-      <table>
+      <h2 class="docs-h2">Chart Types</h2>
+      <table class="docs-table">
         <thead><tr><th><code>data-chart-type</code></th><th>Description</th><th>Best for</th></tr></thead>
         <tbody>
           <tr><td><code>bar</code></td><td>Vertical bar chart</td><td>Comparing categories, rankings</td></tr>
@@ -74,9 +77,9 @@
         </tbody>
       </table>
 
-      <h2>Config Reference</h2>
-      <h3>Shared options (all chart types)</h3>
-      <table>
+      <h2 class="docs-h2">Config Reference</h2>
+      <h3 class="docs-h3">Shared options (all chart types)</h3>
+      <table class="docs-table">
         <thead><tr><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>title</code></td><td>string</td><td>—</td><td>Chart title</td></tr>
@@ -90,8 +93,8 @@
         </tbody>
       </table>
 
-      <h3>AxisConfig</h3>
-      <table>
+      <h3 class="docs-h3">AxisConfig</h3>
+      <table class="docs-table">
         <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>format</code></td><td><code>"number"</code> | <code>"percent"</code> | <code>"currency"</code> | <code>"minutes"</code> | <code>"hours"</code></td><td>Auto-formats tick labels</td></tr>
@@ -101,8 +104,8 @@
         </tbody>
       </table>
 
-      <h3>Single-series options (bar, line, area)</h3>
-      <table>
+      <h3 class="docs-h3">Single-series options (bar, line, area)</h3>
+      <table class="docs-table">
         <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>data</code></td><td><code>{ label, value, color? }[]</code></td><td><strong>Required.</strong> Array of data points</td></tr>
@@ -112,8 +115,8 @@
         </tbody>
       </table>
 
-      <h3>Multi-line options</h3>
-      <table>
+      <h3 class="docs-h3">Multi-line options</h3>
+      <table class="docs-table">
         <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>series</code></td><td><code>{ key, label, color?, data }[]</code></td><td><strong>Required.</strong> Named data series</td></tr>
@@ -122,10 +125,10 @@
         </tbody>
       </table>
 
-      <h2>Live Examples</h2>
+      <h2 class="docs-h2">Live Examples</h2>
 
       <!-- Bar Chart Example -->
-      <h3>Bar chart</h3>
+      <h3 class="docs-h3">Bar chart</h3>
       <div class="example" data-example>
         <div class="example-tabs">
           <button class="example-tab active" data-tab="preview">Preview</button>
@@ -137,7 +140,7 @@
           </div>
         </div>
         <div class="example-code" data-panel="code">
-          <pre><code>&lt;div data-gorgias="chart" data-chart-type="bar"
+          <pre class="docs-pre"><code>&lt;div data-gorgias="chart" data-chart-type="bar"
   data-chart-config='{
     "title": "AI Agent Adoption Rate by GMV",
     "subtitle": "% of stores with AI agents enabled",
@@ -158,7 +161,7 @@
       </div>
 
       <!-- Area Chart Example -->
-      <h3>Area chart</h3>
+      <h3 class="docs-h3">Area chart</h3>
       <div class="example" data-example>
         <div class="example-tabs">
           <button class="example-tab active" data-tab="preview">Preview</button>
@@ -170,7 +173,7 @@
           </div>
         </div>
         <div class="example-code" data-panel="code">
-          <pre><code>&lt;div data-gorgias="chart" data-chart-type="area"
+          <pre class="docs-pre"><code>&lt;div data-gorgias="chart" data-chart-type="area"
   data-chart-config='{
     "title": "First Response Time vs. Automation Rate",
     "subtitle": "Median minutes to first response",
@@ -192,7 +195,7 @@
       </div>
 
       <!-- Multi-line Chart Example -->
-      <h3>Multi-line comparison</h3>
+      <h3 class="docs-h3">Multi-line comparison</h3>
       <div class="example" data-example>
         <div class="example-tabs">
           <button class="example-tab active" data-tab="preview">Preview</button>
@@ -204,7 +207,7 @@
           </div>
         </div>
         <div class="example-code" data-panel="code">
-          <pre><code>&lt;div data-gorgias="chart" data-chart-type="multi-line"
+          <pre class="docs-pre"><code>&lt;div data-gorgias="chart" data-chart-type="multi-line"
   data-chart-config='{
     "title": "Human Team Size vs. AI Equivalents",
     "series": [
@@ -239,7 +242,7 @@
       </div>
 
       <!-- Line Chart Example -->
-      <h3>Line chart</h3>
+      <h3 class="docs-h3">Line chart</h3>
       <div class="example" data-example>
         <div class="example-tabs">
           <button class="example-tab active" data-tab="preview">Preview</button>
@@ -251,7 +254,7 @@
           </div>
         </div>
         <div class="example-code" data-panel="code">
-          <pre><code>&lt;div data-gorgias="chart" data-chart-type="line"
+          <pre class="docs-pre"><code>&lt;div data-gorgias="chart" data-chart-type="line"
   data-chart-config='{
     "title": "AI Agent Adoption Over Time",
     "subtitle": "Monthly adoption rate trend",
@@ -273,8 +276,8 @@
         </div>
       </div>
 
-      <h2>Imperative API</h2>
-      <pre><code>GorgiasEmbed.render("chart", document.getElementById("my-chart"), {
+      <h2 class="docs-h2">Imperative API</h2>
+      <pre class="docs-pre"><code>GorgiasEmbed.render("chart", document.getElementById("my-chart"), {
   type: "bar",
   config: {
     title: "My Chart",
@@ -286,17 +289,17 @@
   }
 })</code></pre>
 
-      <h2>Embedding the Dashboard</h2>
-      <pre><code>&lt;div data-gorgias="benchmark"&gt;&lt;/div&gt;
+      <h2 class="docs-h2">Embedding the Dashboard</h2>
+      <pre class="docs-pre"><code>&lt;div data-gorgias="benchmark"&gt;&lt;/div&gt;
 &lt;script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer&gt;&lt;/script&gt;</code></pre>
 
-      <h2>Design System</h2>
+      <h2 class="docs-h2">Design System</h2>
       <div style="background: #efe9e2; border-radius: 12px; padding: 20px; font-size: 14px; color: #514f4b">
-        <p style="margin-bottom: 8px"><strong style="color: #292827">Fonts:</strong> Geist for labels, Geist Mono for axes, STIX Two Text for titles</p>
-        <p style="margin-bottom: 8px"><strong style="color: #292827">Colors:</strong> 10-color pastel palette (lavender, salmon, peach, mint, lilac, sky, apricot, seafoam, rose, periwinkle)</p>
-        <p style="margin-bottom: 8px"><strong style="color: #292827">Card:</strong> White background, rounded corners, responsive padding</p>
-        <p style="margin-bottom: 8px"><strong style="color: #292827">Tooltips:</strong> Styled automatically on hover</p>
-        <p style="margin-bottom: 0"><strong style="color: #292827">Responsive:</strong> Charts resize at 320px, 568px, and 768px breakpoints</p>
+        <p class="docs-p" style="margin-bottom: 8px"><strong style="color: #292827">Fonts:</strong> Geist for labels, Geist Mono for axes, STIX Two Text for titles</p>
+        <p class="docs-p" style="margin-bottom: 8px"><strong style="color: #292827">Colors:</strong> 10-color pastel palette (lavender, salmon, peach, mint, lilac, sky, apricot, seafoam, rose, periwinkle)</p>
+        <p class="docs-p" style="margin-bottom: 8px"><strong style="color: #292827">Card:</strong> White background, rounded corners, responsive padding</p>
+        <p class="docs-p" style="margin-bottom: 8px"><strong style="color: #292827">Tooltips:</strong> Styled automatically on hover</p>
+        <p class="docs-p" style="margin-bottom: 0"><strong style="color: #292827">Responsive:</strong> Charts resize at 320px, 568px, and 768px breakpoints</p>
       </div>
     </div>
 
