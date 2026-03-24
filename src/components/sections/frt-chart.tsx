@@ -244,7 +244,7 @@ export function FrtChart() {
             axisLine={false}
             tickFormatter={fmtForAxis}
             tick={{ fill: "#696763", fontSize: 12, fontFamily: "var(--font-mono)" }}
-            width={32}
+            width={42}
           />
           <ChartTooltip
             content={({ active, payload, label }) => {
