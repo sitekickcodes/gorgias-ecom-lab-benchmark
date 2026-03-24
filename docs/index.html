@@ -84,6 +84,7 @@
         <tbody>
           <tr><td><code>title</code></td><td>string</td><td>—</td><td>Chart title</td></tr>
           <tr><td><code>subtitle</code></td><td>string</td><td>—</td><td>Smaller text below title</td></tr>
+          <tr><td><code>source</code></td><td>string</td><td>—</td><td>Attribution line below chart, e.g. "Gorgias platform data · March 2026"</td></tr>
           <tr><td><code>height</code></td><td>number</td><td>300</td><td>Chart height in pixels</td></tr>
           <tr><td><code>colors</code></td><td>array of strings</td><td>Pastel palette</td><td>Override colors (hex values)</td></tr>
           <tr><td><code>grid</code></td><td>boolean</td><td>true</td><td>Show horizontal grid lines</td></tr>
@@ -169,7 +170,7 @@
         </div>
         <div class="example-preview active" data-panel="preview">
           <div data-gorgias="chart" data-chart-type="area"
-            data-chart-config='{"title":"First Response Time vs. Automation Rate","subtitle":"Median minutes to first response","data":[{"label":"0%","value":736},{"label":"5%","value":580},{"label":"10%","value":420},{"label":"15%","value":280},{"label":"20%","value":165},{"label":"25%","value":95},{"label":"30%","value":52},{"label":"35%","value":28},{"label":"40%","value":12}],"xAxis":{"label":"Automation rate"},"yAxis":{"label":"First response time","format":"minutes"}}'>
+            data-chart-config='{"title":"First Response Time vs. Automation Rate","subtitle":"Median minutes to first response","source":"Gorgias platform data · March 2026","data":[{"label":"0%","value":736},{"label":"5%","value":580},{"label":"10%","value":420},{"label":"15%","value":280},{"label":"20%","value":165},{"label":"25%","value":95},{"label":"30%","value":52},{"label":"35%","value":28},{"label":"40%","value":12}],"xAxis":{"label":"Automation rate"},"yAxis":{"label":"First response time","format":"minutes"}}'>
           </div>
         </div>
         <div class="example-code" data-panel="code">

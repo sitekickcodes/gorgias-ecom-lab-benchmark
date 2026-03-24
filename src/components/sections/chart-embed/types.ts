@@ -31,6 +31,8 @@ export interface AxisConfig {
 export interface BaseChartConfig {
   title?: string
   subtitle?: string
+  /** Attribution line below the chart, e.g. "Gorgias platform data · March 2026" */
+  source?: string
   height?: number
   colors?: string[]
   grid?: boolean

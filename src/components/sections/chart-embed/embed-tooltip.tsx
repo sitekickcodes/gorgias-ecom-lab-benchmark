@@ -43,7 +43,6 @@ export function EmbedTooltip({
       <span
         style={{
           marginLeft: "auto",
-          fontFamily: "'Geist Mono', monospace",
           color: "#292827",
           fontWeight: 500,
         }}
