@@ -28,7 +28,7 @@ export const GRID_PROPS = {
   vertical: false,
 } as const
 
-export const DEFAULT_MARGINS = { top: 0, right: 8, bottom: 8, left: 12 }
+export const DEFAULT_MARGINS = { top: 0, right: 4, bottom: 4, left: 0 }
 
 export const DEFAULT_HEIGHTS: Record<string, number> = {
   bar: 300,

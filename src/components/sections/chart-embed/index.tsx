@@ -28,7 +28,7 @@ export function ChartEmbed({ type, config }: ChartEmbedProps) {
   }
 
   return (
-    <div className="bg-card flex flex-col gap-2 overflow-hidden px-5 pt-3 pb-5 rounded-2xl w-full">
+    <div className="bg-card flex flex-col gap-8 overflow-hidden p-6 rounded-2xl w-full">
       {(config.title || config.subtitle) && (
         <div className="flex flex-col gap-0">
           {config.title && (
