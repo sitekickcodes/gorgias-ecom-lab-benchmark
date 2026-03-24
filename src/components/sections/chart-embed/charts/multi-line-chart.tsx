@@ -71,18 +71,16 @@ export function MultiLineChartEmbed({
           dataKey="label"
           tickLine={false}
           axisLine={false}
-          width={0}
+          width={40}
           tick={AXIS_TICK}
-          mirror
           tickMargin={12}
           hide={config.xAxis?.hide}
         />
         <YAxis
           tickLine={false}
           axisLine={false}
-          width={0}
+          width={40}
           tick={AXIS_TICK}
-          mirror
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
