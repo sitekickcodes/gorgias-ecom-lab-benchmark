@@ -5,7 +5,7 @@ import {
   GMV_FIELD_MAP,
   AUTO_FIELD_MAP,
   fetchTable,
-} from "../shared/airtable"
+} from "./airtable"
 
 export default async function handler(
   req: VercelRequest,

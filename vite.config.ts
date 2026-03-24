@@ -8,7 +8,7 @@ import {
   GMV_FIELD_MAP,
   AUTO_FIELD_MAP,
   fetchTable,
-} from "./shared/airtable"
+} from "./api/airtable"
 
 /**
  * Dev-only plugin that serves /api/benchmark by proxying to Airtable.
