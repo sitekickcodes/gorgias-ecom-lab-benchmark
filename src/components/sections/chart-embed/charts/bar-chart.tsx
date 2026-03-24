@@ -70,7 +70,7 @@ export function BarChartEmbed({
           domain={config.yAxis?.domain}
         />
         <Tooltip
-          content={<EmbedTooltip formatter={yFmt} />}
+          content={<EmbedTooltip formatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />}
           cursor={{ fill: "rgba(0,0,0,0.04)" }}
         />
         <Bar dataKey="value" radius={[4, 4, 0, 0]}>

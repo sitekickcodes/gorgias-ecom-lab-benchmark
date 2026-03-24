@@ -5,12 +5,53 @@ export function EmbedTooltip({
   payload,
   label,
   formatter,
+  xLabel,
+  yLabel,
 }: TooltipProps<number, string> & {
   formatter?: (value: number) => string
+  /** Label for the X axis value (shown as header context) */
+  xLabel?: string
+  /** Label for the Y axis value (shown next to the number) */
+  yLabel?: string
 }) {
   if (!active || !payload?.length) return null
 
   const isSingleSeries = payload.length === 1
+  const row = (name: string, value: string, color?: string) => (
+    <div
+      key={name}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 2,
+      }}
+    >
+      {color && (
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 2,
+            backgroundColor: color,
+            flexShrink: 0,
+            display: "inline-block",
+          }}
+        />
+      )}
+      <span style={{ color: "#696763" }}>{name}</span>
+      <span
+        style={{
+          marginLeft: "auto",
+          fontFamily: "'Geist Mono', monospace",
+          color: "#292827",
+          fontWeight: 500,
+        }}
+      >
+        {value}
+      </span>
+    </div>
+  )
 
   return (
     <div
@@ -22,19 +63,22 @@ export function EmbedTooltip({
         boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
         fontFamily: "'Geist', sans-serif",
         fontSize: 12,
+        minWidth: 140,
       }}
     >
+      {/* X-axis value as header */}
       {label && (
-        <div style={{ fontWeight: 500, color: "#292827", marginBottom: isSingleSeries ? 4 : 6 }}>
-          {label}
+        <div style={{ fontWeight: 500, color: "#292827", marginBottom: 6 }}>
+          {xLabel ? `${xLabel}: ${label}` : label}
         </div>
       )}
       {isSingleSeries ? (
-        <div style={{ fontWeight: 500, color: "#292827", fontFamily: "'Geist Mono', monospace" }}>
-          {formatter
+        row(
+          yLabel || "Value",
+          formatter
             ? formatter(payload[0].value as number)
-            : payload[0].value?.toLocaleString()}
-        </div>
+            : (payload[0].value?.toLocaleString() ?? ""),
+        )
       ) : (
         payload.map((entry) => {
           const color = entry.payload?.fill || entry.color || "#292827"
@@ -42,43 +86,9 @@ export function EmbedTooltip({
             ? formatter(entry.value as number)
             : typeof entry.value === "number"
               ? entry.value.toLocaleString()
-              : entry.value
+              : String(entry.value)
 
-          return (
-            <div
-              key={entry.name ?? entry.dataKey}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 2,
-              }}
-            >
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 2,
-                  backgroundColor: color,
-                  flexShrink: 0,
-                  display: "inline-block",
-                }}
-              />
-              <span style={{ color: "#696763" }}>
-                {entry.name}
-              </span>
-              <span
-                style={{
-                  marginLeft: "auto",
-                  fontFamily: "'Geist Mono', monospace",
-                  color: "#292827",
-                  fontWeight: 500,
-                }}
-              >
-                {value}
-              </span>
-            </div>
-          )
+          return row(entry.name ?? "Value", value, color)
         })
       )}
     </div>

@@ -62,7 +62,7 @@ export function LineChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <Tooltip content={<EmbedTooltip formatter={yFmt} />} />
+        <Tooltip content={<EmbedTooltip formatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />} />
         <Line
           type={config.curve ?? "monotone"}
           dataKey="value"

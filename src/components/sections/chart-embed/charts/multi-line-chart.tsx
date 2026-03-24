@@ -84,7 +84,7 @@ export function MultiLineChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <Tooltip content={<EmbedTooltip formatter={yFmt} />} />
+        <Tooltip content={<EmbedTooltip formatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />} />
         {config.legend !== false && (
           <Legend content={<ChartLegendContent />} />
         )}

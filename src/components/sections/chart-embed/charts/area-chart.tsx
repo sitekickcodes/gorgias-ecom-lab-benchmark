@@ -62,7 +62,7 @@ export function AreaChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <Tooltip content={<EmbedTooltip formatter={yFmt} />} />
+        <Tooltip content={<EmbedTooltip formatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />} />
         <defs>
           <linearGradient id="chartAreaFill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={color} stopOpacity={0.2} />
