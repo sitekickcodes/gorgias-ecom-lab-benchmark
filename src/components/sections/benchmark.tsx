@@ -12,7 +12,7 @@ export function Benchmark() {
     <BenchmarkProvider>
       <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 items-start w-full">
         <BenchmarkHeader />
-        <div className="flex flex-col gap-8 w-full">
+        <div className="flex flex-col gap-5 w-full">
           <GmvSlider />
           <AiAgentSection />
           <AccordionSection
@@ -26,7 +26,7 @@ export function Benchmark() {
           </AccordionSection>
           <AccordionSection
             title="Compare Industries"
-            subtitle="See how first response time varies across industries and tiers"
+            subtitle="Compare any metric across industries — click the chart title to switch metrics"
           >
             <FrtChart />
           </AccordionSection>
