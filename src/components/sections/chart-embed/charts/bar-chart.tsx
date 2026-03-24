@@ -5,14 +5,13 @@ import {
   YAxis,
   CartesianGrid,
   Cell,
+  Tooltip,
 } from "recharts"
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
-
+import { EmbedTooltip } from "../embed-tooltip"
 import type { SingleSeriesChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -70,8 +69,9 @@ export function BarChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <ChartTooltip
-          content={<ChartTooltipContent />}
+        <Tooltip
+          content={<EmbedTooltip formatter={yFmt} />}
+          cursor={{ fill: "rgba(0,0,0,0.04)" }}
         />
         <Bar dataKey="value" radius={[4, 4, 0, 0]}>
           {config.data.map((d, i) => (

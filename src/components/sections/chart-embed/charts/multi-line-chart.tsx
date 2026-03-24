@@ -6,15 +6,14 @@ import {
   YAxis,
   CartesianGrid,
   Legend,
+  Tooltip,
 } from "recharts"
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegendContent,
   type ChartConfig,
 } from "@/components/chart"
-
+import { EmbedTooltip } from "../embed-tooltip"
 import type { MultiLineChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -85,7 +84,7 @@ export function MultiLineChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <Tooltip content={<EmbedTooltip formatter={yFmt} />} />
         {config.legend !== false && (
           <Legend content={<ChartLegendContent />} />
         )}

@@ -4,14 +4,13 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  Tooltip,
 } from "recharts"
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
-
+import { EmbedTooltip } from "../embed-tooltip"
 import type { SingleSeriesChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -63,9 +62,7 @@ export function LineChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <ChartTooltip
-          content={<ChartTooltipContent />}
-        />
+        <Tooltip content={<EmbedTooltip formatter={yFmt} />} />
         <Line
           type={config.curve ?? "monotone"}
           dataKey="value"
