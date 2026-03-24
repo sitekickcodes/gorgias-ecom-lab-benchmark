@@ -178,6 +178,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         input: {
           index: path.resolve(__dirname, "index.html"),
