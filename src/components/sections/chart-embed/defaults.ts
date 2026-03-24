@@ -17,14 +17,14 @@ export const DEFAULT_COLORS = [
 export const BAR_TWO_TONE = ["#DEDBD5", "#292827"]
 
 export const AXIS_TICK = {
-  fill: "#696763",
+  fill: "#a8a49e",
   fontSize: 12,
   fontFamily: "var(--font-mono)",
 } as const
 
 export const GRID_PROPS = {
   strokeDasharray: "0",
-  stroke: "var(--border-muted)",
+  stroke: "#efe9e2",
   vertical: false,
 } as const
 
