@@ -80,7 +80,7 @@ export function MultiLineChartEmbed({
           axisLine={false}
           tick={AXIS_TICK}
           tickFormatter={yFmt}
-          width={36}
+          width={20}
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
