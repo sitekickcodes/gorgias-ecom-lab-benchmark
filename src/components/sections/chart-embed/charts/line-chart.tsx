@@ -8,9 +8,10 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
+  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
-import { EmbedTooltipContent } from "../embed-tooltip"
+
 import type { SingleSeriesChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -63,7 +64,7 @@ export function LineChartEmbed({
           domain={config.yAxis?.domain}
         />
         <ChartTooltip
-          content={<EmbedTooltipContent />}
+          content={<ChartTooltipContent />}
         />
         <Line
           type={config.curve ?? "monotone"}

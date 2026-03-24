@@ -19,12 +19,12 @@ export const BAR_TWO_TONE = ["#DEDBD5", "#292827"]
 export const AXIS_TICK = {
   fill: "#696763",
   fontSize: 12,
-  fontFamily: "'Geist Mono', monospace",
+  fontFamily: "var(--font-mono)",
 } as const
 
 export const GRID_PROPS = {
   strokeDasharray: "0",
-  stroke: "#dedbd5",
+  stroke: "var(--border-muted)",
   vertical: false,
 } as const
 

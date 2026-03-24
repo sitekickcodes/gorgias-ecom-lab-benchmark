@@ -8,9 +8,10 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
+  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
-import { EmbedTooltipContent } from "../embed-tooltip"
+
 import type { SingleSeriesChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -63,7 +64,7 @@ export function AreaChartEmbed({
           domain={config.yAxis?.domain}
         />
         <ChartTooltip
-          content={<EmbedTooltipContent />}
+          content={<ChartTooltipContent />}
         />
         <defs>
           <linearGradient id="chartAreaFill" x1="0" y1="0" x2="0" y2="1">
