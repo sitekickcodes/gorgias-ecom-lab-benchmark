@@ -161,11 +161,11 @@ export default defineConfig(({ mode }) => {
           const destDir = path.resolve(__dirname, "dist/docs")
           if (fs.existsSync(src)) {
             fs.mkdirSync(destDir, { recursive: true })
-            // For production, replace the dev module script with embed.js
+            // For production, replace dev assets with built embed files
             let html = fs.readFileSync(src, "utf-8")
             html = html.replace(
-              '<script type="module" src="/src/embed.tsx"></script>',
-              '<script src="/embed.js" defer></script>',
+              /<!-- Load embed styles \+ script -->[\s\S]*?<\/script>/,
+              '<!-- Load embed styles + script -->\n    <link rel="stylesheet" href="/embed.css" />\n    <script src="/embed.js" defer></script>',
             )
             fs.writeFileSync(path.join(destDir, "index.html"), html)
           }

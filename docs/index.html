@@ -313,7 +313,11 @@
       });
     </script>
 
-    <!-- Load embed script -->
-    <script type="module" src="/src/embed.tsx"></script>
+    <!-- Load embed styles + script -->
+    <script type="module">
+      import "/src/styles/globals.css";
+      import "/src/index.css";
+      await import("/src/embed.tsx");
+    </script>
   </body>
 </html>
