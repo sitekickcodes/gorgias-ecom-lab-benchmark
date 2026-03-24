@@ -94,7 +94,7 @@ export function StatGrids() {
             detail="Surveys answered"
             tooltip="Median account-level response rate to sent CSAT surveys."
           />
-          <div className="bg-card flex flex-col items-start justify-between overflow-hidden p-6 rounded-2xl">
+          <div className="bg-card flex flex-col items-start justify-start overflow-hidden p-6 rounded-2xl">
             <Tooltip>
               <TooltipTrigger
                 render={<span />}
