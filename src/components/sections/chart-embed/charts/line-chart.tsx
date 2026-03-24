@@ -58,7 +58,6 @@ export function LineChartEmbed({
           axisLine={false}
           tick={AXIS_TICK}
           tickFormatter={yFmt}
-          width={20}
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
