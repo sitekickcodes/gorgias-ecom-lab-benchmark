@@ -254,9 +254,9 @@ export function AiAgentSection() {
             tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
           />
         </div>
-        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
+        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-center min-h-[220px]">
           <div className="flex flex-col items-center gap-1.5">
-            <p className="font-heading text-3xl sm:text-4xl text-text-primary leading-none tabular-nums">
+            <p className="font-heading text-4xl sm:text-5xl text-text-primary leading-none tabular-nums">
               {loading ? "—" : formatCurrency(saRevenue)}
             </p>
             <Tooltip>
