@@ -52,23 +52,25 @@ interface MetricOption {
   label: string
   format: "time" | "percent" | "number" | "currency"
   tooltip: string
+  /** If true, lower values are better (sort ascending in tooltip) */
+  lowerIsBetter?: boolean
 }
 
 // Ordered to match dashboard sections: Response & Resolution → Quality → Volume & Channels → AI
 const METRIC_OPTIONS: MetricOption[] = [
   // Response & Resolution
-  { key: "medianFrtMin", label: "First response time", format: "time", tooltip: "Median per-account first response time over the 90-day benchmark window, then median across accounts in each bucket and industry." },
-  { key: "medianChatFrtMin", label: "Chat FRT", format: "time", tooltip: "Median per-account first response time for chat tickets only." },
-  { key: "medianEmailFrtMin", label: "Email FRT", format: "time", tooltip: "Median per-account first response time for email tickets only." },
-  { key: "medianResolutionTimeHrs", label: "Resolution time", format: "time", tooltip: "Median per-account resolution time over the 90-day benchmark window, then median across accounts." },
+  { key: "medianFrtMin", label: "First response time", format: "time", tooltip: "Median per-account first response time over the 90-day benchmark window, then median across accounts in each bucket and industry.", lowerIsBetter: true },
+  { key: "medianChatFrtMin", label: "Chat FRT", format: "time", tooltip: "Median per-account first response time for chat tickets only.", lowerIsBetter: true },
+  { key: "medianEmailFrtMin", label: "Email FRT", format: "time", tooltip: "Median per-account first response time for email tickets only.", lowerIsBetter: true },
+  { key: "medianResolutionTimeHrs", label: "Resolution time", format: "time", tooltip: "Median per-account resolution time over the 90-day benchmark window, then median across accounts.", lowerIsBetter: true },
   // Quality & Satisfaction
   { key: "medianOneTouchRate", label: "One-touch rate", format: "percent", tooltip: "Median account-level share of tickets resolved in one touch." },
   { key: "medianCsatScore", label: "CSAT score", format: "number", tooltip: "Median account-level average CSAT score. Only tickets with non-null survey scores contribute." },
   { key: "medianCsatPositive", label: "CSAT positive", format: "percent", tooltip: "Median account-level positive CSAT rate. Positive means survey score 4 or 5." },
-  { key: "medianMessagesPerTicket", label: "Messages / ticket", format: "number", tooltip: "Median account-level median ticket message count." },
+  { key: "medianMessagesPerTicket", label: "Messages / ticket", format: "number", tooltip: "Median account-level median ticket message count.", lowerIsBetter: true },
   // Volume & Channels
   { key: "medianMonthlyTickets", label: "Monthly tickets", format: "number", tooltip: "Median account-level average monthly ticket volume inside the 90-day window." },
-  { key: "medianTicketsPer100Orders", label: "Support intensity", format: "number", tooltip: "Median account-level billed ticket volume normalized per 100 orders." },
+  { key: "medianTicketsPer100Orders", label: "Support intensity", format: "number", tooltip: "Median account-level billed ticket volume normalized per 100 orders.", lowerIsBetter: true },
   { key: "medianEmailShare", label: "Email share", format: "percent", tooltip: "Median account-level share of tickets created via email." },
   { key: "medianChatShare", label: "Chat share", format: "percent", tooltip: "Median account-level share of tickets created via chat." },
   { key: "medianCsatResponseRate", label: "CSAT response rate", format: "percent", tooltip: "Median account-level response rate to sent CSAT surveys." },
@@ -254,7 +256,9 @@ export function FrtChart() {
                 .sort((a, b) => {
                   if (a.name === selectedLine) return -1
                   if (b.name === selectedLine) return 1
-                  return (b.value as number) - (a.value as number)
+                  return metric.lowerIsBetter
+                    ? (a.value as number) - (b.value as number)
+                    : (b.value as number) - (a.value as number)
                 })
               return (
                 <div className="bg-[#FDFCFB] border border-border-soft rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] px-3.5 py-3">
