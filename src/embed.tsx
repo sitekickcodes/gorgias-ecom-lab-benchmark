@@ -17,21 +17,24 @@ const sections: Record<string, React.ComponentType<any>> = {
 }
 
 // ---------------------------------------------------------------------------
-// Auto-load embed.css from the same origin as this script
+// Auto-load embed.css from the same origin as this script.
+// Uses the script's own URL to derive the CSS path — works regardless
+// of filename, CDN rewrites, or query strings.
 // ---------------------------------------------------------------------------
+const _selfScript =
+  (document.currentScript as HTMLScriptElement | null) ??
+  Array.from(document.querySelectorAll<HTMLScriptElement>("script[src]")).find(
+    (s) => s.src.includes("embed"),
+  )
+
 function injectStyles() {
-  const scripts = document.querySelectorAll<HTMLScriptElement>("script[src]")
-  for (const script of scripts) {
-    if (script.src.includes("embed.js")) {
-      const cssUrl = script.src.replace("embed.js", "embed.css")
-      if (document.querySelector(`link[href="${cssUrl}"]`)) return
-      const link = document.createElement("link")
-      link.rel = "stylesheet"
-      link.href = cssUrl
-      document.head.appendChild(link)
-      return
-    }
-  }
+  if (!_selfScript?.src) return
+  const cssUrl = _selfScript.src.replace(/embed[^/]*\.js/, "embed.css").split("?")[0]
+  if (document.querySelector(`link[href="${cssUrl}"]`)) return
+  const link = document.createElement("link")
+  link.rel = "stylesheet"
+  link.href = cssUrl
+  document.head.appendChild(link)
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import type { BenchmarkData } from "./types"
 
-const CACHE_KEY = "gorgias-benchmark-data"
+// Versioned cache key — prevents stale data when embed version changes
+const CACHE_VERSION = "1"
+const CACHE_KEY = `gorgias-benchmark-v${CACHE_VERSION}`
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 hours
 
 function readCache(): { data: BenchmarkData; fresh: boolean } | null {
