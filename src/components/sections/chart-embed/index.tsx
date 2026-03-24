@@ -45,9 +45,11 @@ export function ChartEmbed({ type, config }: ChartEmbedProps) {
       )}
       <Renderer config={config} />
       {config.source && (
-        <p className="text-[11px] leading-relaxed text-[#a1a1aa] m-0 p-0">
-          {config.source}
-        </p>
+        <div className="border-t border-border-muted pt-4 -mx-6 px-6 -mb-2">
+          <p className="text-[11px] leading-relaxed text-[#a1a1aa] m-0 p-0">
+            {config.source}
+          </p>
+        </div>
       )}
     </div>
   )
