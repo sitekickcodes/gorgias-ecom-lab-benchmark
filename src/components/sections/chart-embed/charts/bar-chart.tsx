@@ -56,6 +56,7 @@ export function BarChartEmbed({
           dataKey="label"
           tickLine={false}
           axisLine={false}
+          width={30}
           tick={AXIS_TICK}
           tickMargin={12}
           hide={config.xAxis?.hide}
@@ -63,6 +64,7 @@ export function BarChartEmbed({
         <YAxis
           tickLine={false}
           axisLine={false}
+          width={30}
           tick={AXIS_TICK}
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}
