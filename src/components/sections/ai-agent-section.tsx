@@ -220,14 +220,13 @@ export function AiAgentSection() {
   const automationRate = r?.aiAgentAutomationRate ?? 0
   const conversionRate = r?.saConversionRate ?? 0
   const saRevenue = r?.saRevenueAttributed ?? 0
-  const saAdoption = r?.saAdoptionRate ?? 0
 
   return (
     <AccordionSection
       title="AI Adoption Index"
       subtitle="How Gorgias customers are adopting and performing with AI Agent and Shopping Assistant"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
           <GaugeChart
             value={adoptionRate}
@@ -242,8 +241,8 @@ export function AiAgentSection() {
             value={automationRate}
             color={PURPLE}
             valueLabel={loading ? "—" : `${automationRate.toFixed(1)}%`}
-            label="AI resolution rate"
-            tooltip="Among AI adopters, the median share of tickets fully resolved by AI Agent without human intervention."
+            label="AI automation rate"
+            tooltip="Share of AI Agent handled tickets out of total tickets, including human handovers."
           />
         </div>
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
@@ -251,43 +250,25 @@ export function AiAgentSection() {
             value={conversionRate}
             color={AMBER}
             valueLabel={loading ? "—" : `${conversionRate.toFixed(2)}%`}
-            label="SA conversion rate"
+            label="AI conversion rate"
             tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
           />
         </div>
-        <div className="bg-card rounded-2xl p-6 flex flex-col justify-center gap-6 min-h-[220px]">
-          <div className="flex flex-col gap-1">
-            <p className="font-heading text-4xl text-text-primary leading-none">
+        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
+          <div className="flex flex-col items-center gap-1.5">
+            <p className="font-heading text-3xl sm:text-4xl text-text-primary leading-none tabular-nums">
               {loading ? "—" : formatCurrency(saRevenue)}
             </p>
             <Tooltip>
               <TooltipTrigger
                 render={<span />}
-                className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+                className="font-sans text-base text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
               >
-                SA revenue influenced
+                AI revenue influenced
               </TooltipTrigger>
               <MetricTooltipContent
-                label="SA revenue influenced"
-                description="Average revenue attributed to Shopping Assistant interactions per active SA store."
-              />
-            </Tooltip>
-          </div>
-          <div className="border-t border-[#efe9e2]" />
-          <div className="flex flex-col gap-1">
-            <p className="font-heading text-4xl text-text-primary leading-none">
-              {loading ? "—" : `${saAdoption.toFixed(1)}%`}
-            </p>
-            <Tooltip>
-              <TooltipTrigger
-                render={<span />}
-                className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-              >
-                SA adoption rate
-              </TooltipTrigger>
-              <MetricTooltipContent
-                label="SA adoption rate"
-                description="Share of accounts in this segment with active Shopping Assistant usage."
+                label="AI revenue influenced"
+                description="Average revenue attributed to AI-powered Shopping Assistant interactions per active store."
               />
             </Tooltip>
           </div>
