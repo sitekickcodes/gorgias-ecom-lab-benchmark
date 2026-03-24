@@ -23,7 +23,7 @@ Add this to any Webflow page (custom code embed or site-level):
 
 ```html
 <div data-gorgias="benchmark"></div>
-<script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer></script>
+<script src="https://gorgias.sitekick.co/embed.js" defer></script>
 ```
 
 The script automatically loads the CSS — no `<link>` tag needed.

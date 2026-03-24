@@ -35,7 +35,7 @@ Build outputs two stable-named files: `public/embed.js` and `public/embed.css`.
 
 ```html
 <div data-gorgias="benchmark"></div>
-<script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer></script>
+<script src="https://gorgias.sitekick.co/embed.js" defer></script>
 ```
 
 The script auto-loads `embed.css` from the same origin. Multiple sections can be embedded on one page.
