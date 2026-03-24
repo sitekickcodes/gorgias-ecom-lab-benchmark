@@ -1,14 +1,6 @@
 import { StatCard } from "@/components/stat-card"
 import { useBenchmark } from "./benchmark-context"
-
-function formatTime(minutes: number): string {
-  if (minutes >= 60) {
-    const hrs = minutes / 60
-    return hrs % 1 === 0 ? `${hrs}h` : `${hrs.toFixed(1)}h`
-  }
-  const m = Math.round(minutes)
-  return `${m}m`
-}
+import { formatTime } from "@/lib/utils"
 
 export function ResponseResolution() {
   const { currentRecord: r, loading } = useBenchmark()

@@ -4,7 +4,207 @@ import {
   TooltipTrigger,
   MetricTooltipContent,
 } from "@/components/tooltip"
+import { AccordionSection } from "@/components/accordion-section"
 import { useBenchmark } from "./benchmark-context"
+
+const SALMON = "#FFB5B5"
+const AMBER = "#FFCC9D"
+const PINK = "#F5D4FF"
+const TRACK = "#F6F4F2"
+
+function GaugeChart({
+  value,
+  color,
+  valueLabel,
+  label,
+  tooltip,
+}: {
+  value: number
+  color: string
+  valueLabel: string
+  label: string
+  tooltip?: string
+}) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  const pct = Math.min(Math.max(value / 100, 0), 1)
+  const r = 40
+  const sw = 9
+  const w = (r + sw) * 2
+  const cx = w / 2
+  const cy = r + sw
+  const x0 = cx - r
+  const x1 = cx + r
+  const y0 = cy
+  const theta = pct * Math.PI
+  const fx = cx - r * Math.cos(theta)
+  const fy = cy - r * Math.sin(theta)
+  const viewH = cy + sw / 2 + 2
+  const fillLength = r * theta
+
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <svg
+        viewBox={`0 0 ${w} ${viewH}`}
+        className="w-full max-w-[191px]"
+        aria-hidden="true"
+      >
+        <path
+          d={`M ${x0} ${y0} A ${r} ${r} 0 0 1 ${x1} ${y0}`}
+          fill="none"
+          stroke={TRACK}
+          strokeWidth={sw}
+          strokeLinecap="butt"
+        />
+        <rect x={x0 - sw / 2} y={y0 - sw / 2} width={sw} height={sw} rx={2} fill={TRACK} />
+        <rect x={x1 - sw / 2} y={y0 - sw / 2} width={sw} height={sw} rx={2} fill={TRACK} />
+        {pct > 0.005 && (
+          <>
+            <path
+              d={`M ${x0} ${y0} A ${r} ${r} 0 0 1 ${fx} ${fy}`}
+              fill="none"
+              stroke={color}
+              strokeWidth={sw}
+              strokeLinecap="butt"
+              style={{
+                strokeDasharray: fillLength,
+                strokeDashoffset: mounted ? 0 : fillLength,
+                transition: "stroke-dashoffset 1s ease-out",
+              }}
+            />
+            <rect
+              x={x0 - sw / 2} y={y0 - sw / 2} width={sw} height={sw} rx={2} fill={color}
+              style={{ opacity: mounted ? 1 : 0, transition: "opacity 0.1s ease 0.05s" }}
+            />
+          </>
+        )}
+      </svg>
+      <p className="font-sans text-2xl text-text-primary leading-none">{valueLabel}</p>
+      {tooltip ? (
+        <Tooltip>
+          <TooltipTrigger
+            render={<span />}
+            className="font-sans text-base text-text-primary tracking-wide text-center underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+          >
+            {label}
+          </TooltipTrigger>
+          <MetricTooltipContent label={label} description={tooltip} sideOffset={40} />
+        </Tooltip>
+      ) : (
+        <p className="font-sans text-base text-text-primary tracking-wide text-center">{label}</p>
+      )}
+    </div>
+  )
+}
+
+function VerticalBar({
+  value,
+  label,
+  valueLabel,
+  tooltip,
+}: {
+  value: number
+  label: string
+  valueLabel: string
+  tooltip: string
+}) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <div className="flex-1 flex flex-col gap-3 items-center h-full justify-end">
+      <div className="flex-1 flex items-end w-full justify-center">
+        <div
+          className="w-5 rounded relative"
+          style={{ backgroundColor: TRACK, height: "100%" }}
+        >
+          <div
+            className="absolute bottom-0 left-0 right-0 rounded"
+            style={{
+              height: mounted ? `${Math.min(value, 100)}%` : "0%",
+              backgroundColor: AMBER,
+              transition: "height 1s ease-out",
+            }}
+          />
+        </div>
+      </div>
+      <Tooltip>
+        <TooltipTrigger
+          render={<div />}
+          className="flex flex-col gap-1 text-center cursor-help"
+        >
+          <p className="font-sans text-2xl text-text-primary leading-tight">{valueLabel}</p>
+          <p className="font-sans text-base text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
+            {label}
+          </p>
+        </TooltipTrigger>
+        <MetricTooltipContent label={label} description={tooltip} />
+      </Tooltip>
+    </div>
+  )
+}
+
+function MetricBar({
+  title,
+  tooltip,
+  value,
+  maxValue,
+  label,
+  color,
+}: {
+  title: string
+  tooltip: string
+  value: number
+  maxValue: number
+  label: string
+  color: string
+}) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  const fillPct = maxValue > 0 ? Math.min((value / maxValue) * 100, 100) : 0
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-baseline justify-between">
+        <Tooltip>
+          <TooltipTrigger
+            render={<span />}
+            className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+          >
+            {title}
+          </TooltipTrigger>
+          <MetricTooltipContent label={title} description={tooltip} />
+        </Tooltip>
+        <span className="font-sans text-base text-text-primary">{label}</span>
+      </div>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: 20, borderRadius: 4, backgroundColor: TRACK }}
+      >
+        <div
+          className="absolute inset-y-0 left-0"
+          style={{
+            width: mounted ? `${fillPct}%` : "0%",
+            backgroundColor: color,
+            borderRadius: 4,
+            transition: "width 1s ease-out",
+          }}
+        />
+      </div>
+    </div>
+  )
+}
 
 function formatCurrency(n: number): string {
   if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`
@@ -12,143 +212,102 @@ function formatCurrency(n: number): string {
   return `$${Math.round(n)}`
 }
 
-function ColorBar({ value, color }: { value: number; color: string }) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  const pct = Math.min(Math.max(value, 0), 100)
-
-  return (
-    <div
-      className="w-full overflow-hidden rounded-full"
-      style={{ height: 6, backgroundColor: "#F6F4F2" }}
-    >
-      <div
-        className="h-full rounded-full"
-        style={{
-          width: mounted ? `${pct}%` : "0%",
-          backgroundColor: color,
-          transition: "width 1s ease-out",
-        }}
-      />
-    </div>
-  )
-}
-
-function MetricRow({
-  value,
-  label,
-  tooltip,
-  color,
-  barValue,
-}: {
-  value: string
-  label: string
-  tooltip: string
-  color: string
-  barValue: number
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-1">
-        <Tooltip>
-          <TooltipTrigger
-            render={<span />}
-            className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help self-start"
-          >
-            {label}
-          </TooltipTrigger>
-          <MetricTooltipContent label={label} description={tooltip} />
-        </Tooltip>
-        <p className="font-heading text-3xl sm:text-4xl text-text-primary leading-none tabular-nums">
-          {value}
-        </p>
-      </div>
-      <ColorBar value={barValue} color={color} />
-    </div>
-  )
-}
-
 export function AiAgentSection() {
-  const { currentRecord: r, loading } = useBenchmark()
+  const { currentRecord: r, loading, dataset } = useBenchmark()
 
-  const aiAdoption = r?.aiAgentAdoptionRate ?? 0
-  const aiResolution = r?.aiAgentAutomationRate ?? 0
-  const aiSuccess = r?.aiAgentSuccessRate ?? 0
-  const saAdoption = r?.saAdoptionRate ?? 0
-  const saConversion = r?.saConversionRate ?? 0
+  const adoptionRate = r?.aiAgentAdoptionRate ?? 0
+  const automationRate = r?.aiAgentAutomationRate ?? 0
+  const conversionRate = r?.saConversionRate ?? 0
   const saRevenue = r?.saRevenueAttributed ?? 0
-
-  const fmt = (n: number, d = 1) => (loading ? "—" : `${n.toFixed(d)}%`)
+  const avgGmv = r?.avgEstimatedGmv ?? 0
+  const totalAutomationRate = r?.avgTotalAutomationRate ?? 0
 
   return (
-    <div className="flex flex-col gap-3 sm:gap-4 w-full">
-      <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
-        AI Adoption &amp; Usage
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-        {/* Card 1: AI Agent */}
-        <div className="bg-card rounded-2xl p-6 flex flex-col gap-8">
-          <p className="font-sans text-xl leading-relaxed text-text-primary">
-            AI Agent
-          </p>
-          <div className="flex flex-col gap-5">
-            <MetricRow
-              value={fmt(aiAdoption)}
-              label="Adoption rate"
+    <AccordionSection
+      title="AI Adoption Index"
+      subtitle="Interpolated CX metrics by industry and GMV. Data from the last 90 days across Gorgias customers."
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1fr] gap-3 sm:gap-4">
+        {/* Card 1: AI Agent Adoption Rate — Gauge */}
+        <div className="bg-card rounded-2xl p-6 flex flex-col gap-3 min-h-[260px]">
+          <Tooltip>
+            <TooltipTrigger
+              render={<span />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              AI Agent Adoption Rate
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="AI Agent Adoption Rate"
+              description="Share of accounts in this segment with AI Agent enabled and active."
+            />
+          </Tooltip>
+          <div className="flex-1 flex flex-col items-center justify-end">
+            <GaugeChart
+              value={adoptionRate}
+              color={SALMON}
+              valueLabel={loading ? "—" : `${adoptionRate.toFixed(1)}%`}
+              label="AI Agent adoption"
               tooltip="Share of accounts in this segment with AI Agent enabled and active."
-              color="#FFB5B5"
-              barValue={aiAdoption}
-            />
-            <div className="border-t border-[#efe9e2]" />
-            <MetricRow
-              value={fmt(aiResolution)}
-              label="Resolution rate"
-              tooltip="Among AI adopters, the median share of tickets fully resolved by AI Agent without human intervention."
-              color="#FFCC9D"
-              barValue={aiResolution}
-            />
-            <div className="border-t border-[#efe9e2]" />
-            <MetricRow
-              value={fmt(aiSuccess)}
-              label="Success rate"
-              tooltip="Among AI-covered tickets, the median share successfully handled (billed). Spam tickets excluded from denominator unless billed."
-              color="#F5D4FF"
-              barValue={aiSuccess}
             />
           </div>
         </div>
 
-        {/* Card 2: Shopping Assistant */}
-        <div className="bg-card rounded-2xl p-6 flex flex-col gap-8">
-          <p className="font-sans text-xl leading-relaxed text-text-primary">
-            Shopping Assistant
-          </p>
-          <div className="flex flex-col gap-5">
-            <MetricRow
-              value={fmt(saAdoption)}
-              label="Adoption rate"
-              tooltip="Share of accounts in this segment with active Shopping Assistant usage (conversion rate > 0)."
-              color="#CDC2FF"
-              barValue={saAdoption}
+        {/* Card 2: How AI performs — Half-circle gauges */}
+        <div className="bg-card rounded-2xl p-6 flex flex-col gap-6 min-h-[260px]">
+          <Tooltip>
+            <TooltipTrigger
+              render={<span />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              How AI performs once enabled
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="How AI performs once enabled"
+              description="Key performance metrics for stores that have AI Agent or Shopping Assistant active."
             />
-            <div className="border-t border-[#efe9e2]" />
-            <MetricRow
-              value={fmt(saConversion, 2)}
-              label="Conversion rate"
+          </Tooltip>
+          <div className="flex-1 flex gap-6 items-end justify-center">
+            <GaugeChart
+              value={automationRate}
+              color={AMBER}
+              valueLabel={loading ? "—" : `${automationRate.toFixed(1)}%`}
+              label="Automation rate"
+              tooltip="Among AI adopters, the median share of tickets fully resolved by AI Agent without human intervention."
+            />
+            <GaugeChart
+              value={conversionRate}
+              color={AMBER}
+              valueLabel={loading ? "—" : `${conversionRate.toFixed(2)}%`}
+              label="Conversion Rate"
               tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
-              color="#B2E6BE"
-              barValue={saConversion}
             />
-            <div className="border-t border-[#efe9e2]" />
-            <div className="flex flex-col gap-2">
+          </div>
+        </div>
+
+        {/* Card 3: Revenue & Scale — Two text callouts */}
+        <div className="bg-card rounded-2xl p-6 flex flex-col gap-6 min-h-[260px]">
+          <Tooltip>
+            <TooltipTrigger
+              render={<span />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+            >
+              Revenue Impact
+            </TooltipTrigger>
+            <MetricTooltipContent
+              label="Revenue Impact"
+              description="Revenue and scale metrics for Shopping Assistant within this segment."
+            />
+          </Tooltip>
+          <div className="flex-1 flex flex-col justify-center gap-6">
+            <div className="flex flex-col gap-1">
+              <p className="font-heading text-4xl text-text-primary leading-none">
+                {loading ? "—" : formatCurrency(saRevenue)}
+              </p>
               <Tooltip>
                 <TooltipTrigger
                   render={<span />}
-                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help self-start"
+                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
                 >
                   Revenue influenced
                 </TooltipTrigger>
@@ -157,16 +316,36 @@ export function AiAgentSection() {
                   description="Average revenue attributed to Shopping Assistant interactions per active SA store."
                 />
               </Tooltip>
-              <p
-                className="font-heading text-3xl sm:text-4xl leading-none tabular-nums rounded-lg px-3 py-2 self-start"
-                style={{ backgroundColor: "#F6F4F2", color: "#292827" }}
-              >
-                {loading ? "—" : formatCurrency(saRevenue)}
+            </div>
+            <div className="border-t border-[#efe9e2]" />
+            <div className="flex flex-col gap-1">
+              <p className="font-heading text-4xl text-text-primary leading-none">
+                {loading
+                  ? "—"
+                  : dataset === "gmv"
+                    ? formatCurrency(avgGmv)
+                    : `${totalAutomationRate.toFixed(1)}%`}
               </p>
+              <Tooltip>
+                <TooltipTrigger
+                  render={<span />}
+                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+                >
+                  {dataset === "gmv" ? "Average GMV" : "Average automation rate"}
+                </TooltipTrigger>
+                <MetricTooltipContent
+                  label={dataset === "gmv" ? "Average GMV" : "Average automation rate"}
+                  description={
+                    dataset === "gmv"
+                      ? "Average annual gross merchandise value across stores in this dataset."
+                      : "Average automation rate of stores at this automation rate level."
+                  }
+                />
+              </Tooltip>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </AccordionSection>
   )
 }

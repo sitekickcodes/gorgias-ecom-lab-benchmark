@@ -82,7 +82,7 @@ function MetricTooltipContent({
   description,
   side = "top",
   sideOffset = 8,
-  align = "center",
+  align = "start",
   collisionPadding = 12,
 }: {
   label: string

@@ -1,6 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { Benchmark } from "./components/sections/benchmark"
+import { ChartEmbed } from "./components/sections/chart-embed"
+import { parseChartProps } from "./components/sections/chart-embed/parse-config"
 import { TooltipProvider } from "@/components/tooltip"
 import "@/styles/globals.css"
 import "./index.css"
@@ -11,6 +13,7 @@ import "./index.css"
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sections: Record<string, React.ComponentType<any>> = {
   benchmark: Benchmark,
+  chart: ChartEmbed,
 }
 
 // ---------------------------------------------------------------------------
@@ -31,6 +34,28 @@ function injectStyles() {
 }
 
 // ---------------------------------------------------------------------------
+// Extract props from DOM element for any section
+// ---------------------------------------------------------------------------
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getPropsFromElement(el: HTMLElement, sectionName: string): Record<string, any> {
+  // Generic props via data-gorgias-props
+  const genericStr = el.dataset.gorgiasProps
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let props: Record<string, any> = {}
+  if (genericStr) {
+    try {
+      props = JSON.parse(genericStr)
+    } catch {}
+  }
+  // Chart-specific convenience attributes
+  if (sectionName === "chart") {
+    const chartProps = parseChartProps(el)
+    if (chartProps) Object.assign(props, chartProps)
+  }
+  return props
+}
+
+// ---------------------------------------------------------------------------
 // Declarative mounting: <div data-gorgias="benchmark"></div>
 // ---------------------------------------------------------------------------
 function mountAll() {
@@ -48,11 +73,12 @@ function mountAll() {
     }
 
     const Section = sections[sectionName]
+    const props = getPropsFromElement(el, sectionName)
     el.dataset.gorgiasReady = "true"
     ReactDOM.createRoot(el).render(
       <React.StrictMode>
         <TooltipProvider delay={200}>
-          <Section />
+          <Section {...props} />
         </TooltipProvider>
       </React.StrictMode>
     )

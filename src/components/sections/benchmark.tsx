@@ -5,6 +5,7 @@ import { ResponseResolution } from "./response-resolution"
 import { StatGrids } from "./stat-grids"
 import { FrtChart } from "./frt-chart"
 import { BenchmarkProvider } from "./benchmark-context"
+import { AccordionSection } from "@/components/accordion-section"
 
 export function Benchmark() {
   return (
@@ -14,9 +15,21 @@ export function Benchmark() {
         <div className="flex flex-col gap-8 w-full">
           <GmvSlider />
           <AiAgentSection />
-          <ResponseResolution />
-          <StatGrids />
-          <FrtChart />
+          <AccordionSection
+            title="CX Benchmark Explorer"
+            subtitle="Response times, quality metrics, volume, and channel breakdown across the benchmark"
+          >
+            <div className="flex flex-col gap-8">
+              <ResponseResolution />
+              <StatGrids />
+            </div>
+          </AccordionSection>
+          <AccordionSection
+            title="Compare Industries"
+            subtitle="See how first response time varies across industries and tiers"
+          >
+            <FrtChart />
+          </AccordionSection>
         </div>
       </div>
     </BenchmarkProvider>
