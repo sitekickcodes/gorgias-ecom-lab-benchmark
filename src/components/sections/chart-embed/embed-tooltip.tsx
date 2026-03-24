@@ -66,12 +66,7 @@ export function EmbedTooltip({
         minWidth: 140,
       }}
     >
-      {/* X-axis value as header */}
-      {label && (
-        <div style={{ fontWeight: 500, color: "#292827", marginBottom: 6 }}>
-          {xLabel ? `${xLabel}: ${label}` : label}
-        </div>
-      )}
+      {label && row(xLabel || "X", String(label))}
       {isSingleSeries ? (
         row(
           yLabel || "Value",
