@@ -28,16 +28,43 @@ export function ChartEmbed({ type, config }: ChartEmbedProps) {
   }
 
   return (
-    <div className="bg-card flex flex-col gap-4 overflow-hidden p-6 rounded-2xl w-full">
+    <div
+      style={{
+        backgroundColor: "#ffffff",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16,
+        overflow: "hidden",
+        padding: 24,
+        borderRadius: 16,
+        width: "100%",
+        fontFamily: "'Geist', sans-serif",
+      }}
+    >
       {(config.title || config.subtitle) && (
-        <div className="flex flex-col gap-0.5">
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {config.title && (
-            <h3 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
+            <h3
+              style={{
+                fontSize: 20,
+                fontWeight: 400,
+                lineHeight: 1.5,
+                color: "#292827",
+                margin: 0,
+              }}
+            >
               {config.title}
             </h3>
           )}
           {config.subtitle && (
-            <p className="text-sm leading-relaxed text-text-soft">
+            <p
+              style={{
+                fontSize: 14,
+                lineHeight: 1.5,
+                color: "#696763",
+                margin: 0,
+              }}
+            >
               {config.subtitle}
             </p>
           )}
