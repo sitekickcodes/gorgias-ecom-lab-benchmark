@@ -65,7 +65,11 @@ export function EmbedTooltip({
         minWidth: 140,
       }}
     >
-      {label && row(xLabel || "X", String(label))}
+      {label && (
+        xLabel
+          ? row(xLabel, String(label))
+          : <div style={{ fontWeight: 500, color: "#292827", marginBottom: 4 }}>{label}</div>
+      )}
       {isSingleSeries ? (
         row(
           yLabel || "Value",
