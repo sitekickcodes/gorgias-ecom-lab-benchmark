@@ -22,6 +22,7 @@ import {
   DEFAULT_HEIGHTS,
   DEFAULT_COLORS,
   createAxisFormatter,
+  measureYAxisWidth,
 } from "../defaults"
 
 export function MultiLineChartEmbed({
@@ -34,6 +35,9 @@ export function MultiLineChartEmbed({
     config.yAxis?.format,
     config.yAxis?.formatTemplate,
   )
+  // Measure from all series data points
+  const allPoints = config.series.flatMap((s) => s.data)
+  const yWidth = measureYAxisWidth(allPoints, yFmt)
 
   // Pivot: one row per label, one column per series key
   const { chartData, chartConfig, seriesColors } = useMemo(() => {
@@ -71,7 +75,6 @@ export function MultiLineChartEmbed({
           dataKey="label"
           tickLine={false}
           axisLine={false}
-          width={40}
           tick={AXIS_TICK}
           tickMargin={12}
           hide={config.xAxis?.hide}
@@ -79,7 +82,7 @@ export function MultiLineChartEmbed({
         <YAxis
           tickLine={false}
           axisLine={false}
-          width={40}
+          width={yWidth}
           tick={AXIS_TICK}
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}

@@ -37,6 +37,24 @@ export const DEFAULT_HEIGHTS: Record<string, number> = {
   "multi-line": 320,
 }
 
+/** Measure the pixel width needed for Y-axis labels */
+export function measureYAxisWidth(
+  data: { value: number }[],
+  formatter: (v: number) => string,
+): number {
+  if (typeof document === "undefined" || data.length === 0) return 40
+  const canvas = document.createElement("canvas")
+  const ctx = canvas.getContext("2d")
+  if (!ctx) return 40
+  ctx.font = `${AXIS_TICK.fontSize}px 'Geist Mono', monospace`
+  let max = 0
+  for (const d of data) {
+    const w = ctx.measureText(formatter(d.value)).width
+    if (w > max) max = w
+  }
+  return Math.ceil(max) + 12 // 12px breathing room
+}
+
 export function createAxisFormatter(
   format?: AxisFormat,
   template?: string,

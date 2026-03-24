@@ -21,6 +21,7 @@ import {
   BAR_TWO_TONE,
   DEFAULT_COLORS,
   createAxisFormatter,
+  measureYAxisWidth,
 } from "../defaults"
 
 export function BarChartEmbed({
@@ -34,6 +35,7 @@ export function BarChartEmbed({
     config.yAxis?.format,
     config.yAxis?.formatTemplate,
   )
+  const yWidth = measureYAxisWidth(config.data, yFmt)
 
   const chartConfig: ChartConfig = {
     value: { label: config.yAxis?.label ?? "Value", color: colors[0] },
@@ -56,7 +58,6 @@ export function BarChartEmbed({
           dataKey="label"
           tickLine={false}
           axisLine={false}
-          width={40}
           tick={AXIS_TICK}
           tickMargin={12}
           hide={config.xAxis?.hide}
@@ -64,7 +65,7 @@ export function BarChartEmbed({
         <YAxis
           tickLine={false}
           axisLine={false}
-          width={40}
+          width={yWidth}
           tick={AXIS_TICK}
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}
