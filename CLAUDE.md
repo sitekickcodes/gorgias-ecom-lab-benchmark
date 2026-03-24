@@ -2,20 +2,26 @@
 
 ## Project Structure
 
-Flat Vite + React app built as an embeddable widget for Webflow:
+Next.js app + standalone Vite embed build:
 
+- `app/` — Next.js pages and API routes
+  - `app/page.tsx` — Preview page (renders Benchmark directly)
+  - `app/docs/page.tsx` — Chart embed API documentation
+  - `app/api/benchmark/route.ts` — Airtable data API
 - `src/components/sections/` — Embeddable sections (benchmark, header, slider, stats, chart)
+- `src/components/sections/chart-embed/` — Standalone chart embed system
 - `src/components/` — Shared UI components (shadcn/ui + app components)
-- `src/lib/` — Utilities (cn helper)
+- `src/lib/` — Utilities (cn helper, types, airtable config, data hooks)
 - `src/styles/` — Global CSS with Tailwind v4 theme and design tokens
-- `src/embed.tsx` — Embed entry point (builds to `dist/embed.js` + `dist/embed.css`)
-- `src/main.tsx` — Dev entry point (used by `pnpm dev` via `index.html`)
+- `src/embed.tsx` — Embed entry point (builds to `public/embed.js` + `public/embed.css`)
+- `embed.config.ts` — Vite config for embed-only build
 
 ## Key Commands
 
 ```bash
-pnpm dev          # Start Vite dev server (uses index.html + main.tsx)
-pnpm build        # Production build (outputs dist/embed.js + dist/embed.css)
+pnpm dev          # Start Next.js dev server
+pnpm build        # Production build (Next.js + Vite embed)
+pnpm build:embed  # Build embed bundle only
 pnpm lint         # Run ESLint
 pnpm format       # Run Prettier
 pnpm typecheck    # TypeScript type checking
@@ -23,7 +29,7 @@ pnpm typecheck    # TypeScript type checking
 
 ## Embed System
 
-Build outputs two stable-named files: `dist/embed.js` and `dist/embed.css`.
+Build outputs two stable-named files: `public/embed.js` and `public/embed.css`.
 
 ### Declarative (Webflow)
 
@@ -38,7 +44,8 @@ The script auto-loads `embed.css` from the same origin. Multiple sections can be
 
 ```js
 GorgiasEmbed.render("benchmark", document.getElementById("target"), { /* props */ })
-GorgiasEmbed.sections // ["benchmark"]
+GorgiasEmbed.sections // ["benchmark", "chart"]
+GorgiasEmbed.colors   // { lavender: "#CDC2FF", salmon: "#FFB5B5", ... }
 ```
 
 ### Adding new sections
@@ -58,12 +65,13 @@ Components go to `src/components/` and are imported as `@/components/<name>`.
 ## Tech Stack
 
 - **Package manager**: pnpm (v9)
-- **Build system**: Vite (single-file embed build, no code splitting)
-- **Framework**: React 19 (Vite, no SSR)
+- **App framework**: Next.js 16 (App Router)
+- **Embed build**: Vite (single-file bundle, no code splitting)
+- **UI framework**: React 19
 - **UI primitives**: Base UI (`@base-ui/react`) via shadcn `base-nova` style
 - **Charts**: Recharts via shadcn chart component
 - **Styling**: Tailwind CSS v4, CSS variables for theming
-- **Fonts**: Geist (body), Geist Mono (labels/details), STIX Two Text (headings) — loaded via Google Fonts in index.html
+- **Fonts**: Geist (body), Geist Mono (labels/details), STIX Two Text (headings) — loaded via Next.js layout
 - **Formatting**: Prettier with tailwindcss plugin
 
 ## Responsive Breakpoints

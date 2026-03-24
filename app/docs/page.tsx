@@ -198,6 +198,16 @@ export default function DocsPage() {
   }'>
 </div>`}</CodeBlock>
 
+        {/* Embedding Dashboard */}
+        <h2 className="text-2xl text-text-primary mb-4 mt-12 pt-8 border-t border-[#efe9e2]">
+          Embedding the Dashboard
+        </h2>
+        <p className="text-text-soft mb-4">
+          Embed the full interactive benchmark dashboard with a single line:
+        </p>
+        <CodeBlock>{`<div data-gorgias="benchmark"></div>
+<script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer></script>`}</CodeBlock>
+
         {/* Chart Types */}
         <h2 className="text-2xl text-text-primary mb-4 mt-12 pt-8 border-t border-[#efe9e2]">
           Chart Types
@@ -357,12 +367,6 @@ GorgiasEmbed.colors.lavender  // "#CDC2FF"
 GorgiasEmbed.colors.salmon    // "#FFB5B5"
 // ...etc`}</CodeBlock>
 
-        {/* Embedding Dashboard */}
-        <h2 className="text-2xl text-text-primary mb-4 mt-12 pt-8 border-t border-[#efe9e2]">
-          Embedding the Dashboard
-        </h2>
-        <CodeBlock>{`<div data-gorgias="benchmark"></div>
-<script src="https://gorgias-ecom-lab-benchmark-web.vercel.app/embed.js" defer></script>`}</CodeBlock>
       </div>
     </TooltipProvider>
   )
