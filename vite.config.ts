@@ -178,21 +178,18 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 600,
+      chunkSizeWarningLimit: 900,
       rollupOptions: {
         input: {
           index: path.resolve(__dirname, "index.html"),
         },
         output: {
           entryFileNames: "embed.js",
-          chunkFileNames: "embed-[name].js",
+          inlineDynamicImports: true,
           assetFileNames: (asset) => {
             if (asset.names?.some((n) => n.endsWith(".css")))
               return "embed.css"
             return "assets/[name]-[hash][extname]"
-          },
-          manualChunks: {
-            vendor: ["react", "react-dom", "recharts"],
           },
         },
       },
