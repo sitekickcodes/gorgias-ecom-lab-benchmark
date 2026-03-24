@@ -30,7 +30,7 @@ export function ChartEmbed({ type, config }: ChartEmbedProps) {
   return (
     <div className="bg-card flex flex-col gap-8 overflow-hidden p-6 rounded-2xl w-full">
       {(config.title || config.subtitle) && (
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-1">
           {config.title && (
             <h3 className="font-sans font-normal text-lg sm:text-xl leading-tight text-text-primary m-0 p-0">
               {config.title}

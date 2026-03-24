@@ -128,10 +128,25 @@ async function render(section: string, el: HTMLElement, props?: Record<string, a
   await renderSection(Section, el, props ?? {})
 }
 
+// Named color palette for easy reference
+const colors = {
+  lavender: "#CDC2FF",
+  salmon: "#FFB5B5",
+  peach: "#FFCC9D",
+  mint: "#B2E6BE",
+  lilac: "#F5D4FF",
+  sky: "#A8D8EA",
+  apricot: "#FFD6A5",
+  seafoam: "#B5D8CC",
+  rose: "#E2B6CF",
+  periwinkle: "#C9DAF8",
+} as const
+
 // Expose global API
 const GorgiasEmbed = {
   render,
   sections: Object.keys(sections),
+  colors,
 }
 
 declare global {
