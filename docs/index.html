@@ -11,35 +11,35 @@
       rel="stylesheet"
     />
     <style>
-      *, *::before, *::after { box-sizing: border-box; }
-      body { font-family: 'Geist', sans-serif; background: #f6f4f2; color: #292827; line-height: 1.6; }
-      .container { max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; }
-      h1 { font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin-bottom: 8px; }
-      h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2; }
-      h3 { font-size: 16px; font-weight: 500; margin: 32px 0 16px; }
-      p { margin-bottom: 16px; color: #514f4b; }
-      code { font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px; }
-      pre { font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; line-height: 1.5; }
-      pre code { background: none; padding: 0; color: inherit; }
-      table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px; }
-      th { text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5; }
-      td { padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b; }
+      /* All docs styles scoped under .docs to prevent bleeding into embeds */
+      body { font-family: 'Geist', sans-serif; background: #f6f4f2; color: #292827; line-height: 1.6; margin: 0; }
+      .docs { max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; }
+      .docs h1 { font-family: 'STIX Two Text', serif; font-size: 42px; font-weight: 400; line-height: 1.2; margin: 0 0 8px; }
+      .docs h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid #efe9e2; }
+      .docs h3 { font-size: 16px; font-weight: 500; margin: 32px 0 16px; }
+      .docs p { margin: 0 0 16px; color: #514f4b; }
+      .docs code { font-family: 'Geist Mono', monospace; font-size: 13px; background: #efe9e2; padding: 2px 6px; border-radius: 4px; }
+      .docs pre { font-family: 'Geist Mono', monospace; font-size: 13px; background: #292827; color: #e8e4de; padding: 20px 24px; border-radius: 12px; overflow-x: auto; line-height: 1.5; margin: 0 0 24px; }
+      .docs pre code { background: none; padding: 0; color: inherit; }
+      .docs table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14px; }
+      .docs th { text-align: left; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid #dedbd5; }
+      .docs td { padding: 10px 12px; border-bottom: 1px solid #efe9e2; color: #514f4b; }
 
       /* Tabbed example component */
-      .example { border: 1px solid #dedbd5; border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
-      .example-tabs { display: flex; border-bottom: 1px solid #efe9e2; background: #fff; }
-      .example-tab { padding: 10px 20px; font-size: 13px; font-family: 'Geist Mono', monospace; text-transform: uppercase; letter-spacing: 1px; border: none; background: none; cursor: pointer; color: #73716d; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-      .example-tab.active { color: #292827; border-bottom-color: #292827; }
-      .example-preview { padding: 24px; background: #f6f4f2; }
-      .example-code { display: none; }
-      .example-code.active { display: block; }
-      .example-code pre { border-radius: 0; margin: 0; }
-      .example-preview.active { display: block; }
-      .example-preview:not(.active) { display: none; }
+      .docs .example { border: 1px solid #dedbd5; border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
+      .docs .example-tabs { display: flex; border-bottom: 1px solid #efe9e2; background: #fff; }
+      .docs .example-tab { padding: 10px 20px; font-size: 13px; font-family: 'Geist Mono', monospace; text-transform: uppercase; letter-spacing: 1px; border: none; background: none; cursor: pointer; color: #73716d; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+      .docs .example-tab.active { color: #292827; border-bottom-color: #292827; }
+      .docs .example-preview { padding: 24px; background: #f6f4f2; }
+      .docs .example-code { display: none; }
+      .docs .example-code.active { display: block; }
+      .docs .example-code pre { border-radius: 0; margin: 0; }
+      .docs .example-preview.active { display: block; }
+      .docs .example-preview:not(.active) { display: none; }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="docs">
       <span style="display: inline-block; font-family: 'Geist Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; background: #efe9e2; padding: 4px 16px; border-radius: 9999px; margin-bottom: 16px">(01) Documentation</span>
       <h1>Chart Embed API</h1>
       <p style="font-size: 16px; color: #696763; margin: 0 0 48px">Embed styled charts into any page with a single div and a JSON config. Fonts, colors, tooltips, and responsive behavior are handled automatically.</p>
@@ -82,7 +82,7 @@
           <tr><td><code>title</code></td><td>string</td><td>—</td><td>Chart title</td></tr>
           <tr><td><code>subtitle</code></td><td>string</td><td>—</td><td>Smaller text below title</td></tr>
           <tr><td><code>height</code></td><td>number</td><td>300</td><td>Chart height in pixels</td></tr>
-          <tr><td><code>colors</code></td><td>string[]</td><td>Pastel palette</td><td>Override colors (hex values)</td></tr>
+          <tr><td><code>colors</code></td><td>array of strings</td><td>Pastel palette</td><td>Override colors (hex values)</td></tr>
           <tr><td><code>grid</code></td><td>boolean</td><td>true</td><td>Show horizontal grid lines</td></tr>
           <tr><td><code>legend</code></td><td>boolean</td><td>true for multi-line</td><td>Show legend</td></tr>
           <tr><td><code>xAxis</code></td><td>AxisConfig</td><td>—</td><td>X-axis configuration</td></tr>
