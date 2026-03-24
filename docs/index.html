@@ -155,7 +155,8 @@
       { "label": "$100M", "value": 45.8 },
       { "label": "$500M", "value": 49.9 }
     ],
-    "yAxis": { "format": "percent" }
+    "xAxis": { "label": "GMV" },
+    "yAxis": { "label": "Adoption rate", "format": "percent" }
   }'&gt;
 &lt;/div&gt;</code></pre>
         </div>
@@ -178,6 +179,7 @@
   data-chart-config='{
     "title": "First Response Time vs. Automation Rate",
     "subtitle": "Median minutes to first response",
+    "source": "Gorgias platform data · March 2026",
     "data": [
       { "label": "0%", "value": 736 },
       { "label": "5%", "value": 580 },
@@ -189,7 +191,8 @@
       { "label": "35%", "value": 28 },
       { "label": "40%", "value": 12 }
     ],
-    "yAxis": { "format": "minutes" }
+    "xAxis": { "label": "Automation rate" },
+    "yAxis": { "label": "First response time", "format": "minutes" }
   }'&gt;
 &lt;/div&gt;</code></pre>
         </div>
@@ -211,6 +214,8 @@
           <pre class="docs-pre"><code>&lt;div data-gorgias="chart" data-chart-type="multi-line"
   data-chart-config='{
     "title": "Human Team Size vs. AI Equivalents",
+    "xAxis": { "label": "Automation rate" },
+    "yAxis": { "label": "Agents" },
     "series": [
       {
         "key": "human",
@@ -271,7 +276,8 @@
       { "label": "Dec 25", "value": 17.9 },
       { "label": "Jan 26", "value": 17.6 }
     ],
-    "yAxis": { "format": "percent" }
+    "xAxis": { "label": "Month" },
+    "yAxis": { "label": "Adoption rate", "format": "percent" }
   }'&gt;
 &lt;/div&gt;</code></pre>
         </div>
