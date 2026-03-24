@@ -8,6 +8,7 @@ import { AccordionSection } from "@/components/accordion-section"
 import { useBenchmark } from "./benchmark-context"
 
 const SALMON = "#FFB5B5"
+const PURPLE = "#CDC2FF"
 const AMBER = "#FFCC9D"
 const PINK = "#F5D4FF"
 const TRACK = "#F6F4F2"
@@ -213,136 +214,82 @@ function formatCurrency(n: number): string {
 }
 
 export function AiAgentSection() {
-  const { currentRecord: r, loading, dataset } = useBenchmark()
+  const { currentRecord: r, loading } = useBenchmark()
 
   const adoptionRate = r?.aiAgentAdoptionRate ?? 0
   const automationRate = r?.aiAgentAutomationRate ?? 0
   const conversionRate = r?.saConversionRate ?? 0
   const saRevenue = r?.saRevenueAttributed ?? 0
-  const avgGmv = r?.avgEstimatedGmv ?? 0
-  const totalAutomationRate = r?.avgTotalAutomationRate ?? 0
+  const saAdoption = r?.saAdoptionRate ?? 0
 
   return (
     <AccordionSection
       title="AI Adoption Index"
-      subtitle="Interpolated CX metrics by industry and GMV. Data from the last 90 days across Gorgias customers."
+      subtitle="How Gorgias customers are adopting and performing with AI Agent and Shopping Assistant"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1fr] gap-3 sm:gap-4">
-        {/* Card 1: AI Agent Adoption Rate — Gauge */}
-        <div className="bg-card rounded-2xl p-6 flex flex-col gap-3 min-h-[260px]">
-          <Tooltip>
-            <TooltipTrigger
-              render={<span />}
-              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-            >
-              AI Agent Adoption Rate
-            </TooltipTrigger>
-            <MetricTooltipContent
-              label="AI Agent Adoption Rate"
-              description="Share of accounts in this segment with AI Agent enabled and active."
-            />
-          </Tooltip>
-          <div className="flex-1 flex flex-col items-center justify-end">
-            <GaugeChart
-              value={adoptionRate}
-              color={SALMON}
-              valueLabel={loading ? "—" : `${adoptionRate.toFixed(1)}%`}
-              label="AI Agent adoption"
-              tooltip="Share of accounts in this segment with AI Agent enabled and active."
-            />
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
+          <GaugeChart
+            value={adoptionRate}
+            color={PINK}
+            valueLabel={loading ? "—" : `${adoptionRate.toFixed(1)}%`}
+            label="AI Agent adoption"
+            tooltip="Share of accounts in this segment with AI Agent enabled and active."
+          />
         </div>
-
-        {/* Card 2: How AI performs — Half-circle gauges */}
-        <div className="bg-card rounded-2xl p-6 flex flex-col gap-6 min-h-[260px]">
-          <Tooltip>
-            <TooltipTrigger
-              render={<span />}
-              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-            >
-              How AI performs once enabled
-            </TooltipTrigger>
-            <MetricTooltipContent
-              label="How AI performs once enabled"
-              description="Key performance metrics for stores that have AI Agent or Shopping Assistant active."
-            />
-          </Tooltip>
-          <div className="flex-1 flex gap-6 items-end justify-center">
-            <GaugeChart
-              value={automationRate}
-              color={AMBER}
-              valueLabel={loading ? "—" : `${automationRate.toFixed(1)}%`}
-              label="Automation rate"
-              tooltip="Among AI adopters, the median share of tickets fully resolved by AI Agent without human intervention."
-            />
-            <GaugeChart
-              value={conversionRate}
-              color={AMBER}
-              valueLabel={loading ? "—" : `${conversionRate.toFixed(2)}%`}
-              label="Conversion Rate"
-              tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
-            />
-          </div>
+        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
+          <GaugeChart
+            value={automationRate}
+            color={PURPLE}
+            valueLabel={loading ? "—" : `${automationRate.toFixed(1)}%`}
+            label="AI resolution rate"
+            tooltip="Among AI adopters, the median share of tickets fully resolved by AI Agent without human intervention."
+          />
         </div>
-
-        {/* Card 3: Revenue & Scale — Two text callouts */}
-        <div className="bg-card rounded-2xl p-6 flex flex-col gap-6 min-h-[260px]">
-          <Tooltip>
-            <TooltipTrigger
-              render={<span />}
-              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-            >
-              Revenue Impact
-            </TooltipTrigger>
-            <MetricTooltipContent
-              label="Revenue Impact"
-              description="Revenue and scale metrics for Shopping Assistant within this segment."
-            />
-          </Tooltip>
-          <div className="flex-1 flex flex-col justify-center gap-6">
-            <div className="flex flex-col gap-1">
-              <p className="font-heading text-4xl text-text-primary leading-none">
-                {loading ? "—" : formatCurrency(saRevenue)}
-              </p>
-              <Tooltip>
-                <TooltipTrigger
-                  render={<span />}
-                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-                >
-                  Revenue influenced
-                </TooltipTrigger>
-                <MetricTooltipContent
-                  label="Revenue influenced"
-                  description="Average revenue attributed to Shopping Assistant interactions per active SA store."
-                />
-              </Tooltip>
-            </div>
-            <div className="border-t border-[#efe9e2]" />
-            <div className="flex flex-col gap-1">
-              <p className="font-heading text-4xl text-text-primary leading-none">
-                {loading
-                  ? "—"
-                  : dataset === "gmv"
-                    ? formatCurrency(avgGmv)
-                    : `${totalAutomationRate.toFixed(1)}%`}
-              </p>
-              <Tooltip>
-                <TooltipTrigger
-                  render={<span />}
-                  className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-                >
-                  {dataset === "gmv" ? "Average GMV" : "Average automation rate"}
-                </TooltipTrigger>
-                <MetricTooltipContent
-                  label={dataset === "gmv" ? "Average GMV" : "Average automation rate"}
-                  description={
-                    dataset === "gmv"
-                      ? "Average annual gross merchandise value across stores in this dataset."
-                      : "Average automation rate of stores at this automation rate level."
-                  }
-                />
-              </Tooltip>
-            </div>
+        <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
+          <GaugeChart
+            value={conversionRate}
+            color={AMBER}
+            valueLabel={loading ? "—" : `${conversionRate.toFixed(2)}%`}
+            label="SA conversion rate"
+            tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
+          />
+        </div>
+        <div className="bg-card rounded-2xl p-6 flex flex-col justify-center gap-6 min-h-[220px]">
+          <div className="flex flex-col gap-1">
+            <p className="font-heading text-4xl text-text-primary leading-none">
+              {loading ? "—" : formatCurrency(saRevenue)}
+            </p>
+            <Tooltip>
+              <TooltipTrigger
+                render={<span />}
+                className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+              >
+                SA revenue influenced
+              </TooltipTrigger>
+              <MetricTooltipContent
+                label="SA revenue influenced"
+                description="Average revenue attributed to Shopping Assistant interactions per active SA store."
+              />
+            </Tooltip>
+          </div>
+          <div className="border-t border-[#efe9e2]" />
+          <div className="flex flex-col gap-1">
+            <p className="font-heading text-4xl text-text-primary leading-none">
+              {loading ? "—" : `${saAdoption.toFixed(1)}%`}
+            </p>
+            <Tooltip>
+              <TooltipTrigger
+                render={<span />}
+                className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
+              >
+                SA adoption rate
+              </TooltipTrigger>
+              <MetricTooltipContent
+                label="SA adoption rate"
+                description="Share of accounts in this segment with active Shopping Assistant usage."
+              />
+            </Tooltip>
           </div>
         </div>
       </div>

@@ -16,8 +16,8 @@ export function Benchmark() {
           <GmvSlider />
           <AiAgentSection />
           <AccordionSection
-            title="CX Benchmark Explorer"
-            subtitle="Response times, quality metrics, volume, and channel breakdown across the benchmark"
+            title="CX Benchmarks"
+            subtitle="Response times, satisfaction scores, ticket volume, and channel mix"
           >
             <div className="flex flex-col gap-8">
               <ResponseResolution />

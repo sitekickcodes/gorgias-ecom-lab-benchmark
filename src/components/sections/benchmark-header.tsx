@@ -6,11 +6,11 @@ export function BenchmarkHeader() {
       <SectionTag number="01" label="Live index" />
       <div className="flex flex-col gap-3">
         <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary">
-          CX Benchmark explorer
+          Gorgias CX Live Index
         </h1>
         <p className="text-sm sm:text-base leading-relaxed text-[#1a1e23]">
-          Interpolated CX metrics by industry and GMV. Data from the last 90 days
-          across Gorgias customers.
+          Live CX benchmarks from the last 90 days across Gorgias customers.
+          Filter by industry and scale to see how you compare.
         </p>
       </div>
     </div>

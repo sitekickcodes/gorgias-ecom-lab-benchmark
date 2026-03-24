@@ -76,3 +76,79 @@ export interface BenchmarkData {
   gmv: BenchmarkRecord[]
   auto: BenchmarkRecord[]
 }
+
+/** Convert tier label to numeric value */
+export const GMV_VALUES: Record<string, number> = {
+  "$50K": 50_000, "$100K": 100_000, "$250K": 250_000, "$500K": 500_000,
+  "$1M": 1_000_000, "$2M": 2_000_000, "$5M": 5_000_000, "$10M": 10_000_000,
+  "$25M": 25_000_000, "$50M": 50_000_000, "$100M": 100_000_000,
+  "$250M": 250_000_000, "$500M": 500_000_000,
+}
+
+export const AUTO_VALUES: Record<string, number> = Object.fromEntries(
+  AUTO_TIERS.map((t) => [t, parseFloat(t)]),
+)
+
+/** All numeric metric keys on BenchmarkRecord */
+export const METRIC_KEYS = [
+  "medianFrtMin", "p10FrtMin", "medianChatFrtMin", "medianEmailFrtMin",
+  "medianResolutionTimeHrs", "p10ResolutionTimeHrs", "medianOneTouchRate",
+  "p90OneTouchRate", "medianCsatScore", "medianCsatPositive",
+  "medianMessagesPerTicket", "medianMonthlyTickets", "medianEmailShare",
+  "medianChatShare", "aiAgentAutomationRate", "aiAgentSuccessRate",
+  "aiAgentAdoptionRate", "saConversionRate", "saRevenueAttributed",
+  "saAdoptionRate", "avgEstimatedGmv", "avgTotalAutomationRate",
+  "medianTicketsPer100Orders", "medianCsatResponseRate",
+] as const
+
+/**
+ * Interpolate a BenchmarkRecord at an arbitrary numeric position
+ * between sorted records for a given industry.
+ */
+export function interpolateRecord(
+  records: BenchmarkRecord[],
+  position: number,
+  tierToValue: Record<string, number>,
+  logSpace: boolean,
+): BenchmarkRecord | null {
+  if (records.length === 0) return null
+  if (records.length === 1) return records[0]
+
+  const toX = (r: BenchmarkRecord) => {
+    const v = tierToValue[r.tier] ?? 0
+    return logSpace ? Math.log10(Math.max(v, 1)) : v
+  }
+  const x = logSpace ? Math.log10(Math.max(position, 1)) : position
+
+  // Find the two records that bracket this position
+  const sorted = [...records].sort((a, b) => toX(a) - toX(b))
+
+  // Clamp to range
+  if (x <= toX(sorted[0])) return sorted[0]
+  if (x >= toX(sorted[sorted.length - 1])) return sorted[sorted.length - 1]
+
+  let lo = sorted[0]
+  let hi = sorted[1]
+  for (let i = 1; i < sorted.length; i++) {
+    if (toX(sorted[i]) >= x) {
+      lo = sorted[i - 1]
+      hi = sorted[i]
+      break
+    }
+  }
+
+  const loX = toX(lo)
+  const hiX = toX(hi)
+  const t = hiX === loX ? 0 : (x - loX) / (hiX - loX)
+
+  // Lerp all numeric fields
+  const result = { ...lo, tier: "" } as BenchmarkRecord
+  for (const key of METRIC_KEYS) {
+    const a = lo[key] as number
+    const b = hi[key] as number
+    if (a != null && b != null) {
+      (result as unknown as Record<string, number>)[key] = a + (b - a) * t
+    }
+  }
+  return result
+}

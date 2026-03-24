@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { ChevronDown } from "lucide-react"
 import {
   DropdownMenu,
@@ -16,6 +15,23 @@ const datasetOptions: { value: Dataset; label: string }[] = [
   { value: "automation-rate", label: "Automation Rate" },
 ]
 
+const TICK_LABELS: Record<Dataset, { label: string; pct: number }[]> = {
+  gmv: [
+    { label: "$50K", pct: 0 },
+    { label: "$500K", pct: 25 },
+    { label: "$5M", pct: 50 },
+    { label: "$50M", pct: 75 },
+    { label: "$500M", pct: 100 },
+  ],
+  "automation-rate": [
+    { label: "0%", pct: 0 },
+    { label: "25%", pct: 25 },
+    { label: "50%", pct: 50 },
+    { label: "75%", pct: 75 },
+    { label: "100%", pct: 100 },
+  ],
+}
+
 export function GmvSlider() {
   const {
     loading,
@@ -23,32 +39,13 @@ export function GmvSlider() {
     setDataset,
     industry,
     setIndustry,
-    tier,
-    setTier,
+    sliderValue,
+    setSliderValue,
+    sliderLabel,
     industries,
-    availableTiers,
   } = useBenchmark()
 
-  const tierIndex = availableTiers.indexOf(tier)
-  const maxIndex = Math.max(availableTiers.length - 1, 0)
-
-  // When industry changes and current tier isn't available, pick the closest
-  useEffect(() => {
-    if (availableTiers.length > 0 && tierIndex === -1) {
-      const mid = Math.floor(availableTiers.length / 2)
-      setTier(availableTiers[mid])
-    }
-  }, [availableTiers, tierIndex, setTier])
-
-  // Pick label positions by matching target values when possible
-  const targetLabels =
-    dataset === "automation-rate"
-      ? ["0%", "25%", "50%", "75%", "100%"]
-      : ["$50K", "$500K", "$5M", "$50M", "$500M"]
-
-  const labelIndices = targetLabels
-    .map((t) => availableTiers.indexOf(t))
-    .filter((i) => i !== -1)
+  const ticks = TICK_LABELS[dataset]
 
   return (
     <div className="bg-card flex flex-col md:flex-row md:items-start gap-10 sm:gap-16 p-4 sm:p-6 rounded-2xl w-full">
@@ -58,7 +55,6 @@ export function GmvSlider() {
           <span className="text-base text-text-primary">Industry</span>
           <DropdownMenu>
             <DropdownMenuTrigger className="relative flex items-center justify-between gap-3 h-8 px-3 py-2 border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
-              {/* Invisible sizer: renders widest option to set min-width */}
               <span className="invisible h-0 block">
                 {industries.reduce(
                   (a, b) => (a.length >= b.length ? a : b),
@@ -87,22 +83,24 @@ export function GmvSlider() {
 
         <div className="flex flex-col gap-1.5">
           <span className="text-base text-text-primary">Dataset</span>
-          <div className="flex items-center gap-2">
-            {datasetOptions.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setDataset(opt.value)}
-                className={[
-                  "h-8 px-3 rounded-lg text-sm whitespace-nowrap transition-colors hover:bg-[#F6F4F2]",
-                  dataset === opt.value
-                    ? "bg-[#F6F4F2] text-text-primary"
-                    : "text-text-soft hover:text-text-primary",
-                ].join(" ")}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center justify-between gap-3 h-8 px-3 py-2 min-w-[160px] border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
+              {datasetOptions.find((d) => d.value === dataset)?.label}
+              <ChevronDown className="size-4 shrink-0" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuRadioGroup
+                value={dataset}
+                onValueChange={(v) => setDataset(v as Dataset)}
               >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+                {datasetOptions.map((opt) => (
+                  <DropdownMenuRadioItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -116,33 +114,30 @@ export function GmvSlider() {
             {datasetOptions.find((d) => d.value === dataset)?.label}
           </span>
           <span className="font-mono text-sm text-text-primary tabular-nums">
-            {tier}
+            {sliderLabel}
           </span>
         </div>
         <Slider
-          value={[Math.max(tierIndex, 0)]}
+          value={[sliderValue]}
           onValueChange={(v) => {
-            const idx = Array.isArray(v) ? v[0] : v
-            if (availableTiers[idx]) {
-              setTier(availableTiers[idx])
-            }
+            const val = Array.isArray(v) ? v[0] : v
+            setSliderValue(val)
           }}
           min={0}
-          max={maxIndex}
-          step={1}
-          formatValue={(v) => availableTiers[v] ?? ""}
+          max={100}
+          step={0.5}
+          formatValue={() => sliderLabel}
         />
         <div
           key={dataset}
           className="relative h-5 animate-in fade-in duration-300"
         >
-          {labelIndices.map((idx, i) => {
-            const pct = maxIndex > 0 ? (idx / maxIndex) * 100 : 0
+          {ticks.map((tick, i) => {
             const isFirst = i === 0
-            const isLast = i === labelIndices.length - 1
+            const isLast = i === ticks.length - 1
             return (
               <span
-                key={idx}
+                key={tick.label}
                 className={`absolute font-mono text-xs sm:text-sm text-[#73716d] tracking-[0.1em] uppercase ${
                   isFirst
                     ? ""
@@ -155,10 +150,12 @@ export function GmvSlider() {
                     ? { left: 0 }
                     : isLast
                       ? { right: 0 }
-                      : { left: `calc(10px + ${pct} * (100% - 20px) / 100)` }
+                      : {
+                          left: `calc(10px + ${tick.pct} * (100% - 20px) / 100)`,
+                        }
                 }
               >
-                {availableTiers[idx] ?? ""}
+                {tick.label}
               </span>
             )
           })}

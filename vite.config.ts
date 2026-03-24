@@ -184,11 +184,14 @@ export default defineConfig(({ mode }) => {
         },
         output: {
           entryFileNames: "embed.js",
-          inlineDynamicImports: true,
+          chunkFileNames: "embed-[name].js",
           assetFileNames: (asset) => {
             if (asset.names?.some((n) => n.endsWith(".css")))
               return "embed.css"
             return "assets/[name]-[hash][extname]"
+          },
+          manualChunks: {
+            vendor: ["react", "react-dom", "recharts"],
           },
         },
       },

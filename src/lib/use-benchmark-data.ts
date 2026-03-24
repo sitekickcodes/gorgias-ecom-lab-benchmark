@@ -2,15 +2,14 @@ import { useState, useEffect } from "react"
 import type { BenchmarkData } from "./types"
 
 const CACHE_KEY = "gorgias-benchmark-data"
-const CACHE_TTL = 10 * 60 * 1000 // 10 minutes
+const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 hours
 
-function readCache(): BenchmarkData | null {
+function readCache(): { data: BenchmarkData; fresh: boolean } | null {
   try {
     const raw = sessionStorage.getItem(CACHE_KEY)
     if (!raw) return null
     const { data, timestamp } = JSON.parse(raw)
-    if (Date.now() - timestamp > CACHE_TTL) return null
-    return data
+    return { data, fresh: Date.now() - timestamp < CACHE_TTL }
   } catch {
     return null
   }
@@ -27,18 +26,21 @@ function writeCache(data: BenchmarkData) {
   }
 }
 
-const initial = readCache()
+const cached = readCache()
 
 export function useBenchmarkData() {
   const [data, setData] = useState<BenchmarkData>(
-    initial ?? { gmv: [], auto: [] },
+    cached?.data ?? { gmv: [], auto: [] },
   )
-  const [loading, setLoading] = useState(initial === null)
+  // Only show loading if we have absolutely no data
+  const [loading, setLoading] = useState(cached === null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (initial) return
+    // Skip fetch entirely if cache is fresh
+    if (cached?.fresh) return
 
+    // Otherwise fetch in background — stale data is already showing
     fetch("/api/benchmark")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
