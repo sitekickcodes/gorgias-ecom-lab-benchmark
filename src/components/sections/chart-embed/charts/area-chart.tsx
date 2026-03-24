@@ -49,16 +49,18 @@ export function AreaChartEmbed({
           dataKey="label"
           tickLine={false}
           axisLine={false}
-          width={30}
+          width={0}
           tick={AXIS_TICK}
+          mirror
           tickMargin={12}
           hide={config.xAxis?.hide}
         />
         <YAxis
           tickLine={false}
           axisLine={false}
-          width={30}
+          width={0}
           tick={AXIS_TICK}
+          mirror
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
