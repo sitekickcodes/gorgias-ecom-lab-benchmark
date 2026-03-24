@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from "vite"
 import react from "@vitejs/plugin-react"
 import path from "path"
+import fs from "fs"
 
 /** Shared fields present in both Airtable tables */
 const SHARED_FIELDS: Record<string, string> = {
@@ -153,6 +154,23 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       airtableDevProxy(env),
+      {
+        name: "copy-docs",
+        closeBundle() {
+          const src = path.resolve(__dirname, "docs/index.html")
+          const destDir = path.resolve(__dirname, "dist/docs")
+          if (fs.existsSync(src)) {
+            fs.mkdirSync(destDir, { recursive: true })
+            let html = fs.readFileSync(src, "utf-8")
+            // Replace dev script with production embed
+            html = html.replace(
+              '<script type="module" src="/src/embed.tsx"></script>',
+              '<link rel="stylesheet" href="/embed.css" />\n    <script src="/embed.js" defer></script>',
+            )
+            fs.writeFileSync(path.join(destDir, "index.html"), html)
+          }
+        },
+      },
     ],
     resolve: {
       alias: {
