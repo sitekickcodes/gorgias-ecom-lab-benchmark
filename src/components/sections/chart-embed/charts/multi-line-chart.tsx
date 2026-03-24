@@ -10,10 +10,10 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   ChartLegendContent,
   type ChartConfig,
 } from "@/components/chart"
+import { EmbedTooltipContent } from "../embed-tooltip"
 import type { MultiLineChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -84,7 +84,7 @@ export function MultiLineChartEmbed({
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartTooltip content={<EmbedTooltipContent />} />
         {config.legend !== false && (
           <Legend content={<ChartLegendContent />} />
         )}

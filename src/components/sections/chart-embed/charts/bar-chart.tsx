@@ -9,9 +9,9 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/chart"
+import { EmbedTooltipContent } from "../embed-tooltip"
 import type { SingleSeriesChartConfig } from "../types"
 import {
   AXIS_TICK,
@@ -70,7 +70,7 @@ export function BarChartEmbed({
           domain={config.yAxis?.domain}
         />
         <ChartTooltip
-          content={<ChartTooltipContent />}
+          content={<EmbedTooltipContent />}
         />
         <Bar dataKey="value" radius={[4, 4, 0, 0]}>
           {config.data.map((d, i) => (

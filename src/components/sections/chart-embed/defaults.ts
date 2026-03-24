@@ -19,16 +19,16 @@ export const BAR_TWO_TONE = ["#DEDBD5", "#292827"]
 export const AXIS_TICK = {
   fill: "#696763",
   fontSize: 12,
-  fontFamily: "var(--font-mono)",
+  fontFamily: "'Geist Mono', monospace",
 } as const
 
 export const GRID_PROPS = {
   strokeDasharray: "0",
-  stroke: "var(--border-muted)",
+  stroke: "#dedbd5",
   vertical: false,
 } as const
 
-export const DEFAULT_MARGINS = { top: 8, right: 4, bottom: 4, left: 4 }
+export const DEFAULT_MARGINS = { top: 8, right: 8, bottom: 8, left: 12 }
 
 export const DEFAULT_HEIGHTS: Record<string, number> = {
   bar: 300,
