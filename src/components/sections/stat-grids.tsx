@@ -108,11 +108,19 @@ export function StatGrids() {
               />
             </Tooltip>
             <div className="flex flex-wrap gap-2 w-full">
-              <IntentTag label="Order" value="43.6%" />
-              <IntentTag label="Product" value="11.8%" />
-              <IntentTag label="Return" value="10.9%" />
-              <IntentTag label="Subscription" value="9.6%" />
-              <IntentTag label="Shipping" value="9.4%" />
+              {(r?.topIntents ?? [])
+                .filter((i) => i.pct >= 2)
+                .slice(0, 5)
+                .map((i) => (
+                  <IntentTag
+                    key={i.intent}
+                    label={i.intent}
+                    value={`${i.pct.toFixed(1)}%`}
+                  />
+                ))}
+              {(!r?.topIntents || r.topIntents.length === 0) && !loading && (
+                <span className="text-sm text-text-soft">No intent data</span>
+              )}
             </div>
           </div>
         </div>

@@ -26,6 +26,7 @@ export interface BenchmarkRecord {
   avgTotalAutomationRate: number
   medianTicketsPer100Orders: number
   medianCsatResponseRate: number
+  topIntents: { intent: string; pct: number }[]
 }
 
 export type Dataset = "gmv" | "automation-rate"
@@ -141,8 +142,9 @@ export function interpolateRecord(
   const hiX = toX(hi)
   const t = hiX === loX ? 0 : (x - loX) / (hiX - loX)
 
-  // Lerp all numeric fields
-  const result = { ...lo, tier: "" } as BenchmarkRecord
+  // Lerp all numeric fields, pick nearest tier's intents
+  const nearest = t <= 0.5 ? lo : hi
+  const result = { ...lo, tier: "", topIntents: nearest.topIntents ?? [] } as BenchmarkRecord
   for (const key of METRIC_KEYS) {
     const a = lo[key] as number
     const b = hi[key] as number

@@ -36,6 +36,7 @@ const SHARED_FIELDS: Record<string, string> = {
   "Average Total Automation Rate (%)": "avgTotalAutomationRate",
   "Median Tickets / 100 Orders": "medianTicketsPer100Orders",
   "Median CSAT Response Rate (%)": "medianCsatResponseRate",
+  "Top Intents": "topIntents",
 }
 
 export const GMV_FIELD_MAP: Record<string, string> = {
@@ -55,7 +56,16 @@ export function transformRecord(
   const result: Record<string, unknown> = {}
   for (const [airtableKey, camelKey] of Object.entries(fieldMap)) {
     if (fields[airtableKey] !== undefined) {
-      result[camelKey] = fields[airtableKey]
+      // Parse JSON string fields (like Top Intents)
+      if (camelKey === "topIntents" && typeof fields[airtableKey] === "string") {
+        try {
+          result[camelKey] = JSON.parse(fields[airtableKey] as string)
+        } catch {
+          result[camelKey] = []
+        }
+      } else {
+        result[camelKey] = fields[airtableKey]
+      }
     }
   }
   return result
