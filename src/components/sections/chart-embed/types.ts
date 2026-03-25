@@ -1,4 +1,4 @@
-export type ChartType = "bar" | "line" | "area" | "multi-line"
+export type ChartType = "bar" | "line" | "area" | "multi-line" | "table"
 
 export type AxisFormat =
   | "number"
@@ -56,7 +56,27 @@ export interface MultiLineChartConfig extends BaseChartConfig {
   dots?: boolean
 }
 
-export type ChartEmbedConfig = SingleSeriesChartConfig | MultiLineChartConfig
+export interface TableColumn {
+  key: string
+  header: string
+  align?: "left" | "center" | "right"
+  bold?: boolean
+  color?: string
+}
+
+export interface TableConfig {
+  title?: string
+  subtitle?: string
+  source?: string
+  columns: TableColumn[]
+  rows: Record<string, string | number>[]
+  striped?: boolean
+}
+
+export type ChartEmbedConfig =
+  | SingleSeriesChartConfig
+  | MultiLineChartConfig
+  | TableConfig
 
 export interface ChartEmbedProps {
   type: ChartType

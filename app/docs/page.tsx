@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/tooltip"
 import type {
   SingleSeriesChartConfig,
   MultiLineChartConfig,
+  TableConfig,
 } from "@/components/sections/chart-embed/types"
 
 // Example configs
@@ -94,6 +95,22 @@ const lineConfig: SingleSeriesChartConfig = {
   ],
   xAxis: { label: "Month" },
   yAxis: { label: "Adoption rate", format: "percent" },
+}
+
+const tableConfig: TableConfig = {
+  title: "First Response Time vs. Automation Rate",
+  source: "Gorgias platform data · March 2026",
+  columns: [
+    { key: "rate", header: "Automation Rate" },
+    { key: "frt", header: "Median First Response", bold: true },
+    { key: "delta", header: "Speed vs. Baseline" },
+  ],
+  rows: [
+    { rate: "0%", frt: "736m", delta: "Baseline" },
+    { rate: "20%", frt: "399m", delta: "46% faster" },
+    { rate: "30%", frt: "80m", delta: "89% faster" },
+    { rate: "40%", frt: "12m", delta: "98% faster" },
+  ],
 }
 
 function CodeBlock({ children }: { children: string }) {
@@ -232,6 +249,7 @@ export default function DocsPage() {
               ["line", "Line chart with dots", "Trends over time"],
               ["area", "Line with gradient fill", "Volume trends"],
               ["multi-line", "Multiple named lines", "Comparing series"],
+              ["table", "Data table", "Structured comparisons, rankings"],
             ].map(([type, desc, best]) => (
               <tr key={type}>
                 <td className="p-2.5 border-b border-[#efe9e2]">
@@ -317,6 +335,29 @@ export default function DocsPage() {
 </div>`}
         >
           <ChartEmbed type="line" config={lineConfig} />
+        </Example>
+
+        <Example
+          title="Table"
+          code={`<div data-gorgias="chart" data-chart-type="table"
+  data-chart-config='{
+    "title": "First Response Time vs. Automation Rate",
+    "source": "Gorgias platform data · March 2026",
+    "columns": [
+      { "key": "rate", "header": "Automation Rate" },
+      { "key": "frt", "header": "Median First Response", "bold": true },
+      { "key": "delta", "header": "Speed vs. Baseline" }
+    ],
+    "rows": [
+      { "rate": "0%", "frt": "736m", "delta": "Baseline" },
+      { "rate": "20%", "frt": "399m", "delta": "46% faster" },
+      { "rate": "30%", "frt": "80m", "delta": "89% faster" },
+      { "rate": "40%", "frt": "12m", "delta": "98% faster" }
+    ]
+  }'>
+</div>`}
+        >
+          <ChartEmbed type="table" config={tableConfig} />
         </Example>
 
         {/* Color Palette */}

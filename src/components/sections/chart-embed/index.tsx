@@ -8,6 +8,7 @@ import { BarChartEmbed } from "./charts/bar-chart"
 import { LineChartEmbed } from "./charts/line-chart"
 import { AreaChartEmbed } from "./charts/area-chart"
 import { MultiLineChartEmbed } from "./charts/multi-line-chart"
+import { TableEmbed } from "./charts/table"
 
 const RENDERERS: Record<
   ChartType,
@@ -18,6 +19,7 @@ const RENDERERS: Record<
   line: LineChartEmbed,
   area: AreaChartEmbed,
   "multi-line": MultiLineChartEmbed,
+  table: TableEmbed,
 }
 
 export function ChartEmbed({ type, config }: ChartEmbedProps) {
