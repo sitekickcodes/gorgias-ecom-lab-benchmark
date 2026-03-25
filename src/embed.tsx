@@ -58,9 +58,20 @@ function getPropsFromElement(el: HTMLElement, sectionName: string): Record<strin
 }
 
 // ---------------------------------------------------------------------------
-// Declarative mounting: <div data-gorgias="benchmark"></div>
+// Declarative mounting:
+//   <div data-gorgias="benchmark"></div>       (attribute-based)
+//   <div id="gorgias-benchmark"></div>         (ID-based fallback)
+//   <div id="gorgias-chart" data-chart-type="bar" data-chart-config='...'></div>
 // ---------------------------------------------------------------------------
 function mountAll() {
+  // ID-based fallback: auto-detect #gorgias-{sectionName} elements
+  for (const name of Object.keys(sections)) {
+    const el = document.getElementById(`gorgias-${name}`)
+    if (el && !el.dataset.gorgias) {
+      el.dataset.gorgias = name
+    }
+  }
+
   const targets = document.querySelectorAll<HTMLElement>("[data-gorgias]")
 
   targets.forEach((el) => {
