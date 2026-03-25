@@ -8,7 +8,7 @@ import "@/styles/globals.css"
 import "./index.css"
 
 // ---------------------------------------------------------------------------
-// Section registry — add new sections here
+// Section registry
 // ---------------------------------------------------------------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sections: Record<string, React.ComponentType<any>> = {
@@ -17,7 +17,17 @@ const sections: Record<string, React.ComponentType<any>> = {
 }
 
 // ---------------------------------------------------------------------------
-// Derive embed origin for absolute API URLs on external sites
+// Compiled CSS — injected at build time by the inlineCompiledCss plugin.
+// Contains full Tailwind preflight + all utility classes + our custom styles.
+// ---------------------------------------------------------------------------
+const EMBED_CSS: string = "__EMBED_CSS_PLACEHOLDER__"
+
+// Create a single shared CSSStyleSheet that all shadow roots adopt
+const _sheet = new CSSStyleSheet()
+_sheet.replaceSync(EMBED_CSS)
+
+// ---------------------------------------------------------------------------
+// Embed origin for absolute API URLs
 // ---------------------------------------------------------------------------
 const _selfScript =
   (document.currentScript as HTMLScriptElement | null) ??
@@ -29,19 +39,15 @@ const _embedOrigin = _selfScript?.src
   ? new URL(_selfScript.src).origin
   : ""
 
-const _cssUrl = _selfScript?.src
-  ? _selfScript.src.replace(/embed[^/]*\.js/, "embed.css").split("?")[0]
-  : ""
-
 ;(window as unknown as Record<string, string>).__GORGIAS_EMBED_ORIGIN__ = _embedOrigin
 
 // ---------------------------------------------------------------------------
-// Google Fonts — inject on host page (required for cross-origin font loading)
+// Google Fonts — must be on the host page for cross-origin loading
 // ---------------------------------------------------------------------------
 function injectFonts() {
   const fontUrl =
     "https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&family=STIX+Two+Text:wght@400&display=swap"
-  if (document.querySelector(`link[href="${fontUrl}"]`)) return
+  if (document.querySelector(`link[href*="Geist"]`)) return
   const link = document.createElement("link")
   link.rel = "stylesheet"
   link.href = fontUrl
@@ -49,9 +55,9 @@ function injectFonts() {
 }
 
 // ---------------------------------------------------------------------------
-// Shadow DOM mounting — creates a sealed CSS boundary per embed instance.
-// Host page styles cannot leak in. Embed styles cannot leak out.
-// CSS is loaded via <link> inside the shadow root pointing to embed.css.
+// Shadow DOM mounting — sealed CSS boundary, zero host page interference.
+// Uses adoptedStyleSheets (Constructable Stylesheets) for instant styling
+// with no network request and no flash of unstyled content.
 // ---------------------------------------------------------------------------
 function mountInShadow(
   el: HTMLElement,
@@ -62,13 +68,8 @@ function mountInShadow(
 ) {
   const shadow = el.attachShadow({ mode: "open" })
 
-  // Load compiled CSS inside shadow (Tailwind + our styles, fully isolated)
-  if (_cssUrl) {
-    const link = document.createElement("link")
-    link.rel = "stylesheet"
-    link.href = _cssUrl
-    shadow.appendChild(link)
-  }
+  // Adopt the shared stylesheet — instant, no network request, no FOUC
+  shadow.adoptedStyleSheets = [_sheet]
 
   // React mount point
   const mountPoint = document.createElement("div")
@@ -84,7 +85,7 @@ function mountInShadow(
 }
 
 // ---------------------------------------------------------------------------
-// Extract props from DOM element
+// Props extraction
 // ---------------------------------------------------------------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getPropsFromElement(el: HTMLElement, sectionName: string): Record<string, any> {
@@ -178,7 +179,7 @@ declare global {
 window.GorgiasEmbed = GorgiasEmbed
 
 // ---------------------------------------------------------------------------
-// Auto-mount on load
+// Auto-mount
 // ---------------------------------------------------------------------------
 function init() {
   injectFonts()

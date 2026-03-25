@@ -15,9 +15,8 @@ dist
 out
 *.tsbuildinfo
 
-# Embed build outputs (in public/)
+# Embed build output (in public/)
 public/embed.js
-public/embed.css
 
 # Debug
 npm-debug.log*
