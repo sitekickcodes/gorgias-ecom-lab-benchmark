@@ -268,6 +268,150 @@ export default function DocsPage() {
           </tbody>
         </table>
 
+        {/* Config Reference */}
+        <h2 className="text-2xl text-text-primary mb-4 mt-12 pt-8 border-t border-[#efe9e2]">
+          Config Reference
+        </h2>
+
+        <h3 className="text-base font-medium text-text-primary mb-3">
+          Shared options (all types)
+        </h3>
+        <table className="w-full text-sm mb-8">
+          <thead>
+            <tr>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Property</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Type</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Default</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-soft">
+            {[
+              ["title", "string", "—", "Chart title"],
+              ["subtitle", "string", "—", "Smaller text below title"],
+              ["source", "string", "—", "Attribution line below chart"],
+              ["height", "number", "300", "Chart height in pixels"],
+              ["colors", "array of strings", "Pastel palette", "Override colors (hex values)"],
+              ["grid", "boolean", "true", "Show horizontal grid lines"],
+              ["legend", "boolean", "true for multi-line", "Show legend"],
+            ].map(([prop, type, def, desc]) => (
+              <tr key={prop}>
+                <td className="p-2.5 border-b border-[#efe9e2]"><code className="font-mono text-[13px] bg-[#efe9e2] px-1.5 py-0.5 rounded">{prop}</code></td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{type}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{def}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="text-base font-medium text-text-primary mb-3">
+          AxisConfig (xAxis / yAxis)
+        </h3>
+        <table className="w-full text-sm mb-8">
+          <thead>
+            <tr>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Property</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Type</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-soft">
+            {[
+              ["label", "string", "Axis label (shown in tooltip)"],
+              ["format", '"number" | "percent" | "currency" | "minutes" | "hours"', "Auto-formats tick labels"],
+              ["formatTemplate", "string", 'Custom template, e.g. "{value} pts"'],
+              ["hide", "boolean", "Hide the axis"],
+              ["domain", "[min, max]", "Set axis range"],
+            ].map(([prop, type, desc]) => (
+              <tr key={prop}>
+                <td className="p-2.5 border-b border-[#efe9e2]"><code className="font-mono text-[13px] bg-[#efe9e2] px-1.5 py-0.5 rounded">{prop}</code></td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{type}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="text-base font-medium text-text-primary mb-3">
+          Single-series options (bar, line, area)
+        </h3>
+        <table className="w-full text-sm mb-8">
+          <thead>
+            <tr>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Property</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Type</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-soft">
+            {[
+              ["data", '{ label, value, color? }[]', "Required. Array of data points"],
+              ["splitIndex", "number", "Bar only: two-tone split point"],
+              ["curve", '"monotone" | "linear" | "step"', "Curve interpolation"],
+              ["dots", "boolean", "Show point markers"],
+            ].map(([prop, type, desc]) => (
+              <tr key={prop}>
+                <td className="p-2.5 border-b border-[#efe9e2]"><code className="font-mono text-[13px] bg-[#efe9e2] px-1.5 py-0.5 rounded">{prop}</code></td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{type}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="text-base font-medium text-text-primary mb-3">
+          Multi-line options
+        </h3>
+        <table className="w-full text-sm mb-8">
+          <thead>
+            <tr>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Property</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Type</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-soft">
+            {[
+              ["series", '{ key, label, color?, data }[]', "Required. Named data series"],
+              ["curve", '"monotone" | "linear"', "Curve type for all lines"],
+              ["dots", "boolean", "Show point markers (default: true)"],
+            ].map(([prop, type, desc]) => (
+              <tr key={prop}>
+                <td className="p-2.5 border-b border-[#efe9e2]"><code className="font-mono text-[13px] bg-[#efe9e2] px-1.5 py-0.5 rounded">{prop}</code></td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{type}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="text-base font-medium text-text-primary mb-3">
+          Table options
+        </h3>
+        <table className="w-full text-sm mb-8">
+          <thead>
+            <tr>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Property</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Type</th>
+              <th className="text-left font-medium p-2.5 border-b-2 border-[#dedbd5]">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-text-soft">
+            {[
+              ["columns", '{ key, header, align?, bold?, color? }[]', "Required. Column definitions"],
+              ["rows", 'Record<string, string | number>[]', "Required. Row data keyed by column key"],
+              ["striped", "boolean", "Alternate row backgrounds"],
+            ].map(([prop, type, desc]) => (
+              <tr key={prop}>
+                <td className="p-2.5 border-b border-[#efe9e2]"><code className="font-mono text-[13px] bg-[#efe9e2] px-1.5 py-0.5 rounded">{prop}</code></td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{type}</td>
+                <td className="p-2.5 border-b border-[#efe9e2]">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
         {/* Live Examples */}
         <h2 className="text-2xl text-text-primary mb-6 mt-12 pt-8 border-t border-[#efe9e2]">
           Live Examples
