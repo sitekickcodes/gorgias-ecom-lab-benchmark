@@ -19,12 +19,10 @@ const sections: Record<string, React.ComponentType<any>> = {
 // ---------------------------------------------------------------------------
 // Compiled CSS — injected at build time by the inlineCompiledCss plugin.
 // Contains full Tailwind preflight + all utility classes + our custom styles.
+// Injected as a <style> tag inside each shadow root so :host selectors
+// and CSS custom properties resolve correctly.
 // ---------------------------------------------------------------------------
 const EMBED_CSS: string = "__EMBED_CSS_PLACEHOLDER__"
-
-// Create a single shared CSSStyleSheet that all shadow roots adopt
-const _sheet = new CSSStyleSheet()
-_sheet.replaceSync(EMBED_CSS)
 
 // ---------------------------------------------------------------------------
 // Embed origin for absolute API URLs
@@ -68,8 +66,11 @@ function mountInShadow(
 ) {
   const shadow = el.attachShadow({ mode: "open" })
 
-  // Adopt the shared stylesheet — instant, no network request, no FOUC
-  shadow.adoptedStyleSheets = [_sheet]
+  // Inject CSS as <style> inside shadow — ensures :host selectors
+  // and CSS custom properties resolve correctly
+  const style = document.createElement("style")
+  style.textContent = EMBED_CSS
+  shadow.appendChild(style)
 
   // React mount point
   const mountPoint = document.createElement("div")
