@@ -4,10 +4,8 @@ import { Benchmark } from "./components/sections/benchmark"
 import { ChartEmbed } from "./components/sections/chart-embed"
 import { parseChartProps } from "./components/sections/chart-embed/parse-config"
 import { TooltipProvider } from "@/components/tooltip"
-
-// Import CSS as string for injection into Shadow DOM
-import globalsCss from "@/styles/globals.css?inline"
-import indexCss from "./index.css?inline"
+import "@/styles/globals.css"
+import "./index.css"
 
 // ---------------------------------------------------------------------------
 // Section registry — add new sections here
@@ -31,11 +29,14 @@ const _embedOrigin = _selfScript?.src
   ? new URL(_selfScript.src).origin
   : ""
 
+const _cssUrl = _selfScript?.src
+  ? _selfScript.src.replace(/embed[^/]*\.js/, "embed.css").split("?")[0]
+  : ""
+
 ;(window as unknown as Record<string, string>).__GORGIAS_EMBED_ORIGIN__ = _embedOrigin
 
 // ---------------------------------------------------------------------------
-// Google Fonts — inject once on the host page (fonts must be on the page,
-// not inside Shadow DOM, for cross-origin font loading to work)
+// Google Fonts — inject on host page (required for cross-origin font loading)
 // ---------------------------------------------------------------------------
 function injectFonts() {
   const fontUrl =
@@ -50,6 +51,7 @@ function injectFonts() {
 // ---------------------------------------------------------------------------
 // Shadow DOM mounting — creates a sealed CSS boundary per embed instance.
 // Host page styles cannot leak in. Embed styles cannot leak out.
+// CSS is loaded via <link> inside the shadow root pointing to embed.css.
 // ---------------------------------------------------------------------------
 function mountInShadow(
   el: HTMLElement,
@@ -58,23 +60,20 @@ function mountInShadow(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: Record<string, any>,
 ) {
-  // Create shadow root
   const shadow = el.attachShadow({ mode: "open" })
 
-  // Inject all CSS inside the shadow (completely isolated from host)
-  const style = document.createElement("style")
-  style.textContent = globalsCss + "\n" + indexCss
-  shadow.appendChild(style)
+  // Load compiled CSS inside shadow (Tailwind + our styles, fully isolated)
+  if (_cssUrl) {
+    const link = document.createElement("link")
+    link.rel = "stylesheet"
+    link.href = _cssUrl
+    shadow.appendChild(link)
+  }
 
-  // Create React mount point inside shadow
+  // React mount point
   const mountPoint = document.createElement("div")
-  mountPoint.style.fontFamily = "'Geist', system-ui, sans-serif"
-  mountPoint.style.fontSize = "16px"
-  mountPoint.style.lineHeight = "1.5"
-  mountPoint.style.color = "#292827"
   shadow.appendChild(mountPoint)
 
-  // Render React into the shadow DOM
   ReactDOM.createRoot(mountPoint).render(
     <React.StrictMode>
       <TooltipProvider delay={200}>
@@ -85,7 +84,7 @@ function mountInShadow(
 }
 
 // ---------------------------------------------------------------------------
-// Extract props from DOM element for any section
+// Extract props from DOM element
 // ---------------------------------------------------------------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getPropsFromElement(el: HTMLElement, sectionName: string): Record<string, any> {
@@ -105,12 +104,9 @@ function getPropsFromElement(el: HTMLElement, sectionName: string): Record<strin
 }
 
 // ---------------------------------------------------------------------------
-// Declarative mounting:
-//   <div data-gorgias="benchmark"></div>
-//   <div id="gorgias-benchmark"></div>
+// Declarative mounting
 // ---------------------------------------------------------------------------
 function mountAll() {
-  // ID-based fallback
   for (const name of Object.keys(sections)) {
     const el = document.getElementById(`gorgias-${name}`)
     if (el && !el.dataset.gorgias) {
@@ -134,7 +130,6 @@ function mountAll() {
     const Section = sections[sectionName]
     const props = getPropsFromElement(el, sectionName)
     el.dataset.gorgiasReady = "true"
-
     mountInShadow(el, Section, props)
   })
 }
@@ -151,12 +146,10 @@ function render(section: string, el: HTMLElement, props?: Record<string, any>) {
     )
     return
   }
-
   el.dataset.gorgiasReady = "true"
   mountInShadow(el, Section, props ?? {})
 }
 
-// Named color palette
 const colors = {
   lavender: "#CDC2FF",
   salmon: "#FFB5B5",
@@ -170,7 +163,6 @@ const colors = {
   periwinkle: "#C9DAF8",
 } as const
 
-// Expose global API
 const GorgiasEmbed = {
   render,
   sections: Object.keys(sections),
