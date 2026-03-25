@@ -2,6 +2,7 @@ import type { TableConfig } from "../types"
 
 export function TableEmbed({ config }: { config: TableConfig }) {
   return (
+    <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
     <table
       style={{
         width: "100%",
@@ -61,5 +62,6 @@ export function TableEmbed({ config }: { config: TableConfig }) {
         ))}
       </tbody>
     </table>
+    </div>
   )
 }
