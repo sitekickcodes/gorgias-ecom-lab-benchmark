@@ -4,8 +4,10 @@ import { Benchmark } from "./components/sections/benchmark"
 import { ChartEmbed } from "./components/sections/chart-embed"
 import { parseChartProps } from "./components/sections/chart-embed/parse-config"
 import { TooltipProvider } from "@/components/tooltip"
-import "@/styles/globals.css"
-import "./index.css"
+
+// Import CSS as string for injection into Shadow DOM
+import globalsCss from "@/styles/globals.css?inline"
+import indexCss from "./index.css?inline"
 
 // ---------------------------------------------------------------------------
 // Section registry — add new sections here
@@ -17,9 +19,7 @@ const sections: Record<string, React.ComponentType<any>> = {
 }
 
 // ---------------------------------------------------------------------------
-// Auto-load embed.css from the same origin as this script.
-// Uses the script's own URL to derive the CSS path — works regardless
-// of filename, CDN rewrites, or query strings.
+// Derive embed origin for absolute API URLs on external sites
 // ---------------------------------------------------------------------------
 const _selfScript =
   (document.currentScript as HTMLScriptElement | null) ??
@@ -27,22 +27,61 @@ const _selfScript =
     (s) => s.src.includes("embed"),
   )
 
-// Derive the embed origin for API calls (e.g. https://gorgias.sitekick.co)
 const _embedOrigin = _selfScript?.src
   ? new URL(_selfScript.src).origin
   : ""
 
-// Expose origin so data hooks can build absolute API URLs
 ;(window as unknown as Record<string, string>).__GORGIAS_EMBED_ORIGIN__ = _embedOrigin
 
-function injectStyles() {
-  if (!_selfScript?.src) return
-  const cssUrl = _selfScript.src.replace(/embed[^/]*\.js/, "embed.css").split("?")[0]
-  if (document.querySelector(`link[href="${cssUrl}"]`)) return
+// ---------------------------------------------------------------------------
+// Google Fonts — inject once on the host page (fonts must be on the page,
+// not inside Shadow DOM, for cross-origin font loading to work)
+// ---------------------------------------------------------------------------
+function injectFonts() {
+  const fontUrl =
+    "https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&family=STIX+Two+Text:wght@400&display=swap"
+  if (document.querySelector(`link[href="${fontUrl}"]`)) return
   const link = document.createElement("link")
   link.rel = "stylesheet"
-  link.href = cssUrl
+  link.href = fontUrl
   document.head.appendChild(link)
+}
+
+// ---------------------------------------------------------------------------
+// Shadow DOM mounting — creates a sealed CSS boundary per embed instance.
+// Host page styles cannot leak in. Embed styles cannot leak out.
+// ---------------------------------------------------------------------------
+function mountInShadow(
+  el: HTMLElement,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Section: React.ComponentType<any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props: Record<string, any>,
+) {
+  // Create shadow root
+  const shadow = el.attachShadow({ mode: "open" })
+
+  // Inject all CSS inside the shadow (completely isolated from host)
+  const style = document.createElement("style")
+  style.textContent = globalsCss + "\n" + indexCss
+  shadow.appendChild(style)
+
+  // Create React mount point inside shadow
+  const mountPoint = document.createElement("div")
+  mountPoint.style.fontFamily = "'Geist', system-ui, sans-serif"
+  mountPoint.style.fontSize = "16px"
+  mountPoint.style.lineHeight = "1.5"
+  mountPoint.style.color = "#292827"
+  shadow.appendChild(mountPoint)
+
+  // Render React into the shadow DOM
+  ReactDOM.createRoot(mountPoint).render(
+    <React.StrictMode>
+      <TooltipProvider delay={200}>
+        <Section {...props} />
+      </TooltipProvider>
+    </React.StrictMode>,
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -67,12 +106,11 @@ function getPropsFromElement(el: HTMLElement, sectionName: string): Record<strin
 
 // ---------------------------------------------------------------------------
 // Declarative mounting:
-//   <div data-gorgias="benchmark"></div>       (attribute-based)
-//   <div id="gorgias-benchmark"></div>         (ID-based fallback)
-//   <div id="gorgias-chart" data-chart-type="bar" data-chart-config='...'></div>
+//   <div data-gorgias="benchmark"></div>
+//   <div id="gorgias-benchmark"></div>
 // ---------------------------------------------------------------------------
 function mountAll() {
-  // ID-based fallback: auto-detect #gorgias-{sectionName} elements
+  // ID-based fallback
   for (const name of Object.keys(sections)) {
     const el = document.getElementById(`gorgias-${name}`)
     if (el && !el.dataset.gorgias) {
@@ -88,7 +126,7 @@ function mountAll() {
     const sectionName = el.dataset.gorgias
     if (!sectionName || !sections[sectionName]) {
       console.warn(
-        `[gorgias-embed] Unknown section "${sectionName}". Available: ${Object.keys(sections).join(", ")}`
+        `[gorgias-embed] Unknown section "${sectionName}". Available: ${Object.keys(sections).join(", ")}`,
       )
       return
     }
@@ -97,53 +135,28 @@ function mountAll() {
     const props = getPropsFromElement(el, sectionName)
     el.dataset.gorgiasReady = "true"
 
-    // Reset CSS inheritance from host page
-    el.style.fontFamily = "'Geist', system-ui, sans-serif"
-    el.style.fontSize = "16px"
-    el.style.lineHeight = "1.5"
-    el.style.color = "#292827"
-    el.style.boxSizing = "border-box"
-
-    ReactDOM.createRoot(el).render(
-      <React.StrictMode>
-        <TooltipProvider delay={200}>
-          <Section {...props} />
-        </TooltipProvider>
-      </React.StrictMode>
-    )
+    mountInShadow(el, Section, props)
   })
 }
 
 // ---------------------------------------------------------------------------
-// Imperative API: window.GorgiasEmbed.render("chart", el, { data: [...] })
+// Imperative API
 // ---------------------------------------------------------------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function render(section: string, el: HTMLElement, props?: Record<string, any>) {
   const Section = sections[section]
   if (!Section) {
     console.warn(
-      `[gorgias-embed] Unknown section "${section}". Available: ${Object.keys(sections).join(", ")}`
+      `[gorgias-embed] Unknown section "${section}". Available: ${Object.keys(sections).join(", ")}`,
     )
     return
   }
 
-  injectStyles()
   el.dataset.gorgiasReady = "true"
-  el.style.fontFamily = "'Geist', system-ui, sans-serif"
-  el.style.fontSize = "16px"
-  el.style.lineHeight = "1.5"
-  el.style.color = "#292827"
-  el.style.boxSizing = "border-box"
-  ReactDOM.createRoot(el).render(
-    <React.StrictMode>
-      <TooltipProvider delay={200}>
-        <Section {...props} />
-      </TooltipProvider>
-    </React.StrictMode>
-  )
+  mountInShadow(el, Section, props ?? {})
 }
 
-// Named color palette for easy reference
+// Named color palette
 const colors = {
   lavender: "#CDC2FF",
   salmon: "#FFB5B5",
@@ -176,7 +189,7 @@ window.GorgiasEmbed = GorgiasEmbed
 // Auto-mount on load
 // ---------------------------------------------------------------------------
 function init() {
-  injectStyles()
+  injectFonts()
   mountAll()
 }
 
