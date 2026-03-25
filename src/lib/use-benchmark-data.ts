@@ -42,8 +42,10 @@ export function useBenchmarkData() {
     // Skip fetch entirely if cache is fresh
     if (cached?.fresh) return
 
-    // Otherwise fetch in background — stale data is already showing
-    fetch("/api/benchmark")
+    // Use embed origin for absolute URL when embedded on external sites
+    const origin =
+      (window as unknown as Record<string, string>).__GORGIAS_EMBED_ORIGIN__ || ""
+    fetch(`${origin}/api/benchmark`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()

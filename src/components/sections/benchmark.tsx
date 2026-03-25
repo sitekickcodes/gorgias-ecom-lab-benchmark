@@ -1,4 +1,3 @@
-import { BenchmarkHeader } from "./benchmark-header"
 import { GmvSlider } from "./gmv-slider"
 import { AiAgentSection } from "./ai-agent-section"
 import { ResponseResolution } from "./response-resolution"
@@ -10,9 +9,7 @@ import { AccordionSection } from "@/components/accordion-section"
 export function Benchmark() {
   return (
     <BenchmarkProvider>
-      <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 items-start w-full">
-        <BenchmarkHeader />
-        <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col gap-5 w-full">
           <GmvSlider />
           <AiAgentSection />
           <AccordionSection
@@ -30,7 +27,6 @@ export function Benchmark() {
           >
             <FrtChart />
           </AccordionSection>
-        </div>
       </div>
     </BenchmarkProvider>
   )

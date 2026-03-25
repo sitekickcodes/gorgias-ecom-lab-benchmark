@@ -27,6 +27,14 @@ const _selfScript =
     (s) => s.src.includes("embed"),
   )
 
+// Derive the embed origin for API calls (e.g. https://gorgias.sitekick.co)
+const _embedOrigin = _selfScript?.src
+  ? new URL(_selfScript.src).origin
+  : ""
+
+// Expose origin so data hooks can build absolute API URLs
+;(window as unknown as Record<string, string>).__GORGIAS_EMBED_ORIGIN__ = _embedOrigin
+
 function injectStyles() {
   if (!_selfScript?.src) return
   const cssUrl = _selfScript.src.replace(/embed[^/]*\.js/, "embed.css").split("?")[0]
@@ -88,6 +96,14 @@ function mountAll() {
     const Section = sections[sectionName]
     const props = getPropsFromElement(el, sectionName)
     el.dataset.gorgiasReady = "true"
+
+    // Reset CSS inheritance from host page
+    el.style.fontFamily = "'Geist', system-ui, sans-serif"
+    el.style.fontSize = "16px"
+    el.style.lineHeight = "1.5"
+    el.style.color = "#292827"
+    el.style.boxSizing = "border-box"
+
     ReactDOM.createRoot(el).render(
       <React.StrictMode>
         <TooltipProvider delay={200}>
@@ -113,6 +129,11 @@ function render(section: string, el: HTMLElement, props?: Record<string, any>) {
 
   injectStyles()
   el.dataset.gorgiasReady = "true"
+  el.style.fontFamily = "'Geist', system-ui, sans-serif"
+  el.style.fontSize = "16px"
+  el.style.lineHeight = "1.5"
+  el.style.color = "#292827"
+  el.style.boxSizing = "border-box"
   ReactDOM.createRoot(el).render(
     <React.StrictMode>
       <TooltipProvider delay={200}>
