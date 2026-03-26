@@ -4,6 +4,7 @@ import { Benchmark } from "./components/sections/benchmark"
 import { ChartEmbed } from "./components/sections/chart-embed"
 import { parseChartProps } from "./components/sections/chart-embed/parse-config"
 import { TooltipProvider } from "@/components/tooltip"
+import { ShadowContainerProvider } from "@/lib/shadow-context"
 import "@/styles/globals.css"
 import "./index.css"
 
@@ -78,9 +79,11 @@ function mountInShadow(
 
   ReactDOM.createRoot(mountPoint).render(
     <React.StrictMode>
-      <TooltipProvider delay={200}>
-        <Section {...props} />
-      </TooltipProvider>
+      <ShadowContainerProvider container={mountPoint}>
+        <TooltipProvider delay={200}>
+          <Section {...props} />
+        </TooltipProvider>
+      </ShadowContainerProvider>
     </React.StrictMode>,
   )
 }

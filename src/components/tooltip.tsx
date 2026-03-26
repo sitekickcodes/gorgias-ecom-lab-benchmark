@@ -1,6 +1,7 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 
 import { cn } from "@/lib/utils"
+import { useShadowContainer } from "@/lib/shadow-context"
 
 function TooltipProvider({
   delay = 0,
@@ -36,8 +37,9 @@ function TooltipContent({
     TooltipPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
+  const container = useShadowContainer()
   return (
-    <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Portal container={container}>
       <TooltipPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -76,7 +78,7 @@ function MetricCard({
   )
 }
 
-// Shared card-style tooltip for metric labels — uses Base UI portal
+// Shared card-style tooltip for metric labels — portals into shadow container
 function MetricTooltipContent({
   label,
   description,
@@ -92,8 +94,9 @@ function MetricTooltipContent({
   align?: "center" | "start" | "end"
   collisionPadding?: number | { top?: number; right?: number; bottom?: number; left?: number }
 }) {
+  const container = useShadowContainer()
   return (
-    <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Portal container={container}>
       <TooltipPrimitive.Positioner
         side={side}
         sideOffset={sideOffset}
