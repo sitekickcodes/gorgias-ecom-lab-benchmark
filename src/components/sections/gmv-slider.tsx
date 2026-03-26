@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react"
 import { ChevronDown } from "lucide-react"
 import {
   DropdownMenu,
@@ -15,7 +16,24 @@ const datasetOptions: { value: Dataset; label: string }[] = [
   { value: "automation-rate", label: "Automation Rate" },
 ]
 
-const TICK_LABELS: Record<Dataset, { label: string; pct: number }[]> = {
+const TICK_LABELS_FULL: Record<Dataset, { label: string; pct: number }[]> = {
+  gmv: [
+    { label: "$50K", pct: 0 },
+    { label: "$500K", pct: 25 },
+    { label: "$5M", pct: 50 },
+    { label: "$50M", pct: 75 },
+    { label: "$500M", pct: 100 },
+  ],
+  "automation-rate": [
+    { label: "0%", pct: 0 },
+    { label: "25%", pct: 25 },
+    { label: "50%", pct: 50 },
+    { label: "75%", pct: 75 },
+    { label: "100%", pct: 100 },
+  ],
+}
+
+const TICK_LABELS_COMPACT: Record<Dataset, { label: string; pct: number }[]> = {
   gmv: [
     { label: "$50K", pct: 0 },
     { label: "$5M", pct: 50 },
@@ -41,7 +59,22 @@ export function GmvSlider() {
     industries,
   } = useBenchmark()
 
-  const ticks = TICK_LABELS[dataset]
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [wide, setWide] = useState(true)
+
+  useEffect(() => {
+    const el = sliderRef.current
+    if (!el) return
+    const check = () => setWide(el.offsetWidth >= 500)
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const ticks = wide
+    ? TICK_LABELS_FULL[dataset]
+    : TICK_LABELS_COMPACT[dataset]
 
   return (
     <div className="bg-card flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full">
@@ -101,7 +134,7 @@ export function GmvSlider() {
       </div>
 
       {/* Slider */}
-      <div className="flex flex-col gap-3 w-full min-w-0">
+      <div ref={sliderRef} className="flex flex-col gap-3 w-full min-w-0">
         <div className="flex items-center justify-between">
           <span
             key={dataset}
