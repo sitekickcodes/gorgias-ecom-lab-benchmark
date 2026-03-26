@@ -27,6 +27,21 @@ export interface BenchmarkRecord {
   medianTicketsPer100Orders: number
   medianCsatResponseRate: number
   topIntents: { intent: string; pct: number }[]
+  // P90 (top 10% performers)
+  p90FrtMin: number
+  p90ChatFrtMin: number
+  p90EmailFrtMin: number
+  p90ResolutionTimeHrs: number
+  p90MedianOneTouchRate: number
+  p90CsatScore: number
+  p90CsatPositive: number
+  p90MessagesPerTicket: number
+  p90MonthlyTickets: number
+  p90TicketsPer100Orders: number
+  p90CsatResponseRate: number
+  p90AiAutomationRate: number
+  p90AiSuccessRate: number
+  p90SaConversionRate: number
 }
 
 export type Dataset = "gmv" | "automation-rate"
@@ -100,6 +115,11 @@ export const METRIC_KEYS = [
   "aiAgentAdoptionRate", "saConversionRate", "saRevenueAttributed",
   "saAdoptionRate", "avgEstimatedGmv", "avgTotalAutomationRate",
   "medianTicketsPer100Orders", "medianCsatResponseRate",
+  "p90FrtMin", "p90ChatFrtMin", "p90EmailFrtMin", "p90ResolutionTimeHrs",
+  "p90MedianOneTouchRate", "p90CsatScore", "p90CsatPositive",
+  "p90MessagesPerTicket", "p90MonthlyTickets", "p90TicketsPer100Orders",
+  "p90CsatResponseRate", "p90AiAutomationRate", "p90AiSuccessRate",
+  "p90SaConversionRate",
 ] as const
 
 /**

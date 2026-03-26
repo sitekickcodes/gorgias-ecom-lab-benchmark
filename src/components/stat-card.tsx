@@ -79,6 +79,8 @@ interface StatCardProps {
     value: string
     label: string
   }
+  /** Top 10% performer value shown in green at the bottom */
+  topPerformer?: string
 }
 
 export function StatCard({
@@ -88,6 +90,7 @@ export function StatCard({
   detail,
   tooltip,
   highlight,
+  topPerformer,
 }: StatCardProps) {
   const { ref, display } = useCountUp(value)
 
@@ -111,19 +114,17 @@ export function StatCard({
       <p className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary tabular-nums">
         {display}
       </p>
-      {highlight ? (
-        <div className="flex gap-2 font-mono text-xs text-text-soft tracking-widest uppercase whitespace-nowrap">
-          <span>Median</span>
-          <span>
-            <span className="text-success">{highlight.value}</span>
-            <span> {highlight.label}</span>
-          </span>
-        </div>
-      ) : (
+      <div className="flex flex-col gap-1 w-full">
         <p className="font-mono text-xs text-text-soft tracking-widest uppercase">
           {detail}
         </p>
-      )}
+        {topPerformer && (
+          <p className="font-mono text-xs tracking-widest uppercase">
+            <span className="text-[#2d783e]">{topPerformer}</span>
+            <span className="text-text-soft"> top 10%</span>
+          </p>
+        )}
+      </div>
     </div>
   )
 }

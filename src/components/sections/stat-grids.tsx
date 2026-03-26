@@ -36,24 +36,28 @@ export function StatGrids() {
             value={loading ? "—" : `${fmt(r?.medianOneTouchRate)}%`}
             detail="Single reply resolved"
             tooltip="Median account-level share of tickets resolved in one touch."
+            topPerformer={!loading && r?.p90MedianOneTouchRate ? `${fmt(r.p90MedianOneTouchRate)}%` : undefined}
           />
           <StatCard
             title="CSAT score"
             value={loading ? "—" : fmt(r?.medianCsatScore, 2)}
             detail="Out of 5"
             tooltip="Median account-level average CSAT score. Only tickets with non-null survey scores contribute."
+            topPerformer={!loading && r?.p90CsatScore ? fmt(r.p90CsatScore, 2) : undefined}
           />
           <StatCard
             title="CSAT positive"
             value={loading ? "—" : `${fmt(r?.medianCsatPositive)}%`}
             detail="Score 4 or 5"
             tooltip="Median account-level positive CSAT rate. Positive means survey score 4 or 5."
+            topPerformer={!loading && r?.p90CsatPositive ? `${fmt(r.p90CsatPositive)}%` : undefined}
           />
           <StatCard
             title="Messages / ticket"
             value={loading ? "—" : fmt(r?.medianMessagesPerTicket, 1)}
             detail="Per conversation"
             tooltip="Median account-level median ticket message count."
+            topPerformer={!loading && r?.p90MessagesPerTicket ? fmt(r.p90MessagesPerTicket, 1) : undefined}
           />
         </div>
       </div>
@@ -69,12 +73,14 @@ export function StatGrids() {
             value={loading ? "—" : formatTickets(r?.medianMonthlyTickets)}
             detail="Per month average"
             tooltip="Median account-level average monthly ticket volume inside the 90-day window."
+            topPerformer={!loading && r?.p90MonthlyTickets ? formatTickets(r.p90MonthlyTickets) : undefined}
           />
           <StatCard
             title="Support intensity"
             value={loading ? "—" : fmt(r?.medianTicketsPer100Orders, 1)}
             detail="Tickets / 100 orders"
             tooltip="Median account-level billed ticket volume normalized per 100 orders."
+            topPerformer={!loading && r?.p90TicketsPer100Orders ? fmt(r.p90TicketsPer100Orders, 1) : undefined}
           />
           <StatCard
             title="Email share"
@@ -95,6 +101,7 @@ export function StatGrids() {
             value={loading ? "—" : `${fmt(r?.medianCsatResponseRate)}%`}
             detail="Surveys answered"
             tooltip="Median account-level response rate to sent CSAT surveys."
+            topPerformer={!loading && r?.p90CsatResponseRate ? `${fmt(r.p90CsatResponseRate)}%` : undefined}
           />
           <div className="bg-card flex flex-col items-start justify-start overflow-hidden p-6 rounded-2xl">
             <Tooltip>

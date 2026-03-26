@@ -37,6 +37,21 @@ const SHARED_FIELDS: Record<string, string> = {
   "Median Tickets / 100 Orders": "medianTicketsPer100Orders",
   "Median CSAT Response Rate (%)": "medianCsatResponseRate",
   "Top Intents": "topIntents",
+  // P90 (top 10% performers) for each metric
+  "P90 Across Accounts - Median First Response Time (min)": "p90FrtMin",
+  "P90 Across Accounts - Median Chat FRT (min)": "p90ChatFrtMin",
+  "P90 Across Accounts - Median Email FRT (min)": "p90EmailFrtMin",
+  "P90 Across Accounts - Median Resolution Time (hrs)": "p90ResolutionTimeHrs",
+  "P90 Across Accounts - Median One-Touch Rate (%)": "p90MedianOneTouchRate",
+  "P90 Across Accounts - Median CSAT Score": "p90CsatScore",
+  "P90 Across Accounts - Median CSAT Positive (%)": "p90CsatPositive",
+  "P90 Across Accounts - Median Messages / Ticket": "p90MessagesPerTicket",
+  "P90 Across Accounts - Median Monthly Tickets": "p90MonthlyTickets",
+  "P90 Across Accounts - Median Tickets / 100 Orders": "p90TicketsPer100Orders",
+  "P90 Across Accounts - Median CSAT Response Rate (%)": "p90CsatResponseRate",
+  "P90 Across Accounts - AI Agent Automation Rate - Active Only (%)": "p90AiAutomationRate",
+  "P90 Across Accounts - AI Agent Success Rate (%)": "p90AiSuccessRate",
+  "P90 Across Accounts - Shopping Assistant Conversion Rate (%)": "p90SaConversionRate",
 }
 
 export const GMV_FIELD_MAP: Record<string, string> = {

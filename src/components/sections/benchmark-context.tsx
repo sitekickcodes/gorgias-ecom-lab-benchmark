@@ -140,8 +140,8 @@ export function BenchmarkProvider({ children }: { children: React.ReactNode }) {
   }, [dataset, axisValue])
 
   const industries = useMemo(() => {
-    const set = new Set(records.map((r) => r.industry))
-    const sorted = [...set].filter((i) => i !== "All Industries").sort()
+    const set = new Set(records.map((r) => r.industry).filter(Boolean))
+    const sorted = [...set].filter((i) => i && i !== "All Industries").sort()
     if (set.has("All Industries")) sorted.unshift("All Industries")
     return sorted
   }, [records])

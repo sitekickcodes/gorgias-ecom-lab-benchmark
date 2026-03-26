@@ -1,7 +1,6 @@
 import { StatCard } from "@/components/stat-card"
 import { useBenchmark } from "./benchmark-context"
-import { formatTime } from "@/lib/utils"
-import { cn } from "@/lib/utils"
+import { formatTime, cn } from "@/lib/utils"
 
 export function ResponseResolution() {
   const { currentRecord: r, loading, containerSize } = useBenchmark()
@@ -22,24 +21,28 @@ export function ResponseResolution() {
           value={loading ? "—" : formatTime(frtMin)}
           detail="All channels"
           tooltip="Median per-account first response time over the 90-day benchmark window, then median across accounts in each bucket and industry."
+          topPerformer={!loading && r?.p90FrtMin ? formatTime(r.p90FrtMin) : undefined}
         />
         <StatCard
           title="Chat FRT"
           value={loading ? "—" : formatTime(chatFrtMin)}
           detail="Chat channel"
           tooltip="Median per-account first response time for chat tickets only."
+          topPerformer={!loading && r?.p90ChatFrtMin ? formatTime(r.p90ChatFrtMin) : undefined}
         />
         <StatCard
           title="Email FRT"
           value={loading ? "—" : formatTime(emailFrtMin)}
           detail="Email channel"
           tooltip="Median per-account first response time for email tickets only."
+          topPerformer={!loading && r?.p90EmailFrtMin ? formatTime(r.p90EmailFrtMin) : undefined}
         />
         <StatCard
           title="Resolution time"
           value={loading ? "—" : formatTime(resolutionHrs * 60)}
           detail="Creation to close"
           tooltip="Median per-account resolution time over the 90-day benchmark window, then median across accounts."
+          topPerformer={!loading && r?.p90ResolutionTimeHrs ? formatTime(r.p90ResolutionTimeHrs * 60) : undefined}
         />
       </div>
     </div>
