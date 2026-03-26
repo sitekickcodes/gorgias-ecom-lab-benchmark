@@ -1,9 +1,10 @@
 import { StatCard } from "@/components/stat-card"
 import { useBenchmark } from "./benchmark-context"
 import { formatTime } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function ResponseResolution() {
-  const { currentRecord: r, loading } = useBenchmark()
+  const { currentRecord: r, loading, containerSize } = useBenchmark()
 
   const frtMin = r?.medianFrtMin ?? 0
   const chatFrtMin = r?.medianChatFrtMin ?? 0
@@ -15,7 +16,7 @@ export function ResponseResolution() {
       <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
         Response &amp; Resolution
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
+      <div className={cn("grid gap-3 sm:gap-4 w-full", containerSize === "md" ? "grid-cols-4" : "grid-cols-2")}>
         <StatCard
           title="First response time"
           value={loading ? "—" : formatTime(frtMin)}

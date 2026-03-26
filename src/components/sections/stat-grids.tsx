@@ -6,6 +6,7 @@ import {
   MetricTooltipContent,
 } from "@/components/tooltip"
 import { useBenchmark } from "./benchmark-context"
+import { cn } from "@/lib/utils"
 
 function fmt(n: number | undefined, decimals = 1): string {
   if (n == null) return "—"
@@ -19,7 +20,8 @@ function formatTickets(n: number | undefined): string {
 }
 
 export function StatGrids() {
-  const { currentRecord: r, loading } = useBenchmark()
+  const { currentRecord: r, loading, containerSize } = useBenchmark()
+  const gridCols = containerSize === "md" ? "grid-cols-4" : "grid-cols-2"
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -28,7 +30,7 @@ export function StatGrids() {
         <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
           Quality &amp; Satisfaction
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
+        <div className={cn("grid gap-3 sm:gap-4 w-full", gridCols)}>
           <StatCard
             title="One-touch rate"
             value={loading ? "—" : `${fmt(r?.medianOneTouchRate)}%`}
@@ -61,7 +63,7 @@ export function StatGrids() {
         <h2 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
           Volume &amp; Channels
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
+        <div className={cn("grid gap-3 sm:gap-4 w-full", gridCols)}>
           <StatCard
             title="Monthly tickets"
             value={loading ? "—" : formatTickets(r?.medianMonthlyTickets)}

@@ -3,13 +3,13 @@ import { AiAgentSection } from "./ai-agent-section"
 import { ResponseResolution } from "./response-resolution"
 import { StatGrids } from "./stat-grids"
 import { FrtChart } from "./frt-chart"
-import { BenchmarkProvider } from "./benchmark-context"
+import { BenchmarkProvider, useBenchmark } from "./benchmark-context"
 import { AccordionSection } from "@/components/accordion-section"
 
-export function Benchmark() {
+function BenchmarkInner() {
+  const { containerRef } = useBenchmark()
   return (
-    <BenchmarkProvider>
-      <div className="flex flex-col gap-5 w-full">
+      <div ref={containerRef} className="flex flex-col gap-5 w-full">
           <GmvSlider />
           <AiAgentSection />
           <AccordionSection
@@ -28,6 +28,13 @@ export function Benchmark() {
             <FrtChart />
           </AccordionSection>
       </div>
+  )
+}
+
+export function Benchmark() {
+  return (
+    <BenchmarkProvider>
+      <BenchmarkInner />
     </BenchmarkProvider>
   )
 }

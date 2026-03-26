@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo } from "react"
+import { createContext, useContext, useState, useMemo, useEffect, useRef } from "react"
 import { useBenchmarkData } from "@/lib/use-benchmark-data"
 import type { BenchmarkRecord, Dataset } from "@/lib/types"
 import {
@@ -31,6 +31,10 @@ interface BenchmarkContextValue {
   allIndustriesRecords: BenchmarkRecord[]
   /** All records in the active dataset */
   records: BenchmarkRecord[]
+  /** Container width breakpoint: "sm" (< 700px) or "md" (>= 700px) */
+  containerSize: "sm" | "md"
+  /** Ref to attach to the benchmark root div for width measurement */
+  containerRef: React.RefObject<HTMLDivElement | null>
 }
 
 // GMV slider range in log10 space: $50K to $500M
@@ -74,6 +78,8 @@ const BenchmarkContext = createContext<BenchmarkContextValue>({
   industryRecords: [],
   allIndustriesRecords: [],
   records: [],
+  containerSize: "md",
+  containerRef: { current: null },
 })
 
 const TIER_ORDER: Record<Dataset, readonly string[]> = {
@@ -96,9 +102,22 @@ export function BenchmarkProvider({ children }: { children: React.ReactNode }) {
   const { data, loading, error } = useBenchmarkData()
   const [dataset, setDatasetRaw] = useState<Dataset>("gmv")
   const [industry, setIndustry] = useState("All Industries")
-  // Slider is 0-100 (percentage of range)
   const [gmvSlider, setGmvSlider] = useState(50)
   const [autoSlider, setAutoSlider] = useState(25)
+
+  // Container width measurement for responsive grids inside embeds
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [containerSize, setContainerSize] = useState<"sm" | "md">("md")
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const check = () => setContainerSize(el.offsetWidth >= 700 ? "md" : "sm")
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   const sliderValue = dataset === "gmv" ? gmvSlider : autoSlider
   const setSliderValue = dataset === "gmv" ? setGmvSlider : setAutoSlider
@@ -168,6 +187,8 @@ export function BenchmarkProvider({ children }: { children: React.ReactNode }) {
         industryRecords,
         allIndustriesRecords,
         records,
+        containerSize,
+        containerRef,
       }}
     >
       {children}

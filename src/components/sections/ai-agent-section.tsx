@@ -214,7 +214,7 @@ function formatCurrency(n: number): string {
 }
 
 export function AiAgentSection() {
-  const { currentRecord: r, loading } = useBenchmark()
+  const { currentRecord: r, loading, containerSize } = useBenchmark()
 
   const adoptionRate = r?.aiAgentAdoptionRate ?? 0
   const automationRate = r?.aiAgentAutomationRate ?? 0
@@ -226,7 +226,7 @@ export function AiAgentSection() {
       title="AI Adoption Index"
       subtitle="How Gorgias customers are adopting and performing with AI Agent and Shopping Assistant"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div className={`grid gap-3 sm:gap-4 ${containerSize === "md" ? "grid-cols-4" : "grid-cols-2"}`}>
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
           <GaugeChart
             value={adoptionRate}
