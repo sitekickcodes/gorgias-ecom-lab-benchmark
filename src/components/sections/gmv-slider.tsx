@@ -18,16 +18,12 @@ const datasetOptions: { value: Dataset; label: string }[] = [
 const TICK_LABELS: Record<Dataset, { label: string; pct: number }[]> = {
   gmv: [
     { label: "$50K", pct: 0 },
-    { label: "$500K", pct: 25 },
     { label: "$5M", pct: 50 },
-    { label: "$50M", pct: 75 },
     { label: "$500M", pct: 100 },
   ],
   "automation-rate": [
     { label: "0%", pct: 0 },
-    { label: "25%", pct: 25 },
     { label: "50%", pct: 50 },
-    { label: "75%", pct: 75 },
     { label: "100%", pct: 100 },
   ],
 }
@@ -48,7 +44,7 @@ export function GmvSlider() {
   const ticks = TICK_LABELS[dataset]
 
   return (
-    <div className="bg-card flex flex-col md:flex-row md:items-start gap-10 sm:gap-16 p-4 sm:p-6 rounded-2xl w-full">
+    <div className="bg-card flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full">
       {/* Controls: industry dropdown + dataset buttons */}
       <div className="flex flex-wrap items-end gap-x-4 gap-y-3 shrink-0">
         <div className="flex flex-col gap-1.5">
@@ -105,7 +101,7 @@ export function GmvSlider() {
       </div>
 
       {/* Slider */}
-      <div className="flex flex-col gap-3 w-full min-w-0 md:pl-6 md:ml-auto">
+      <div className="flex flex-col gap-3 w-full min-w-0">
         <div className="flex items-center justify-between">
           <span
             key={dataset}

@@ -73,8 +73,9 @@ function mountInShadow(
   style.textContent = EMBED_CSS
   shadow.appendChild(style)
 
-  // React mount point
+  // React mount point — set as @container for container queries
   const mountPoint = document.createElement("div")
+  mountPoint.style.containerType = "inline-size"
   shadow.appendChild(mountPoint)
 
   ReactDOM.createRoot(mountPoint).render(
