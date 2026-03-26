@@ -95,36 +95,36 @@ export function StatCard({
   const { ref, display } = useCountUp(value)
 
   return (
-    <div ref={ref} className="min-h-36 bg-card flex flex-col items-start justify-between gap-2 p-4 sm:p-6 rounded-2xl">
-      {tooltip ? (
-        <Tooltip>
-          <TooltipTrigger
-            render={<span />}
-            className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help text-left"
-          >
+    <div ref={ref} className="min-h-36 bg-card flex flex-col items-start justify-between rounded-2xl overflow-hidden">
+      <div className="flex flex-col items-start justify-between gap-2 p-4 sm:p-6 w-full flex-1">
+        {tooltip ? (
+          <Tooltip>
+            <TooltipTrigger
+              render={<span />}
+              className="text-base leading-relaxed text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help text-left"
+            >
+              {title}
+            </TooltipTrigger>
+            <MetricTooltipContent label={title} description={tooltip} />
+          </Tooltip>
+        ) : (
+          <p className="text-base leading-relaxed text-text-primary">
             {title}
-          </TooltipTrigger>
-          <MetricTooltipContent label={title} description={tooltip} />
-        </Tooltip>
-      ) : (
-        <p className="text-base leading-relaxed text-text-primary">
-          {title}
+          </p>
+        )}
+        <p className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary tabular-nums">
+          {display}
         </p>
-      )}
-      <p className="font-heading text-3xl sm:text-4xl md:text-5xl leading-[1.2] text-text-primary tabular-nums">
-        {display}
-      </p>
-      <div className="flex flex-col gap-1 w-full">
         <p className="font-mono text-xs text-text-soft tracking-widest uppercase">
           {detail}
         </p>
-        {topPerformer && (
-          <p className="font-mono text-xs tracking-widest uppercase">
-            <span className="text-[#2d783e]">{topPerformer}</span>
-            <span className="text-text-soft"> top 10%</span>
-          </p>
-        )}
       </div>
+      {topPerformer && (
+        <div className="w-full bg-[#fdfcfb] border-t border-[#efe9e2] px-4 sm:px-6 py-2.5 flex items-center gap-1.5">
+          <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-muted">Top performers</span>
+          <span className="font-mono text-[11px] tracking-[0.08em] uppercase tabular-nums font-medium text-[#2d783e]">{topPerformer}</span>
+        </div>
+      )}
     </div>
   )
 }

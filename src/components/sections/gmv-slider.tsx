@@ -84,7 +84,7 @@ export function GmvSlider() {
           <span className="text-base text-text-primary">Industry</span>
           <DropdownMenu>
             <DropdownMenuTrigger className="relative flex items-center justify-between gap-3 h-8 px-3 py-2 border border-border-muted hover:border-border-soft active:border-border-soft data-[state=open]:border-border-soft rounded-lg text-sm text-text-primary whitespace-nowrap transition-colors">
-              <span className="invisible h-0 block">
+              <span className="invisible h-0 block" suppressHydrationWarning>
                 {industries.reduce(
                   (a, b) => ((a || "").length >= (b || "").length ? a : b),
                   "",
