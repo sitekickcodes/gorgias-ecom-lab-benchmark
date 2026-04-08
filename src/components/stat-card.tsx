@@ -95,8 +95,8 @@ export function StatCard({
   const { ref, display } = useCountUp(value)
 
   return (
-    <div ref={ref} className="min-h-36 bg-card flex flex-col items-start justify-between rounded-2xl overflow-hidden">
-      <div className="flex flex-col items-start justify-between gap-2 p-4 sm:p-6 w-full flex-1">
+    <div ref={ref} className="min-h-36 bg-card flex flex-col items-start rounded-2xl overflow-hidden">
+      <div className="flex flex-col items-start gap-2 p-4 sm:p-6 w-full">
         {tooltip ? (
           <Tooltip>
             <TooltipTrigger
@@ -120,7 +120,7 @@ export function StatCard({
         </p>
       </div>
       {topPerformer && (
-        <div className="w-full bg-[#fdfcfb] border-t border-[#efe9e2] px-4 sm:px-6 py-2.5 flex items-center gap-1.5">
+        <div className="w-full mt-auto bg-[#fdfcfb] border-t border-[#efe9e2] px-4 sm:px-6 py-2.5 flex items-center gap-1.5">
           <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-muted">Top performers</span>
           <span className="font-mono text-[11px] tracking-[0.08em] uppercase tabular-nums font-medium text-[#2d783e]">{topPerformer}</span>
         </div>
