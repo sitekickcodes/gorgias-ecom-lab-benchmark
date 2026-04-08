@@ -57,7 +57,6 @@ export function StatGrids() {
             value={loading ? "—" : fmt(r?.medianMessagesPerTicket, 1)}
             detail="Per conversation"
             tooltip="Median account-level median ticket message count."
-            topPerformer={!loading && r?.p90MessagesPerTicket ? fmt(r.p90MessagesPerTicket, 1) : undefined}
           />
         </div>
       </div>
@@ -73,14 +72,12 @@ export function StatGrids() {
             value={loading ? "—" : formatTickets(r?.medianMonthlyTickets)}
             detail="Per month average"
             tooltip="Median account-level average monthly ticket volume inside the 90-day window."
-            topPerformer={!loading && r?.p90MonthlyTickets ? formatTickets(r.p90MonthlyTickets) : undefined}
           />
           <StatCard
             title="Support intensity"
             value={loading ? "—" : fmt(r?.medianTicketsPer100Orders, 1)}
             detail="Tickets / 100 orders"
             tooltip="Median account-level billed ticket volume normalized per 100 orders."
-            topPerformer={!loading && r?.p90TicketsPer100Orders ? fmt(r.p90TicketsPer100Orders, 1) : undefined}
           />
           <StatCard
             title="Email share"
