@@ -35,28 +35,28 @@ export function StatGrids() {
             title="One-touch rate"
             value={loading ? "—" : `${fmt(r?.medianOneTouchRate)}%`}
             detail="Single reply resolved"
-            tooltip="Median account-level share of tickets resolved in one touch."
+            tooltip="Median of per-account share of tickets resolved in a single response, including both AI and human agents."
             topPerformer={!loading && r?.p90MedianOneTouchRate ? `${fmt(r.p90MedianOneTouchRate)}%` : undefined}
           />
           <StatCard
             title="CSAT score"
             value={loading ? "—" : fmt(r?.medianCsatScore, 2)}
             detail="Out of 5"
-            tooltip="Median account-level average CSAT score. Only tickets with non-null survey scores contribute."
+            tooltip="Median of per-account average CSAT score. Only tickets with non-null survey scores contribute."
             topPerformer={!loading && r?.p90CsatScore ? fmt(r.p90CsatScore, 2) : undefined}
           />
           <StatCard
             title="CSAT positive"
             value={loading ? "—" : `${fmt(r?.medianCsatPositive)}%`}
             detail="Score 4 or 5"
-            tooltip="Median account-level positive CSAT rate. Positive means survey score 4 or 5."
+            tooltip="Median of positive CSAT rate per account, where &quot;positive&quot; includes survey scores of 4 or 5."
             topPerformer={!loading && r?.p90CsatPositive ? `${fmt(r.p90CsatPositive)}%` : undefined}
           />
           <StatCard
             title="Messages / ticket"
             value={loading ? "—" : fmt(r?.medianMessagesPerTicket, 1)}
             detail="Per conversation"
-            tooltip="Median account-level median ticket message count."
+            tooltip="Median of per-account median ticket message counts."
           />
         </div>
       </div>
@@ -71,25 +71,25 @@ export function StatGrids() {
             title="Monthly tickets"
             value={loading ? "—" : formatTickets(r?.medianMonthlyTickets)}
             detail="Per month average"
-            tooltip="Median account-level average monthly ticket volume inside the 90-day window."
+            tooltip="Median of per-account average monthly ticket volume over the 90-day benchmark window"
           />
           <StatCard
             title="Support intensity"
             value={loading ? "—" : fmt(r?.medianTicketsPer100Orders, 1)}
             detail="Tickets / 100 orders"
-            tooltip="Median account-level billed ticket volume normalized per 100 orders."
+            tooltip="Median per-account billed ticket volume per 100 orders"
           />
           <StatCard
             title="Email share"
             value={loading ? "—" : `${fmt(r?.medianEmailShare)}%`}
             detail="Tickets via email"
-            tooltip="Median account-level share of tickets created via email."
+            tooltip="Median per-account share of tickets created via email."
           />
           <StatCard
             title="Chat share"
             value={loading ? "—" : `${fmt(r?.medianChatShare)}%`}
             detail="Tickets via chat"
-            tooltip="Median account-level share of tickets created via chat."
+            tooltip="Median per-account share of tickets created via chat"
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
@@ -97,7 +97,7 @@ export function StatGrids() {
             title="CSAT response rate"
             value={loading ? "—" : `${fmt(r?.medianCsatResponseRate)}%`}
             detail="Surveys answered"
-            tooltip="Median account-level response rate to sent CSAT surveys."
+            tooltip="Median per-account CSAT survey response rate"
             topPerformer={!loading && r?.p90CsatResponseRate ? `${fmt(r.p90CsatResponseRate)}%` : undefined}
           />
           <div className="bg-card flex flex-col items-start justify-start overflow-hidden p-6 rounded-2xl">

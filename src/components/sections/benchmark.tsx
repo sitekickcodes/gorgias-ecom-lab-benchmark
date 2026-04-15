@@ -23,7 +23,7 @@ function BenchmarkInner() {
           </AccordionSection>
           <AccordionSection
             title="Compare Industries"
-            subtitle="Compare any metric across industries — click the chart title to switch metrics"
+            subtitle="Compare metrics across industries. Select an industry above to highlight it on the CX Benchmark dashboard, and click a chart title below to switch metrics."
           >
             <FrtChart />
           </AccordionSection>

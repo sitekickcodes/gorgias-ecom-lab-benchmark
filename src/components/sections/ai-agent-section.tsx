@@ -232,8 +232,8 @@ export function AiAgentSection() {
             value={adoptionRate}
             color={PINK}
             valueLabel={loading ? "—" : `${adoptionRate.toFixed(1)}%`}
-            label="AI Agent adoption"
-            tooltip="Share of accounts in this segment with AI Agent enabled and active."
+            label="AI adoption"
+            tooltip="Share of accounts that have enabled AI"
           />
         </div>
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
@@ -242,7 +242,7 @@ export function AiAgentSection() {
             color={PURPLE}
             valueLabel={loading ? "—" : `${automationRate.toFixed(1)}%`}
             label="AI automation rate"
-            tooltip="Share of AI Agent handled tickets out of total tickets, including human handovers."
+            tooltip="Share of AI-handled tickets out of total tickets."
           />
         </div>
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-end min-h-[220px]">
@@ -251,7 +251,7 @@ export function AiAgentSection() {
             color={AMBER}
             valueLabel={loading ? "—" : `${conversionRate.toFixed(2)}%`}
             label="AI conversion rate"
-            tooltip="Median Shopping Assistant conversion rate among active SA accounts. Measures orders influenced per SA conversation."
+            tooltip="Median conversion rate among merchants with AI enabled, measured as orders influenced per AI conversation"
           />
         </div>
         <div className="bg-card rounded-2xl p-6 flex flex-col items-center justify-center min-h-[220px]">
@@ -268,7 +268,7 @@ export function AiAgentSection() {
               </TooltipTrigger>
               <MetricTooltipContent
                 label="AI revenue influenced"
-                description="Average revenue attributed to AI-powered Shopping Assistant interactions per active store."
+                description="Average revenue influenced by AI conversations among enabled merchants"
               />
             </Tooltip>
           </div>

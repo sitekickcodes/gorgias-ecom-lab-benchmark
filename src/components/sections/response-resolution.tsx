@@ -20,7 +20,7 @@ export function ResponseResolution() {
           title="First response time"
           value={loading ? "—" : formatTime(frtMin)}
           detail="All channels"
-          tooltip="Median per-account first response time over the 90-day benchmark window, then median across accounts in each bucket and industry."
+          tooltip="Median per-account first response time over the 90-day benchmark window."
           topPerformer={!loading && r?.p10FrtMin ? formatTime(r.p10FrtMin) : undefined}
         />
         <StatCard
@@ -41,7 +41,7 @@ export function ResponseResolution() {
           title="Resolution time"
           value={loading ? "—" : formatTime(resolutionHrs * 60)}
           detail="Creation to close"
-          tooltip="Median per-account resolution time over the 90-day benchmark window, then median across accounts."
+          tooltip="Median per-account resolution time over the 90-day benchmark window."
           topPerformer={!loading && r?.p10ResolutionTimeHrs ? formatTime(r.p10ResolutionTimeHrs * 60) : undefined}
         />
       </div>
