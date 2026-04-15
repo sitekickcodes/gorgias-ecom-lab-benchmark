@@ -39,8 +39,8 @@ const SHARED_FIELDS: Record<string, string> = {
   "Top Intents": "topIntents",
   // P90 (top 10% performers) for each metric
   "P90 Across Accounts - Median First Response Time (min)": "p90FrtMin",
-  "P90 Across Accounts - Median Chat FRT (min)": "p90ChatFrtMin",
-  "P90 Across Accounts - Median Email FRT (min)": "p90EmailFrtMin",
+  "P10 Median Chat FRT (min)": "p10ChatFrtMin",
+  "P10 Median Email FRT (min)": "p10EmailFrtMin",
   "P90 Across Accounts - Median Resolution Time (hrs)": "p90ResolutionTimeHrs",
   "P90 Across Accounts - Median One-Touch Rate (%)": "p90MedianOneTouchRate",
   "P90 Across Accounts - Median CSAT Score": "p90CsatScore",

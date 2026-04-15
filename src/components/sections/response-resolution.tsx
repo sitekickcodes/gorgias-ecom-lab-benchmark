@@ -28,12 +28,14 @@ export function ResponseResolution() {
           value={loading ? "—" : formatTime(chatFrtMin)}
           detail="Chat channel"
           tooltip="Median per-account first response time for chat tickets only."
+          topPerformer={!loading && r?.p10ChatFrtMin ? formatTime(r.p10ChatFrtMin) : undefined}
         />
         <StatCard
           title="Email FRT"
           value={loading ? "—" : formatTime(emailFrtMin)}
           detail="Email channel"
           tooltip="Median per-account first response time for email tickets only."
+          topPerformer={!loading && r?.p10EmailFrtMin ? formatTime(r.p10EmailFrtMin) : undefined}
         />
         <StatCard
           title="Resolution time"

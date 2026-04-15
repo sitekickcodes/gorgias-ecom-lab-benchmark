@@ -29,8 +29,8 @@ export interface BenchmarkRecord {
   topIntents: { intent: string; pct: number }[]
   // P90 (top 10% performers)
   p90FrtMin: number
-  p90ChatFrtMin: number
-  p90EmailFrtMin: number
+  p10ChatFrtMin: number
+  p10EmailFrtMin: number
   p90ResolutionTimeHrs: number
   p90MedianOneTouchRate: number
   p90CsatScore: number
@@ -115,7 +115,7 @@ export const METRIC_KEYS = [
   "aiAgentAdoptionRate", "saConversionRate", "saRevenueAttributed",
   "saAdoptionRate", "avgEstimatedGmv", "avgTotalAutomationRate",
   "medianTicketsPer100Orders", "medianCsatResponseRate",
-  "p90FrtMin", "p90ChatFrtMin", "p90EmailFrtMin", "p90ResolutionTimeHrs",
+  "p90FrtMin", "p10ChatFrtMin", "p10EmailFrtMin", "p90ResolutionTimeHrs",
   "p90MedianOneTouchRate", "p90CsatScore", "p90CsatPositive",
   "p90MessagesPerTicket", "p90MonthlyTickets", "p90TicketsPer100Orders",
   "p90CsatResponseRate", "p90AiAutomationRate", "p90AiSuccessRate",
