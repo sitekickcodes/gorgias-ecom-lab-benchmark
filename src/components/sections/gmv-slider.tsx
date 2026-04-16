@@ -12,7 +12,7 @@ import { useBenchmark } from "./benchmark-context"
 import type { Dataset } from "@/lib/types"
 
 const datasetOptions: { value: Dataset; label: string }[] = [
-  { value: "gmv", label: "Estimated GMV" },
+  { value: "gmv", label: "Annual Sales" },
   { value: "automation-rate", label: "Automation Rate" },
 ]
 

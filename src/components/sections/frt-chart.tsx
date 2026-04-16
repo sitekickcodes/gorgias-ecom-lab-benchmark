@@ -123,7 +123,7 @@ export function FrtChart() {
   const { records, industries, industry, dataset, loading } = useBenchmark()
   const [metricKey, setMetricKey] = useState<string>("medianFrtMin")
   const metric = METRIC_OPTIONS.find((m) => m.key === metricKey) ?? METRIC_OPTIONS[0]
-  const axisLabel = dataset === "gmv" ? "GMV" : "Automation Rate"
+  const axisLabel = dataset === "gmv" ? "Annual sales" : "Automation Rate"
   const tiers = TIER_ORDER[dataset]
 
   // For resolution time, convert hours to minutes for consistent time formatting
