@@ -5,6 +5,7 @@ import { ChartEmbed } from "./components/sections/chart-embed"
 import { parseChartProps } from "./components/sections/chart-embed/parse-config"
 import { TooltipProvider } from "@/components/tooltip"
 import { ShadowContainerProvider } from "@/lib/shadow-context"
+import { injectBenchmarkSchema } from "@/lib/benchmark-schema"
 import "@/styles/globals.css"
 import "./index.css"
 
@@ -136,6 +137,7 @@ function mountAll() {
     const Section = sections[sectionName]
     const props = getPropsFromElement(el, sectionName)
     el.dataset.gorgiasReady = "true"
+    if (sectionName === "benchmark") injectBenchmarkSchema()
     mountInShadow(el, Section, props)
   })
 }
@@ -153,6 +155,7 @@ function render(section: string, el: HTMLElement, props?: Record<string, any>) {
     return
   }
   el.dataset.gorgiasReady = "true"
+  if (section === "benchmark") injectBenchmarkSchema()
   mountInShadow(el, Section, props ?? {})
 }
 
