@@ -35,31 +35,35 @@ export function TableEmbed({ config }: { config: TableConfig }) {
         </tr>
       </thead>
       <tbody>
-        {config.rows.map((row, rowIdx) => (
-          <tr
-            key={rowIdx}
-            style={{
-              backgroundColor:
-                config.striped && rowIdx % 2 === 1 ? "#faf9f7" : undefined,
-            }}
-          >
-            {config.columns.map((col) => (
-              <td
-                key={col.key}
-                style={{
-                  textAlign: (col.align as React.CSSProperties["textAlign"]) ?? "left",
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #efe9e2",
-                  color: col.color ?? "#292827",
-                  fontWeight: col.bold ? 600 : 400,
-                  fontSize: 14,
-                }}
-              >
-                {row[col.key] ?? ""}
-              </td>
-            ))}
-          </tr>
-        ))}
+        {config.rows.map((row, rowIdx) => {
+          const isLast = rowIdx === config.rows.length - 1
+          return (
+            <tr
+              key={rowIdx}
+              style={{
+                backgroundColor:
+                  config.striped && rowIdx % 2 === 1 ? "#faf9f7" : undefined,
+              }}
+            >
+              {config.columns.map((col) => (
+                <td
+                  key={col.key}
+                  style={{
+                    textAlign:
+                      (col.align as React.CSSProperties["textAlign"]) ?? "left",
+                    padding: "12px 16px",
+                    borderBottom: isLast ? "none" : "1px solid #efe9e2",
+                    color: col.color ?? "#292827",
+                    fontWeight: col.bold ? 600 : 400,
+                    fontSize: 14,
+                  }}
+                >
+                  {row[col.key] ?? ""}
+                </td>
+              ))}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
     </div>
