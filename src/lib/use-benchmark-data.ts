@@ -28,19 +28,23 @@ function writeCache(data: BenchmarkData) {
   }
 }
 
-const cached = readCache()
-
 export function useBenchmarkData() {
-  const [data, setData] = useState<BenchmarkData>(
-    cached?.data ?? { gmv: [], auto: [] },
-  )
-  // Only show loading if we have absolutely no data
-  const [loading, setLoading] = useState(cached === null)
+  const [data, setData] = useState<BenchmarkData>({ gmv: [], auto: [] })
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Skip fetch entirely if cache is fresh
-    if (cached?.fresh) return
+    // Check cache after mount — reading sessionStorage at module init would
+    // desync SSR (always null) from client (may have data), causing hydration mismatch.
+    // The setState-in-effect lint rule doesn't apply here: we're syncing from an
+    // external store (sessionStorage), which is exactly what effects are for.
+    const cached = readCache()
+    if (cached) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setData(cached.data)
+      setLoading(false)
+      if (cached.fresh) return
+    }
 
     // Use embed origin for absolute URL when embedded on external sites
     const origin =
