@@ -19,7 +19,6 @@ import {
   DEFAULT_HEIGHTS,
   DEFAULT_COLORS,
   createAxisFormatter,
-  measureYAxisWidth,
 } from "../defaults"
 
 export function LineChartEmbed({
@@ -33,7 +32,6 @@ export function LineChartEmbed({
     config.yAxis?.format,
     config.yAxis?.formatTemplate,
   )
-  const yWidth = measureYAxisWidth(config.data, yFmt)
 
   const chartConfig: ChartConfig = {
     value: { label: config.yAxis?.label ?? "Value", color },
@@ -58,13 +56,13 @@ export function LineChartEmbed({
         <YAxis
           tickLine={false}
           axisLine={false}
-          width={yWidth}
+          width="auto"
           tick={AXIS_TICK}
           tickFormatter={yFmt}
           hide={config.yAxis?.hide}
           domain={config.yAxis?.domain}
         />
-        <Tooltip content={<EmbedTooltip formatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />} />
+        <Tooltip content={<EmbedTooltip valueFormatter={yFmt} xLabel={config.xAxis?.label} yLabel={config.yAxis?.label} />} />
         <Line
           type={config.curve ?? "monotone"}
           dataKey="value"
