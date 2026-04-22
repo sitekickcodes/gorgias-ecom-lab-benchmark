@@ -7,7 +7,6 @@ import {
 import { AccordionSection } from "@/components/accordion-section"
 import { useBenchmark } from "./benchmark-context"
 
-const SALMON = "#FFB5B5"
 const PURPLE = "#CDC2FF"
 const AMBER = "#FFCC9D"
 const PINK = "#F5D4FF"
@@ -102,110 +101,6 @@ function GaugeChart({
   )
 }
 
-function VerticalBar({
-  value,
-  label,
-  valueLabel,
-  tooltip,
-}: {
-  value: number
-  label: string
-  valueLabel: string
-  tooltip: string
-}) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  return (
-    <div className="flex-1 flex flex-col gap-3 items-center h-full justify-end">
-      <div className="flex-1 flex items-end w-full justify-center">
-        <div
-          className="w-5 rounded relative"
-          style={{ backgroundColor: TRACK, height: "100%" }}
-        >
-          <div
-            className="absolute bottom-0 left-0 right-0 rounded"
-            style={{
-              height: mounted ? `${Math.min(value, 100)}%` : "0%",
-              backgroundColor: AMBER,
-              transition: "height 1s ease-out",
-            }}
-          />
-        </div>
-      </div>
-      <Tooltip>
-        <TooltipTrigger
-          render={<div />}
-          className="flex flex-col gap-1 text-center cursor-help"
-        >
-          <p className="font-sans text-2xl text-text-primary leading-tight">{valueLabel}</p>
-          <p className="font-sans text-base text-text-primary tracking-wide leading-snug underline decoration-dotted decoration-text-soft/50 underline-offset-2">
-            {label}
-          </p>
-        </TooltipTrigger>
-        <MetricTooltipContent label={label} description={tooltip} />
-      </Tooltip>
-    </div>
-  )
-}
-
-function MetricBar({
-  title,
-  tooltip,
-  value,
-  maxValue,
-  label,
-  color,
-}: {
-  title: string
-  tooltip: string
-  value: number
-  maxValue: number
-  label: string
-  color: string
-}) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  const fillPct = maxValue > 0 ? Math.min((value / maxValue) * 100, 100) : 0
-
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-baseline justify-between">
-        <Tooltip>
-          <TooltipTrigger
-            render={<span />}
-            className="font-sans text-base text-text-primary underline decoration-dotted decoration-text-soft/50 underline-offset-2 cursor-help"
-          >
-            {title}
-          </TooltipTrigger>
-          <MetricTooltipContent label={title} description={tooltip} />
-        </Tooltip>
-        <span className="font-sans text-base text-text-primary">{label}</span>
-      </div>
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ height: 20, borderRadius: 4, backgroundColor: TRACK }}
-      >
-        <div
-          className="absolute inset-y-0 left-0"
-          style={{
-            width: mounted ? `${fillPct}%` : "0%",
-            backgroundColor: color,
-            borderRadius: 4,
-            transition: "width 1s ease-out",
-          }}
-        />
-      </div>
-    </div>
-  )
-}
 
 function formatCurrency(n: number): string {
   if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`

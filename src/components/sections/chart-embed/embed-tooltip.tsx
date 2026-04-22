@@ -1,14 +1,14 @@
-import type { TooltipProps } from "recharts"
+import type { TooltipContentProps } from "recharts"
 
 export function EmbedTooltip({
   active,
   payload,
   label,
-  formatter,
+  valueFormatter,
   xLabel,
   yLabel,
-}: TooltipProps<number, string> & {
-  formatter?: (value: number) => string
+}: Partial<Omit<TooltipContentProps<number, string>, "formatter">> & {
+  valueFormatter?: (value: number) => string
   /** Label for the X axis value (shown as header context) */
   xLabel?: string
   /** Label for the Y axis value (shown next to the number) */
@@ -73,20 +73,21 @@ export function EmbedTooltip({
       {isSingleSeries ? (
         row(
           yLabel || "Value",
-          formatter
-            ? formatter(payload[0].value as number)
+          valueFormatter
+            ? valueFormatter(payload[0].value as number)
             : (payload[0].value?.toLocaleString() ?? ""),
         )
       ) : (
         payload.map((entry) => {
-          const color = entry.payload?.fill || entry.color || "#292827"
-          const value = formatter
-            ? formatter(entry.value as number)
+          const entryPayload = entry.payload as { fill?: string } | undefined
+          const color = entryPayload?.fill || entry.color || "#292827"
+          const value = valueFormatter
+            ? valueFormatter(entry.value as number)
             : typeof entry.value === "number"
               ? entry.value.toLocaleString()
               : String(entry.value)
 
-          return row(entry.name ?? "Value", value, color)
+          return row(String(entry.name ?? "Value"), value, color)
         })
       )}
     </div>

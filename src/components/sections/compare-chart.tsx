@@ -22,6 +22,8 @@ import { useBenchmark } from "./benchmark-context"
 import { GMV_TIERS, AUTO_TIERS } from "@/lib/types"
 import type { Dataset, BenchmarkRecord } from "@/lib/types"
 import { formatTime } from "@/lib/utils"
+import { ChartAttribution } from "@/components/chart-attribution"
+import { buildIframeSnippet } from "@/lib/embed-snippet"
 
 const INDUSTRY_COLORS = [
   "#7C6FEB",
@@ -119,7 +121,7 @@ function formatAxis(value: number, format: MetricOption["format"]): string {
   }
 }
 
-export function FrtChart() {
+export function CompareChart() {
   const { records, industries, industry, dataset, loading } = useBenchmark()
   const [metricKey, setMetricKey] = useState<string>("medianFrtMin")
   const metric = METRIC_OPTIONS.find((m) => m.key === metricKey) ?? METRIC_OPTIONS[0]
@@ -163,7 +165,7 @@ export function FrtChart() {
     }
 
     return { chartData: data, chartConfig: config, lineIndustries: lines, colorMap: colors }
-  }, [records, industries, dataset, tiers, metric.key, isResolution])
+  }, [records, industries, tiers, metric.key, isResolution])
 
   if (loading || chartData.length === 0) {
     return (
@@ -181,7 +183,8 @@ export function FrtChart() {
   const fmtForTooltip = (v: number) => formatValue(v, isResolution ? "time" : metric.format)
 
   return (
-    <div className="bg-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col gap-6 w-full">
+    <div className="bg-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col gap-0 w-full">
+      <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-0">
         <h3 className="font-sans font-normal text-lg sm:text-xl leading-relaxed text-text-primary">
           <Tooltip>
@@ -227,7 +230,7 @@ export function FrtChart() {
       >
         <LineChart
           data={chartData}
-          margin={{ left: 8, bottom: 24, top: 4, right: 8 }}
+          margin={{ left: 0, bottom: 24, top: 4, right: 8 }}
         >
           <CartesianGrid
             strokeDasharray="0"
@@ -246,7 +249,7 @@ export function FrtChart() {
             axisLine={false}
             tickFormatter={fmtForAxis}
             tick={{ fill: "#696763", fontSize: 12, fontFamily: "var(--font-mono)" }}
-            width={42}
+            width="auto"
           />
           <ChartTooltip
             content={({ active, payload, label }) => {
@@ -320,6 +323,18 @@ export function FrtChart() {
           )}
         </LineChart>
       </ChartContainer>
+      </div>
+      <ChartAttribution
+        csvRows={chartData}
+        csvFilename={`gorgias-${metric.label.toLowerCase().replace(/\s+/g, "-")}-by-${dataset === "gmv" ? "annual-sales" : "automation-rate"}`}
+        embedSnippet={buildIframeSnippet({
+          path: "/embed/benchmark",
+          id: "benchmark",
+          title: "Gorgias Live Index",
+          ariaLabel: "Interactive benchmark dashboard",
+          initialHeight: 1400,
+        })}
+      />
     </div>
   )
 }

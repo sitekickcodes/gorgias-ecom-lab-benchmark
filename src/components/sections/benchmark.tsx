@@ -2,7 +2,7 @@ import { GmvSlider } from "./gmv-slider"
 import { AiAgentSection } from "./ai-agent-section"
 import { ResponseResolution } from "./response-resolution"
 import { StatGrids } from "./stat-grids"
-import { FrtChart } from "./frt-chart"
+import { CompareChart } from "./compare-chart"
 import { BenchmarkProvider, useBenchmark } from "./benchmark-context"
 import { AccordionSection } from "@/components/accordion-section"
 
@@ -25,7 +25,7 @@ function BenchmarkInner() {
             title="Compare Industries"
             subtitle="Compare metrics across industries. Select an industry above to highlight it on the CX Benchmark dashboard, and click a chart title below to switch metrics."
           >
-            <FrtChart />
+            <CompareChart />
           </AccordionSection>
       </div>
   )

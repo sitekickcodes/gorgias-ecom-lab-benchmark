@@ -23,13 +23,11 @@ function formatValue(parsed: ReturnType<typeof parseValue>, t: number): string {
 function useCountUp(value: string, duration = 1200) {
   const ref = useRef<HTMLDivElement>(null)
   const parsed = useMemo(() => parseValue(value), [value])
-  const [display, setDisplay] = useState(() => formatValue(parsed, 0))
+  const [animated, setAnimated] = useState(() => formatValue(parsed, 0))
+  const display = parsed ? animated : value
 
   useEffect(() => {
-    if (!parsed) {
-      setDisplay(value)
-      return
-    }
+    if (!parsed) return
 
     const el = ref.current
     if (!el) return
@@ -43,7 +41,7 @@ function useCountUp(value: string, duration = 1200) {
       const t = Math.min(elapsed / duration, 1)
       // ease-out cubic
       const eased = 1 - Math.pow(1 - t, 3)
-      setDisplay(formatValue(parsed, eased))
+      setAnimated(formatValue(parsed, eased))
       if (t < 1) {
         animFrame = requestAnimationFrame(animate)
       }
@@ -64,32 +62,25 @@ function useCountUp(value: string, duration = 1200) {
       observer.disconnect()
       cancelAnimationFrame(animFrame)
     }
-  }, [parsed, duration, value])
+  }, [parsed, duration])
 
   return { ref, display }
 }
 
 interface StatCardProps {
   title: string
-  titleCase?: "normal" | "upper"
   value: string
   detail: string
   tooltip?: string
-  highlight?: {
-    value: string
-    label: string
-  }
   /** Top 10% performer value shown in green at the bottom */
   topPerformer?: string
 }
 
 export function StatCard({
   title,
-  titleCase = "normal",
   value,
   detail,
   tooltip,
-  highlight,
   topPerformer,
 }: StatCardProps) {
   const { ref, display } = useCountUp(value)

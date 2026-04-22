@@ -28,31 +28,13 @@ export const GRID_PROPS = {
   vertical: false,
 } as const
 
-export const DEFAULT_MARGINS = { top: 0, right: 4, bottom: 4, left: 0 }
+export const DEFAULT_MARGINS = { top: 4, right: 8, bottom: 24, left: 0 }
 
 export const DEFAULT_HEIGHTS: Record<string, number> = {
   bar: 300,
   line: 300,
   area: 300,
   "multi-line": 320,
-}
-
-/** Measure the pixel width needed for Y-axis labels */
-export function measureYAxisWidth(
-  data: { value: number }[],
-  formatter: (v: number) => string,
-): number {
-  if (typeof document === "undefined" || data.length === 0) return 40
-  const canvas = document.createElement("canvas")
-  const ctx = canvas.getContext("2d")
-  if (!ctx) return 40
-  ctx.font = `${AXIS_TICK.fontSize}px 'Geist Mono', monospace`
-  let max = 0
-  for (const d of data) {
-    const w = ctx.measureText(formatter(d.value)).width
-    if (w > max) max = w
-  }
-  return Math.ceil(max) + 12 // 12px breathing room
 }
 
 export function createAxisFormatter(

@@ -101,7 +101,9 @@ function getPropsFromElement(el: HTMLElement, sectionName: string): Record<strin
   if (genericStr) {
     try {
       props = JSON.parse(genericStr)
-    } catch {}
+    } catch {
+      // invalid JSON — fall back to empty props
+    }
   }
   if (sectionName === "chart") {
     const chartProps = parseChartProps(el)

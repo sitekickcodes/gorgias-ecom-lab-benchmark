@@ -26,7 +26,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body style={{ background: "#f6f4f2" }}>{children}</body>
+      <body className="bg-[#f6f4f2] has-[[data-embed-page]]:bg-transparent">
+        {children}
+      </body>
     </html>
   )
 }
