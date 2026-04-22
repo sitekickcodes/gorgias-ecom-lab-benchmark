@@ -23,15 +23,23 @@ function inlineCompiledCss(): Plugin {
         return
       }
 
-      // Read the compiled CSS
       const compiledCss = fs.readFileSync(cssPath, "utf-8")
-
-      // Read the JS and replace the placeholder
       let js = fs.readFileSync(jsPath, "utf-8")
-      js = js.replace('"__EMBED_CSS_PLACEHOLDER__"', JSON.stringify(compiledCss))
-      fs.writeFileSync(jsPath, js)
 
-      // Delete the CSS file — it's now inside the JS
+      // Match the placeholder with any string delimiter the minifier may use.
+      // Vite 6 emitted "..." ; Vite 8 emits `...` (template literal). Match all
+      // to stay resilient across bundler version bumps.
+      const placeholderRe = /(["'`])__EMBED_CSS_PLACEHOLDER__\1/g
+      const matches = js.match(placeholderRe)
+      if (!matches || matches.length === 0) {
+        throw new Error(
+          "[inline-compiled-css] Could not find __EMBED_CSS_PLACEHOLDER__ in embed.js. " +
+            "The bundler may have reformatted it — update the regex.",
+        )
+      }
+
+      js = js.replace(placeholderRe, JSON.stringify(compiledCss))
+      fs.writeFileSync(jsPath, js)
       fs.unlinkSync(cssPath)
 
       const jsSizeKB = (Buffer.byteLength(js) / 1024).toFixed(0)
