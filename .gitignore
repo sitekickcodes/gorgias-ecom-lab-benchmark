@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Local env files
+.env
+.env.local
+.env*.local
+
+# Vercel
+.vercel
+
+# Build Outputs
+dist
+.next
+out
+*.tsbuildinfo
+
+# Embed build output (in public/)
+public/embed.js
+
+# Debug
+npm-debug.log*
+
+# Misc
+.DS_Store
+*.pem
+next-env.d.ts

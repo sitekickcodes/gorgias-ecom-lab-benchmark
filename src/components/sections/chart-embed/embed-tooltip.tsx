@@ -1,0 +1,95 @@
+import type { TooltipContentProps } from "recharts"
+
+export function EmbedTooltip({
+  active,
+  payload,
+  label,
+  valueFormatter,
+  xLabel,
+  yLabel,
+}: Partial<Omit<TooltipContentProps<number, string>, "formatter">> & {
+  valueFormatter?: (value: number) => string
+  /** Label for the X axis value (shown as header context) */
+  xLabel?: string
+  /** Label for the Y axis value (shown next to the number) */
+  yLabel?: string
+}) {
+  if (!active || !payload?.length) return null
+
+  const isSingleSeries = payload.length === 1
+  const row = (name: string, value: string, color?: string) => (
+    <div
+      key={name}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 2,
+      }}
+    >
+      {color && (
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 2,
+            backgroundColor: color,
+            flexShrink: 0,
+            display: "inline-block",
+          }}
+        />
+      )}
+      <span style={{ color: "#696763" }}>{name}</span>
+      <span
+        style={{
+          marginLeft: "auto",
+          color: "#292827",
+          fontWeight: 500,
+        }}
+      >
+        {value}
+      </span>
+    </div>
+  )
+
+  return (
+    <div
+      style={{
+        backgroundColor: "#FDFCFB",
+        border: "1px solid #bfbcb6",
+        borderRadius: 8,
+        padding: "10px 14px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+        fontFamily: "'Geist', sans-serif",
+        fontSize: 12,
+        minWidth: 140,
+      }}
+    >
+      {label && (
+        xLabel
+          ? row(xLabel, String(label))
+          : <div style={{ fontWeight: 500, color: "#292827", marginBottom: 4 }}>{label}</div>
+      )}
+      {isSingleSeries ? (
+        row(
+          yLabel || "Value",
+          valueFormatter
+            ? valueFormatter(payload[0].value as number)
+            : (payload[0].value?.toLocaleString() ?? ""),
+        )
+      ) : (
+        payload.map((entry) => {
+          const entryPayload = entry.payload as { fill?: string } | undefined
+          const color = entryPayload?.fill || entry.color || "#292827"
+          const value = valueFormatter
+            ? valueFormatter(entry.value as number)
+            : typeof entry.value === "number"
+              ? entry.value.toLocaleString()
+              : String(entry.value)
+
+          return row(String(entry.name ?? "Value"), value, color)
+        })
+      )}
+    </div>
+  )
+}

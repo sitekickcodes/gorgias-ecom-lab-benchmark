@@ -1,0 +1,55 @@
+body {
+  font-family: "Geist", sans-serif;
+  margin: 0;
+}
+
+.font-heading {
+  font-family: "STIX Two Text", serif;
+}
+
+.font-mono {
+  font-family: "Geist Mono", monospace;
+}
+
+/*
+ * Shadow DOM fallback for Tailwind v4 internal variables.
+ *
+ * Tailwind v4 sets --tw-* variables via @property (document-level only)
+ * with an @supports fallback for older browsers. Inside Shadow DOM,
+ * @property doesn't apply and @supports may not match in modern Chrome.
+ * This block ensures all critical --tw-* variables are always set.
+ */
+:host *,
+:host *::before,
+:host *::after {
+  --tw-border-style: solid;
+  --tw-border-opacity: 1;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-translate-z: 0;
+  --tw-rotate-x: initial;
+  --tw-rotate-y: initial;
+  --tw-rotate-z: initial;
+  --tw-skew-x: initial;
+  --tw-skew-y: initial;
+  --tw-leading: initial;
+  --tw-font-weight: initial;
+  --tw-tracking: initial;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-color: initial;
+  --tw-shadow-alpha: 100%;
+  --tw-inset-shadow: 0 0 #0000;
+  --tw-inset-shadow-color: initial;
+  --tw-inset-shadow-alpha: 100%;
+  --tw-ring-color: initial;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-inset-ring-color: initial;
+  --tw-inset-ring-shadow: 0 0 #0000;
+  --tw-ring-inset: initial;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-duration: initial;
+  --tw-ease: initial;
+  --tw-content: "";
+}
