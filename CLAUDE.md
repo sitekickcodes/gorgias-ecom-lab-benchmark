@@ -90,9 +90,9 @@ Components go to `src/components/` and are imported as `@/components/<name>`. No
 
 ## Tech Stack
 
-- **Package manager**: pnpm (v9)
+- **Package manager**: pnpm (v10)
 - **App framework**: Next.js 16 (App Router)
-- **Embed build**: Vite 8 (single-file bundle, `inlineDynamicImports`)
+- **Embed build**: Vite 8 (single-file IIFE bundle)
 - **UI framework**: React 19.2+
 - **UI primitives**: Base UI (`@base-ui/react`) via shadcn `base-nova` style
 - **Charts**: Recharts 3 via shadcn chart component
