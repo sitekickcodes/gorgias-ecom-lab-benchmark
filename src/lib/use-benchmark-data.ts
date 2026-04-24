@@ -28,12 +28,20 @@ function writeCache(data: BenchmarkData) {
   }
 }
 
-export function useBenchmarkData() {
-  const [data, setData] = useState<BenchmarkData>({ gmv: [], auto: [] })
-  const [loading, setLoading] = useState(true)
+export function useBenchmarkData(initialData?: BenchmarkData) {
+  const hasInitial = !!initialData
+  const [data, setData] = useState<BenchmarkData>(
+    initialData ?? { gmv: [], auto: [] },
+  )
+  const [loading, setLoading] = useState(!hasInitial)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    // Server-rendered data is already fresh — Next.js cache is invalidated
+    // via revalidateTag on Airtable webhook, so we don't need to re-fetch
+    // on mount. Skip the client flow entirely.
+    if (hasInitial) return
+
     // Check cache after mount — reading sessionStorage at module init would
     // desync SSR (always null) from client (may have data), causing hydration mismatch.
     // The setState-in-effect lint rule doesn't apply here: we're syncing from an
@@ -64,7 +72,7 @@ export function useBenchmarkData() {
         setError(err.message)
         setLoading(false)
       })
-  }, [])
+  }, [hasInitial])
 
   return { data, loading, error }
 }

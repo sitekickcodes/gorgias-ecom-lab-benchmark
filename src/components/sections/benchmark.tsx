@@ -5,6 +5,7 @@ import { StatGrids } from "./stat-grids"
 import { CompareChart } from "./compare-chart"
 import { BenchmarkProvider, useBenchmark } from "./benchmark-context"
 import { AccordionSection } from "@/components/accordion-section"
+import type { BenchmarkData } from "@/lib/types"
 
 function BenchmarkInner() {
   const { containerRef } = useBenchmark()
@@ -36,9 +37,9 @@ function BenchmarkInner() {
   )
 }
 
-export function Benchmark() {
+export function Benchmark({ initialData }: { initialData?: BenchmarkData }) {
   return (
-    <BenchmarkProvider>
+    <BenchmarkProvider initialData={initialData}>
       <BenchmarkInner />
     </BenchmarkProvider>
   )

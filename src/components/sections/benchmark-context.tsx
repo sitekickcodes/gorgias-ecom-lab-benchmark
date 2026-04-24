@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useMemo, useEffect, useRef } from "react"
 import { useBenchmarkData } from "@/lib/use-benchmark-data"
-import type { BenchmarkRecord, Dataset } from "@/lib/types"
+import type { BenchmarkData, BenchmarkRecord, Dataset } from "@/lib/types"
 import {
   GMV_TIERS,
   AUTO_TIERS,
@@ -106,6 +106,8 @@ interface BenchmarkProviderProps {
   initialDataset?: Dataset
   /** Initial slider percentage (0-100). Defaults to 50 for gmv, 25 for automation-rate. */
   initialSliderValue?: number
+  /** Pre-fetched benchmark data from the server. When provided, skips the client-side fetch. */
+  initialData?: BenchmarkData
 }
 
 export function BenchmarkProvider({
@@ -113,8 +115,9 @@ export function BenchmarkProvider({
   initialIndustry = "All Industries",
   initialDataset = "gmv",
   initialSliderValue,
+  initialData,
 }: BenchmarkProviderProps) {
-  const { data, loading, error } = useBenchmarkData()
+  const { data, loading, error } = useBenchmarkData(initialData)
   const [dataset, setDatasetRaw] = useState<Dataset>(initialDataset)
   const [industry, setIndustry] = useState(initialIndustry)
   const [gmvSlider, setGmvSlider] = useState(

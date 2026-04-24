@@ -1,20 +1,13 @@
-"use client"
-
-import { Benchmark } from "@/components/sections/benchmark"
-import { BenchmarkHeader } from "@/components/sections/benchmark-header"
 import { StructuredData } from "@/components/structured-data"
-import { TooltipProvider } from "@/components/tooltip"
+import { getBenchmarkData } from "@/lib/get-benchmark-data"
+import { BenchmarkClient } from "./benchmark-client"
 
-export default function PreviewPage() {
+export default async function PreviewPage() {
+  const initialData = await getBenchmarkData()
   return (
     <div style={{ maxWidth: 1440, margin: "0 auto", padding: "40px 20px" }}>
       <StructuredData />
-      <TooltipProvider delay={200}>
-        <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 items-start w-full">
-          <BenchmarkHeader />
-          <Benchmark />
-        </div>
-      </TooltipProvider>
+      <BenchmarkClient initialData={initialData} />
     </div>
   )
 }

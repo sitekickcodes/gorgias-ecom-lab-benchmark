@@ -1,44 +1,27 @@
 import { NextResponse } from "next/server"
-import {
-  GMV_TABLE_ID,
-  AUTO_TABLE_ID,
-  GMV_FIELD_MAP,
-  AUTO_FIELD_MAP,
-  fetchTable,
-} from "@/lib/airtable"
+import { getBenchmarkData } from "@/lib/get-benchmark-data"
+
+// Cached for 1 year at the edge — the Airtable webhook calls revalidatePath
+// to purge on actual data changes, so time-based expiry is unnecessary.
+// Also tagged internally (via getBenchmarkData) so revalidateTag invalidates
+// the underlying Airtable fetches shared with the server-rendered pages.
+const ONE_YEAR = 31_536_000
 
 export async function GET() {
-  const apiKey = process.env.AIRTABLE_API_KEY
-  const baseId = process.env.AIRTABLE_BASE_ID
-
-  if (!apiKey || !baseId) {
-    return NextResponse.json(
-      { error: "Missing AIRTABLE env vars" },
-      { status: 500 },
-    )
-  }
-
   try {
-    const [gmv, auto] = await Promise.all([
-      fetchTable(apiKey, baseId, GMV_TABLE_ID, GMV_FIELD_MAP),
-      fetchTable(apiKey, baseId, AUTO_TABLE_ID, AUTO_FIELD_MAP),
-    ])
-
-    return NextResponse.json(
-      { gmv, auto },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control":
-            "public, s-maxage=86400, stale-while-revalidate=604800",
-        },
+    const data = await getBenchmarkData()
+    return NextResponse.json(data, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": `public, s-maxage=${ONE_YEAR}, stale-while-revalidate=604800`,
       },
-    )
+    })
   } catch (error) {
     console.error("Failed to fetch benchmark data:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch data" },
-      { status: 500 },
-    )
+    const message =
+      error instanceof Error && error.message === "Missing AIRTABLE env vars"
+        ? error.message
+        : "Failed to fetch data"
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

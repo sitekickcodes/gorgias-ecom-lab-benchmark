@@ -91,6 +91,7 @@ export async function fetchTable(
   baseId: string,
   tableId: string,
   fieldMap: Record<string, string>,
+  init?: Omit<RequestInit, "headers">,
 ): Promise<Record<string, unknown>[]> {
   const records: Record<string, unknown>[] = []
   let offset: string | undefined
@@ -103,6 +104,7 @@ export async function fetchTable(
     if (offset) url.searchParams.set("offset", offset)
 
     const res = await fetch(url.toString(), {
+      ...init,
       headers: { Authorization: `Bearer ${apiKey}` },
     })
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import crypto from "crypto"
+import { BENCHMARK_CACHE_TAG } from "@/lib/get-benchmark-data"
 
 export const runtime = "nodejs"
 
@@ -53,8 +54,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 })
   }
 
-  // Valid — purge everything downstream of Airtable data.
+  // Valid — purge everything downstream of Airtable data:
+  //  - revalidateTag invalidates the Next.js fetch cache used by getBenchmarkData,
+  //    which is shared by the server-rendered pages and the /api/benchmark route.
+  //  - revalidatePath invalidates the edge CDN cache for each rendered path.
   try {
+    revalidateTag(BENCHMARK_CACHE_TAG, "max")
+    revalidatePath("/")
+    revalidatePath("/embed/benchmark")
     revalidatePath("/api/benchmark")
     revalidatePath("/api/benchmark-pdf")
   } catch (err) {
