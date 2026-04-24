@@ -174,30 +174,29 @@ export function GmvSlider() {
           step={0.5}
           formatValue={() => sliderLabel}
         />
+        {/* Tick labels laid out in N flex cells. First/last cells are half
+            width with text anchored to the outer edge; middle cells are full
+            width with text centered. Result: label *centers* land at
+            0%, 100/(N-1)%, 2*100/(N-1)%, … of the container — matching the
+            slider thumb positions. No transforms, no custom properties —
+            just percentages, which stays robust inside the shadow DOM. */}
         <div
           key={dataset}
-          className="relative h-5 animate-in fade-in duration-300"
+          className="flex h-5 font-mono text-xs sm:text-sm text-[#73716d] tracking-[0.1em] uppercase animate-in fade-in duration-300"
         >
           {ticks.map((tick, i) => {
-            const isFirst = i === 0
-            const isLast = i === ticks.length - 1
+            const isEdge = i === 0 || i === ticks.length - 1
+            const cellWidthPct = (isEdge ? 50 : 100) / (ticks.length - 1)
+            const textAlign =
+              i === 0 ? "left" : i === ticks.length - 1 ? "right" : "center"
             return (
               <span
                 key={tick.label}
-                className={`absolute font-mono text-xs sm:text-sm text-[#73716d] tracking-[0.1em] uppercase ${
-                  isFirst
-                    ? ""
-                    : isLast
-                      ? ""
-                      : "-translate-x-1/2 text-center"
-                }`}
-                style={
-                  isFirst
-                    ? { left: 0 }
-                    : isLast
-                      ? { right: 0 }
-                      : { left: `${tick.pct}%` }
-                }
+                style={{
+                  width: `${cellWidthPct}%`,
+                  flexShrink: 0,
+                  textAlign,
+                }}
               >
                 {tick.label}
               </span>
