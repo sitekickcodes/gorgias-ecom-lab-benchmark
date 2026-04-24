@@ -87,7 +87,6 @@ export default defineConfig({
         // so the resulting global is just `undefined` and harmless.
         format: "iife",
         name: "_gorgiasEmbedBundle",
-        inlineDynamicImports: true,
         assetFileNames: (asset) => {
           if (asset.names?.some((n) => n.endsWith(".css"))) return "embed.css"
           return "assets/[name]-[hash][extname]"
