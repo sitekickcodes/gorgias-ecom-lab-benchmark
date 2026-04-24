@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs"
 import { NextResponse } from "next/server"
 import type { Browser } from "puppeteer-core"
 import type { Dataset } from "@/lib/types"
@@ -14,14 +15,19 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type",
 }
 
-// On Vercel/AWS Lambda we use @sparticuz/chromium's bundled binary.
-// Locally we use a Chrome install on disk (set CHROME_PATH in .env.local,
-// or default to the common macOS / Linux paths).
-//
-// Detection: LAMBDA_TASK_ROOT is auto-set by the AWS Lambda runtime ("/var/task")
-// and not by Vercel's env var system, so it can't leak into .env.local via
-// `vercel env pull` the way plain VERCEL=1 can.
-const isServerless = !!process.env.LAMBDA_TASK_ROOT
+// Self-detect serverless vs local by probing for a local Chrome install.
+// Env-var markers are unreliable here: Vercel's Node 24 runtime doesn't
+// set LAMBDA_TASK_ROOT, and anything like VERCEL=1 can leak into .env.local
+// via `vercel env pull` and break local dev.
+const LOCAL_CHROME_PATHS = [
+  process.env.CHROME_PATH,
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium-browser",
+].filter((p): p is string => !!p)
+
+const localChromeExecutable = LOCAL_CHROME_PATHS.find((p) => existsSync(p))
+const isServerless = !localChromeExecutable
 
 async function launchBrowser(): Promise<Browser> {
   const puppeteer = await import("puppeteer-core")
@@ -50,16 +56,9 @@ async function launchBrowser(): Promise<Browser> {
     })
   }
 
-  const localChromePaths = [
-    process.env.CHROME_PATH,
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/usr/bin/google-chrome",
-    "/usr/bin/chromium-browser",
-  ].filter(Boolean) as string[]
-
   return puppeteer.launch({
     headless: true,
-    executablePath: localChromePaths[0],
+    executablePath: localChromeExecutable,
   })
 }
 
