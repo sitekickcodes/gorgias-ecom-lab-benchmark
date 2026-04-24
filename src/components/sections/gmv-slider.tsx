@@ -196,9 +196,7 @@ export function GmvSlider() {
                     ? { left: 0 }
                     : isLast
                       ? { right: 0 }
-                      : {
-                          left: `calc(10px + ${tick.pct} * (100% - 20px) / 100)`,
-                        }
+                      : { left: `${tick.pct}%` }
                 }
               >
                 {tick.label}
