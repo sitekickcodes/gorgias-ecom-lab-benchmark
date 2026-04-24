@@ -79,6 +79,14 @@ export default defineConfig({
       input: path.resolve(__dirname, "src/embed.tsx"),
       output: {
         entryFileNames: "embed.js",
+        // Wrap in an IIFE so none of our top-level vars (or minified function
+        // names like `$`) leak to window. Loaded as a classic <script> on
+        // Webflow, ESM-format output aliases every top-level binding onto
+        // `window`, which collides with jQuery's `$` and breaks the host page.
+        // `name` is required by rollup for IIFE; the bundle has no ES exports
+        // so the resulting global is just `undefined` and harmless.
+        format: "iife",
+        name: "_gorgiasEmbedBundle",
         inlineDynamicImports: true,
         assetFileNames: (asset) => {
           if (asset.names?.some((n) => n.endsWith(".css"))) return "embed.css"
