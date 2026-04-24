@@ -40,7 +40,7 @@ Build outputs a single stable-named file: `public/embed.js` with CSS inlined as 
 
 ```html
 <div data-gorgias="benchmark"></div>
-<script src="https://gorgias.sitekick.co/embed.js" defer></script>
+<script src="https://ecom-lab.gorgias.com/embed.js" defer></script>
 ```
 
 The script auto-loads fonts from Google, injects JSON-LD structured data for SEO/LLM citation, and mounts each section inside a Shadow DOM for CSS isolation. Multiple sections can be embedded on one page.
@@ -48,7 +48,7 @@ The script auto-loads fonts from Google, injects JSON-LD structured data for SEO
 ### Iframe (for CMSes that strip `<script>`)
 
 ```html
-<iframe src="https://gorgias.sitekick.co/embed/chart?type=bar&config=..."
+<iframe src="https://ecom-lab.gorgias.com/embed/chart?type=bar&config=..."
         style="width: 0; min-width: 100% !important; border: none;" height="500"></iframe>
 <script>/* auto-height postMessage listener */</script>
 ```

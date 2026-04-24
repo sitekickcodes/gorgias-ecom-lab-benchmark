@@ -26,7 +26,7 @@ There are two ways to embed, for two different use cases.
 
 ```html
 <div data-gorgias="benchmark"></div>
-<script src="https://gorgias.sitekick.co/embed.js" defer></script>
+<script src="https://ecom-lab.gorgias.com/embed.js" defer></script>
 ```
 
 The script auto-injects CSS, fonts, and JSON-LD structured data. Multiple sections can be embedded on one page with a single `<script>` tag.
@@ -36,7 +36,7 @@ The script auto-injects CSS, fonts, and JSON-LD structured data. Multiple sectio
 Each chart in the docs (`/docs`) has an **Embed** button that generates a Ramp/Datawrapper-style iframe snippet:
 
 ```html
-<iframe title="..." src="https://gorgias.sitekick.co/embed/chart?type=bar&config=..."
+<iframe title="..." src="https://ecom-lab.gorgias.com/embed/chart?type=bar&config=..."
         scrolling="no" frameborder="0"
         style="width: 0; min-width: 100% !important; border: none;"
         height="500"></iframe>

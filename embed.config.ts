@@ -57,6 +57,14 @@ function inlineCompiledCss(): Plugin {
 export default defineConfig({
   plugins: [react(), inlineCompiledCss()],
   publicDir: false,
+  // Inline `process.env.NEXT_PUBLIC_SITE_URL` into the embed bundle so
+  // `src/lib/site-url.ts` resolves to the production URL at build time.
+  // (Vite doesn't automatically expose NEXT_PUBLIC_* vars the way Next.js does.)
+  define: {
+    "process.env.NEXT_PUBLIC_SITE_URL": JSON.stringify(
+      process.env.NEXT_PUBLIC_SITE_URL || "",
+    ),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ChartEmbed } from "@/components/sections/chart-embed"
 import { TooltipProvider } from "@/components/tooltip"
+import { SITE_URL } from "@/lib/site-url"
 import type {
   SingleSeriesChartConfig,
   MultiLineChartConfig,
@@ -200,7 +201,7 @@ export default function DocsPage() {
           you want charts:
         </p>
         <CodeBlock>{`<!-- 1. Add the embed script (once per page) -->
-<script src="https://gorgias.sitekick.co/embed.js" defer></script>
+<script src="${SITE_URL}/embed.js" defer></script>
 
 <!-- 2. Add a chart -->
 <div data-gorgias="chart"
@@ -223,7 +224,7 @@ export default function DocsPage() {
           Embed the full interactive benchmark dashboard with a single line:
         </p>
         <CodeBlock>{`<div data-gorgias="benchmark"></div>
-<script src="https://gorgias.sitekick.co/embed.js" defer></script>`}</CodeBlock>
+<script src="${SITE_URL}/embed.js" defer></script>`}</CodeBlock>
 
         {/* Chart Types */}
         <h2 className="text-2xl text-text-primary mb-4 mt-12 pt-8 border-t border-[#efe9e2]">

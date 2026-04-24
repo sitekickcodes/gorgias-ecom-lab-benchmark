@@ -39,9 +39,10 @@ try {
 
 const BASE_ID = "appHTPnidve5znze0"
 const API_KEY = process.env.AIRTABLE_API_KEY
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ecom-lab.gorgias.com"
 const NOTIFICATION_URL =
-  process.env.NOTIFICATION_URL ??
-  "https://gorgias.sitekick.co/api/webhooks/airtable"
+  process.env.NOTIFICATION_URL ?? `${SITE_URL}/api/webhooks/airtable`
 
 if (!API_KEY) {
   console.error("AIRTABLE_API_KEY env var is required")

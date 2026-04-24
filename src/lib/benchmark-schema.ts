@@ -1,4 +1,6 @@
-const DATA_API = "https://gorgias.sitekick.co/api/benchmark"
+import { SITE_URL } from "./site-url"
+
+const DATA_API = `${SITE_URL}/api/benchmark`
 
 export function buildBenchmarkSchema(canonicalUrl: string) {
   return {

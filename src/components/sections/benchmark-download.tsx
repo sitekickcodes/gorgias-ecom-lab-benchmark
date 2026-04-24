@@ -27,7 +27,7 @@ export function BenchmarkDownload() {
 
     setGenerating(true)
     try {
-      // Use the embed origin so the request reaches gorgias.sitekick.co even
+      // Use the embed origin so the request reaches the deployed site even
       // when the embed runs inside a Webflow page.
       const origin =
         (window as unknown as Record<string, string>)
