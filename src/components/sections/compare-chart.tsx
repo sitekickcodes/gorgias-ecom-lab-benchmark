@@ -233,6 +233,7 @@ export function CompareChart() {
         </p>
       </div>
       <ChartContainer
+        key={`${dataset}-${industry}-${metricKey}`}
         config={chartConfig}
         className="h-[280px] sm:h-[350px] md:h-[420px] w-full [&_.recharts-cartesian-axis-tick_text]:fill-[#696763]"
       >
