@@ -7,12 +7,19 @@ import { getBenchmarkData } from "@/lib/get-benchmark-data"
 // the underlying Airtable fetches shared with the server-rendered pages.
 const ONE_YEAR = 31_536_000
 
+// Embedded on third-party origins (Webflow, etc.), so every response —
+// including errors — must carry CORS headers, otherwise the browser hides
+// 5xx responses behind an opaque "TypeError: Failed to fetch".
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+} as const
+
 export async function GET() {
   try {
     const data = await getBenchmarkData()
     return NextResponse.json(data, {
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        ...CORS_HEADERS,
         "Cache-Control": `public, s-maxage=${ONE_YEAR}, stale-while-revalidate=604800`,
       },
     })
@@ -22,6 +29,9 @@ export async function GET() {
       error instanceof Error && error.message === "Missing AIRTABLE env vars"
         ? error.message
         : "Failed to fetch data"
-    return NextResponse.json({ error: message }, { status: 500 })
+    return NextResponse.json(
+      { error: message },
+      { status: 500, headers: CORS_HEADERS },
+    )
   }
 }

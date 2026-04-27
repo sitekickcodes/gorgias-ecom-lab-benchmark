@@ -108,7 +108,12 @@ export async function fetchTable(
       headers: { Authorization: `Bearer ${apiKey}` },
     })
 
-    if (!res.ok) throw new Error(`Airtable API error: ${res.status}`)
+    if (!res.ok) {
+      const body = await res.text().catch(() => "<unreadable>")
+      throw new Error(
+        `Airtable API error: ${res.status} on ${tableId} — ${body.slice(0, 500)}`,
+      )
+    }
 
     const data = await res.json()
     records.push(
