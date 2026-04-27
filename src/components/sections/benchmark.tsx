@@ -8,7 +8,12 @@ import { AccordionSection } from "@/components/accordion-section"
 import type { BenchmarkData } from "@/lib/types"
 
 function BenchmarkInner() {
-  const { containerRef } = useBenchmark()
+  const { containerRef, dataset, industry } = useBenchmark()
+  // Remounting these subtrees on dataset/industry change replays the same
+  // entry animations the user saw on first load (gauge arc fills, count-ups,
+  // line draw-in). CompareChart is keyed internally so its metric-selector
+  // state survives the swap.
+  const replay = `${dataset}-${industry}`
   return (
       <div ref={containerRef} className="flex flex-col gap-5 w-full">
           <GmvSlider />
@@ -16,13 +21,13 @@ function BenchmarkInner() {
             title="AI Adoption Index"
             subtitle="How ecommerce stores are adopting and performing with AI"
           >
-            <AiAgentSection />
+            <AiAgentSection key={replay} />
           </AccordionSection>
           <AccordionSection
             title="CX Benchmarks"
             subtitle="Response times, satisfaction scores, ticket volume, and channel mix"
           >
-            <div className="flex flex-col gap-8">
+            <div key={replay} className="flex flex-col gap-8">
               <ResponseResolution />
               <StatGrids />
             </div>
